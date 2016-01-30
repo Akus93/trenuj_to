@@ -1,12 +1,24 @@
 from django.views import generic
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.contrib.auth import logout
 
 from .forms import *
 
 
 class IndexView(generic.TemplateView):
     template_name = 'trenuj/index.html'
+
+
+class LoginView(generic.View):
+    pass
+
+
+class LogoutView(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect('/')
 
 
 class SignupView(generic.TemplateView):

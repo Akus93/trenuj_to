@@ -18,7 +18,7 @@
         <div class="row">
 
             <div class="col s4">
-                <a id="logo" style="color: black; font-size: xx-large" href="#">Trenuj.to</a>
+                <a id="logo" style="color: black; font-size: xx-large" href="{% url 'index' %}">Trenuj.to</a>
             </div>
 
             <div class="col s5">
@@ -35,15 +35,21 @@
                 <ul class="right hide-on-med-and-down">
                     {% if not user.is_authenticated %}
                         <li><a href="#">Zaloguj</a></li>
-                        <li><a href="#">Zarejestruj</a></li>
+                        <li><a href="{% url 'signup' %}">Zarejestruj</a></li>
                     {% else %}
                         <li><a href="#">Konto</a></li>
-                        <li><a href="#">Wyloguj</a></li>
+                        <li><a href="{% url 'logout' %}">Wyloguj</a></li>
                     {% endif %}
                 </ul>
 
               <ul id="nav-mobile" class="side-nav">
-                <li><a href="#">Navbar Link</a></li>
+                    {% if not user.is_authenticated %}
+                        <li><a href="#">Zaloguj</a></li>
+                        <li><a href="{% url 'signup' %}">Zarejestruj</a></li>
+                    {% else %}
+                        <li><a href="#">Konto</a></li>
+                        <li><a href="{%  url 'logout' %}">Wyloguj</a></li>
+                    {% endif %}
               </ul>
               <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
             </div>
