@@ -1,0 +1,15 @@
+{% extends 'trenuj/base.html' %}
+
+{% block content %}
+
+    <div class="card-panel">
+        <h4 class="thin">Rejestracja</h4>
+        <br>
+        <form action="" method="post">{% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button class="waves-effect waves-light btn light-blue lighten-1" name="signup_form" type="submit" >Zarejestruj</button>
+        </form>
+    </div>
+
+{% endblock %}
