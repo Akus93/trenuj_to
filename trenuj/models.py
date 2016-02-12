@@ -13,14 +13,13 @@ class Category(models.Model):
 
 
 class Shortcut(models.Model):
-    title = models.CharField(max_length=128, unique=True)
-    description = models.TextField(max_length=256)
-    category = models.ForeignKey(Category)
-    image = models.CharField(max_length=32, unique=True)
+    title = models.CharField(max_length=128, unique=True, verbose_name='Tytuł')
+    description = models.TextField(max_length=256, verbose_name='Opis')
+    category = models.ForeignKey(Category, verbose_name='Kategoria')
+    image = models.ImageField('Obrazek', upload_to='shortcut_images')
     author = models.ForeignKey(User)
-    link = models.URLField()
-    is_active = models.BooleanField(default=False)
-    entrance = models.IntegerField(default=0)
+    link = models.URLField(verbose_name='Adres artykułu')
+    is_active = models.BooleanField(default=False, verbose_name='Aktywny?')
 
     class Meta:
         verbose_name_plural = "Kafelki"

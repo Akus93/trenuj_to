@@ -2,3 +2,5 @@ migrations
 .idea
 __pycache__
 *.pyc
+*.jpg
+

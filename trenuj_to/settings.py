@@ -56,7 +56,7 @@ ROOT_URLCONF = 'trenuj_to.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'trenuj/templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -130,5 +130,9 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "trenuj/static"),
 )
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'trenuj/uploads')
+MEDIA_URL = '/media/'
+
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
+

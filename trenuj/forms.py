@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import password_validation
+from .models import Shortcut, Category
+
+import random
 
 
 class SignupForm(forms.ModelForm):
@@ -49,3 +52,24 @@ class SignupForm(forms.ModelForm):
             user.save()
         return user
 
+
+class ShortcutCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Shortcut
+        exclude = ['author']
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
+
+    def __init__(self, *args, **kwargs):
+        self.author = kwargs.pop('author', None)
+        self.is_active = False
+        self.entrance = 2
+        super(ShortcutCreateForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        shortcut = super(ShortcutCreateForm, self).save(commit=False)
+        shortcut.author = User.objects.get(id=self.author)
+        if commit:
+            shortcut.save()
+        return shortcut

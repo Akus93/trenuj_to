@@ -1,0 +1,56 @@
+{% extends 'trenuj/base.html' %}
+
+{% block content %}
+    {% load staticfiles %}
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js'%}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+
+    <div class="card-panel">
+        <h4 class="thin">Dodaj skrót</h4>
+        <br>
+        <form action="" method="post" enctype=multipart/form-data>{% csrf_token %}
+
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            {% endfor %}
+
+            {{ form.non_field_errors }}
+
+            {{ form.title.errors }}
+            {{ form.title.label_tag }}
+            {{ form.title }}
+
+            {{ form.category.errors }}
+            <div class="input-field col s12">
+                {{ form.category }}
+                {{ form.category.label_tag }}
+            </div>
+
+            {{ form.description.errors }}
+            {{ form.description.label_tag }}
+            {{ form.description }}
+<br><br>
+            {{ form.image.errors }}
+            {{ form.image.label_tag }}<br>
+            {{ form.image}}
+
+<br><br>
+            {{ form.link.errors }}
+            {{ form.link.label_tag }}
+            {{ form.link }}
+
+            <br><br>
+            <button class="waves-effect waves-light btn light-blue lighten-1" name="signup_form" type="submit" >Dodaj</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('select').material_select();
+        });
+    </script>
+
+{% endblock %}
