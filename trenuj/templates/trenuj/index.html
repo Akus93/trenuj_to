@@ -1,44 +1,55 @@
 {% extends 'trenuj/base.html' %}
 
 {% block content %}
+    {% load staticfiles %}
 
-    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
 
   <div class="slider">
     <ul class="slides">
       <li>
-        <img src="http://lorempixel.com/580/250/nature/1">
-        <div class="caption center-align">
-          <h3>This is our big Tagline!</h3>
-          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-        </div>
+        <a href="{{ shortcuts.0.link }}">
+            <img src="{{ shortcuts.0.image.url }}">
+            <div class="caption center-align">
+              <h3>{{ shortcuts.0.title }}</h3>
+              <h5 class="light grey-text text-lighten-3">{{ shortcuts.0.description }}</h5>
+            </div>
+        </a>
       </li>
       <li>
-        <img src="http://lorempixel.com/580/250/nature/2">
-        <div class="caption left-align">
-          <h3>Left Aligned Caption</h3>
-          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-        </div>
+          <a href="{{ shortcuts.1.link }}">
+            <img src="{{ shortcuts.1.image.url }}">
+            <div class="caption left-align">
+                <h3>{{ shortcuts.1.title }}</h3>
+                <h5 class="light grey-text text-lighten-3">{{ shortcuts.1.description }}</h5>
+            </div>
+            </a>
       </li>
       <li>
-        <img src="http://lorempixel.com/580/250/nature/3">
-        <div class="caption right-align">
-          <h3>Right Aligned Caption</h3>
-          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-        </div>
-      </li>
-      <li>
-        <img src="http://lorempixel.com/580/250/nature/4">
-        <div class="caption center-align">
-          <h3>This is our big Tagline!</h3>
-          <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-        </div>
+          <a href="{{ shortcuts.2.link }}">
+              <img src="{{ shortcuts.2.image.url }}">
+              <div class="caption right-align">
+                  <h3>{{ shortcuts.2.title }}</h3>
+                  <h5 class="light grey-text text-lighten-3">{{ shortcuts.2.description }}</h5>
+              </div>
+          </a>
       </li>
     </ul>
   </div>
 
     <br>
     <br>
+
+    {% for shortcut in shortcuts%}
+            <div class="shortcut" style="display: inline-block; border: solid 1px black; height: 400px;">
+                <a href="{{ shortcut.link }}">
+                    <h5>{{ shortcut.title }}</h5>
+                    <h6>{{ shortcut.category.name }}</h6>
+                    <p>{{ shortcut.description }}</p>
+                    <img src="{{ shortcut.image.url }}" width="350px">
+                </a>
+            </div>
+    {% endfor %}
 
     <script>
         $(document).ready(function(){

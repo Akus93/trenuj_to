@@ -1,4 +1,8 @@
 from django.conf.urls import url
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+from trenuj_to import settings
 from . import views
 
 urlpatterns = [
@@ -9,3 +13,5 @@ urlpatterns = [
        url(r'^shortcut/create/$', views.ShortcutCreateView.as_view(), name='shortcut_create'),
 
 ]
+urlpatterns += staticfiles_urlpatterns()
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

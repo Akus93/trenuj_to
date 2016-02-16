@@ -8,8 +8,12 @@ from .forms import *
 from uuid import uuid4
 
 
-class IndexView(generic.TemplateView):
+class IndexView(generic.View):
     template_name = 'trenuj/index.html'
+
+    def get(self, request, *args, **kwargs):
+        shortcuts = Shortcut.objects.filter(is_active=True)
+        return render(request, self.template_name, {'shortcuts': shortcuts})
 
 
 class LoginView(generic.View):
