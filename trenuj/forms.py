@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import password_validation
-from .models import Shortcut, Category
-
-import random
+from .models import Shortcut, Category, UserImage, Article
+from django.contrib.auth.forms import PasswordChangeForm
+from django.template.defaultfilters import slugify
 
 
 class SignupForm(forms.ModelForm):
@@ -60,6 +60,8 @@ class ShortcutCreateForm(forms.ModelForm):
         exclude = ['author']
 
     category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': "materialize-textarea"}),
+                                  max_length=256, label='Opis')
 
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop('author', None)
@@ -73,3 +75,52 @@ class ShortcutCreateForm(forms.ModelForm):
         if commit:
             shortcut.save()
         return shortcut
+
+
+class ChangePasswordForm(PasswordChangeForm):
+    pass
+
+
+class ProfileImageChangeForm(forms.ModelForm):
+
+    class Meta:
+        model = UserImage
+        fields = ['image']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(ProfileImageChangeForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        old = UserImage.objects.filter(user=self.user).count()
+        if old:
+            change_image = UserImage.objects.get(user=self.user)
+            change_image.image.delete(False)
+            change_image.image = self.cleaned_data['image']
+            change_image.save()
+            return change_image
+        else:
+            profile_image = super(ProfileImageChangeForm, self).save(commit=False)
+            profile_image.user = User.objects.get(id=self.user)
+            if commit:
+                profile_image.save()
+            return profile_image
+
+
+class ArticeCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Article
+        fields = ['title', 'content']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(ArticeCreateForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        article = super(ArticeCreateForm, self).save(commit=False)
+        article.author = User.objects.get(id=self.user)
+        article.slug = slugify(self.cleaned_data['title'])
+        if commit:
+            article.save()
+        return article

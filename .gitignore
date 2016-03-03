@@ -3,4 +3,6 @@ migrations
 __pycache__
 *.pyc
 *.jpg
-
+articles
+profile_images
+shortcut_images

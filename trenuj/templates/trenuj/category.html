@@ -1,0 +1,32 @@
+{% extends 'trenuj/base.html' %}
+
+
+{% block content %}
+
+    {% if not shortcuts %}
+
+        <p>Nie ma obiektów w tej kategorii.</p>
+
+    {% else %}
+
+        {% for shortcut in shortcuts%}
+                <div class="shortcut" style="display: inline-block; border: solid 1px black; height: 400px;">
+                    <a href="{{ shortcut.link }}">
+                        <h5>{{ shortcut.title }}</h5>
+                        <h6>{{ shortcut.category.name }}</h6>
+                        <p>{{ shortcut.description }}</p>
+                        <img src="{{ shortcut.image.url }}" width="350px">
+                    </a>
+                <br>Tagi:
+                {% for tag in shortcut.tag_set.all %}
+                    {{ tag.name }} ,
+                {% endfor %}
+                </div>
+        {% endfor %}
+
+    {% endif %}
+
+    <br>
+    <br>
+
+{% endblock %}

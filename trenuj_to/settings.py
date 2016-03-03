@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'trenuj.apps.TrenujConfig',
+    'redactor',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -136,3 +137,7 @@ MEDIA_URL = '/media/'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
+REDACTOR_OPTIONS = {'lang': 'en', 'plugins': ['codemirror']}
+REDACTOR_UPLOAD = 'articles/'
+REDACTOR_UPLOAD_HANDLER = 'redactor.handlers.UUIDUploader'
+REDACTOR_AUTH_DECORATOR = 'django.contrib.auth.decorators.login_required'

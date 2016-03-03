@@ -4,7 +4,7 @@
     {% load staticfiles %}
 
     <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
-
+<br>
   <div class="slider">
     <ul class="slides">
       <li>
@@ -44,10 +44,14 @@
             <div class="shortcut" style="display: inline-block; border: solid 1px black; height: 400px;">
                 <a href="{{ shortcut.link }}">
                     <h5>{{ shortcut.title }}</h5>
-                    <h6>{{ shortcut.category.name }}</h6>
+                    <a href="{% url 'category' shortcut.category.name %}">{{ shortcut.category.name }}</a>
                     <p>{{ shortcut.description }}</p>
                     <img src="{{ shortcut.image.url }}" width="350px">
                 </a>
+            <br>Tagi:
+            {% for tag in shortcut.tag_set.all %}
+                {{ tag.name }} ,
+            {% endfor %}
             </div>
     {% endfor %}
 

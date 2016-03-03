@@ -1,0 +1,35 @@
+{% extends 'trenuj/base.html' %}
+
+{% load staticfiles %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'redactor/css/redactor.css' %}" />
+
+    <script type="text/javascript" src="{% static 'redactor/jquery.redactor.init.js' %}"></script>
+    <script type="text/javascript" src="{% static 'redactor/redactor.js' %}"></script>
+    <script type="text/javascript" src="{% static 'redactor/langs/en.js' %}"></script>
+    <script type="text/javascript" src="{% static 'redactor/plugins/codemirror.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+
+<form action="" method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button class="waves-effect waves-light btn light-blue lighten-1" name="form" type="submit" >Opublikuj</button>
+</form>
+
+<br> <br>
+
+<!--    <script type="text/javascript">
+    $(function()
+    {
+        $('#id_short_text').redactor({
+            //imageUpload: '/ajax/redactor/core/uploadImage/',
+		   // fileUpload: '/ajax/redactor/core/uploadFile/'
+        });
+    });
+    </script>
+-->
+
+{% endblock %}

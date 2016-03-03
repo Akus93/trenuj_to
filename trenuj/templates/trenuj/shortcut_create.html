@@ -11,23 +11,20 @@
     <script src="{% static 'js/materialize.js'%}"></script>
     <script src="{% static 'js/init.js' %}"></script>
     <script src="{% static 'js/materialize-tags.min.js' %}"></script>
+
     <div class="card-panel">
         <h4 class="thin">Dodaj skrót</h4>
         <br>
         <form action="" method="post" enctype=multipart/form-data>{% csrf_token %}
 
-            {% for field, errors in form.errors.items %}
-                {% for error in errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            {% endfor %}
-
             {{ form.non_field_errors }}
 
             {{ form.title.errors }}
-            {{ form.title.label_tag }}
-            {{ form.title }}
-
+            <div class="input-field col s12">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+            </div>
+<br>
             {{ form.category.errors }}
             <div class="input-field col s12">
                 {{ form.category }}
@@ -35,23 +32,36 @@
             </div>
 
             {{ form.description.errors }}
-            {{ form.description.label_tag }}
-            {{ form.description }}
-<br><br>
-            {{ form.image.errors }}
-            {{ form.image.label_tag }}<br>
-            {{ form.image}}
+            <div class="input-field col s12">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
 
-<br><br>
             {{ form.link.errors }}
-            {{ form.link.label_tag }}
-            {{ form.link }}
+            <div class="input-field col s12">
+                {{ form.link.label_tag }}
+                {{ form.link }}
+            </div>
 
-            <label for="tags">Tagi:</label>
-            <input type="text" name="tags" id="tags" data-role="materialtags">
+            <div class="input-field col s12">
+                <label for="tags">Tagi:</label>
+                <input type="text" name="tags" id="tags" data-role="materialtags" value="" />
+            </div>
+
+            <br>
+            <label for="upload" style="font-size: 15px;">Obrazek:</label>
+            <div class="file-field input-field" id="upload">
+                <div class="btn">
+                    <span>Wybierz</span>
+                    {{ form.image}}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
 
             <br><br>
-            <button class="waves-effect waves-light btn light-blue lighten-1" name="signup_form" type="submit" >Dodaj</button>
+            <button class="waves-effect waves-light btn-large light-blue lighten-1" name="signup_form" type="submit" >Dodaj</button>
         </form>
     </div>
 
