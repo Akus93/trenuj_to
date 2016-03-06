@@ -29,9 +29,9 @@
             </div>
 
             <div class="col s5">
-                <form style="width: auto; padding-left: 0;" action="" method="post">{% csrf_token %}
+                <form style="width: auto; padding-left: 0;" action="{% url 'search' %}" method="post">{% csrf_token %}
                     <div class="input-field">
-                        <input id="search" type="search" required placeholder="Szukaj...">
+                        <input id="search" type="search" name="search" required placeholder="Szukaj...">
                         <label class="active" for="search"><i class="material-icons" style="color: black">search</i></label>
                         <i class="material-icons">close</i>
                     </div>

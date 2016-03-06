@@ -8,3 +8,8 @@ def save_tags(shortcut_id, tags):
         new_tag = Tag(shortcut=shortcut, name=tag)
         new_tag.save()
 
+
+def search_shortcuts(words):
+    results = Shortcut.objects.filter(title__icontains=words)
+    return results
+

@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
-from .services import save_tags
+from .services import save_tags, search_shortcuts
 
 from uuid import uuid4
 
@@ -151,8 +151,13 @@ class CategoryView(generic.View):
         return render(request, self.template_name, {'shortcuts': category_shortcuts})
 
 
+class SearchView(generic.View):
+    template_name = 'trenuj/search.html'
 
-
+    def post(self, request, *args, **kwargs):
+        words = request.POST['search']
+        results = search_shortcuts(words)
+        return render(request, self.template_name, {'results': results})
 
 
 

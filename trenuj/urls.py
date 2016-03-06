@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^article/create/$', views.ArticleCreateView.as_view(), name='article_create'),
     url(r'^article/view/(?P<slug>[\w-]+)/$', views.ArticleView.as_view(), name='article'),
     url(r'^category/(?P<name>[\w-]+)/$', views.CategoryView.as_view(), name='category'),
+    url(r'^search/$', views.SearchView.as_view(), name='search'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

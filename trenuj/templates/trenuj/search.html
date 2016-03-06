@@ -1,0 +1,32 @@
+{% extends 'trenuj/base.html' %}
+
+
+{% block content %}
+
+    {% if not results %}
+
+        <p>Brak wyników wyszukiwania.</p>
+
+    {% else %}
+
+        {% for result in results%}
+                <div class="shortcut" style="display: inline-block; border: solid 1px black; height: 400px;">
+                    <a href="{{ result.link }}">
+                        <h5>{{ result.title }}</h5>
+                        <h6>{{ result.category.name }}</h6>
+                        <p>{{ result.description }}</p>
+                        <img src="{{ result.image.url }}" width="350px">
+                    </a>
+                <br>Tagi:
+                {% for tag in result.tag_set.all %}
+                    {{ tag.name }} ,
+                {% endfor %}
+                </div>
+        {% endfor %}
+
+    {% endif %}
+
+    <br>
+    <br>
+
+{% endblock %}
