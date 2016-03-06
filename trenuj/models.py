@@ -24,7 +24,7 @@ class Shortcut(models.Model):
     description = models.TextField(max_length=256, verbose_name='Opis')
     category = models.ForeignKey(Category, verbose_name='Kategoria')
     image = models.ImageField('Obrazek', upload_to='shortcut_images')
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(User, verbose_name='Autor')
     link = models.URLField(verbose_name='Adres artykułu')
     is_active = models.BooleanField(default=False, verbose_name='Aktywny?')
     create_date = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Data dodania')
@@ -67,8 +67,8 @@ def article_delete(sender, instance, **kwargs):
 
 
 class Tag(models.Model):
-    shortcut = models.ForeignKey(Shortcut)
-    name = models.CharField(max_length=32)
+    shortcut = models.ForeignKey(Shortcut, verbose_name='Kafelek')
+    name = models.CharField(max_length=32, verbose_name='Nazwa')
 
     class Meta:
         verbose_name_plural = "Tagi"
@@ -79,7 +79,7 @@ class Tag(models.Model):
 
 
 class UserImage(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, verbose_name='Użytkownik')
     image = models.ImageField('Zdjęcie profilowe', upload_to='profile_images')
 
     class Meta:

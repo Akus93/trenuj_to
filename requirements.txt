@@ -1,5 +1,5 @@
 beautifulsoup4==4.4.1
-Django==1.9.2
+Django==1.9.4
 django-appconf==1.0.1
 django-wysiwyg-redactor==0.4.9
 Pillow==3.1.1
