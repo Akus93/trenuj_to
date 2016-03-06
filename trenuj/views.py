@@ -4,8 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
-from .services import save_tags, search_shortcuts
-
+from .services import save_tags, search_shortcuts, get_shortcuts_by_tag
 from uuid import uuid4
 
 
@@ -158,6 +157,16 @@ class SearchView(generic.View):
         words = request.POST['search']
         results = search_shortcuts(words)
         return render(request, self.template_name, {'results': results})
+
+
+class TagView(generic.View):
+    template_name = 'trenuj/tag.html'
+
+    def get(self, request, *args, **kwargs):
+        tag = self.kwargs['tag']
+        results = get_shortcuts_by_tag(tag)
+        return render(request, self.template_name, {'results': results})
+
 
 
 

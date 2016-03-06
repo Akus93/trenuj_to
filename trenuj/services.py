@@ -13,3 +13,9 @@ def search_shortcuts(words):
     results = Shortcut.objects.filter(title__icontains=words)
     return results
 
+
+def get_shortcuts_by_tag(tag):
+    result = Shortcut.objects.filter(tag__name__iexact=tag)
+    return result
+
+
