@@ -168,5 +168,8 @@ class TagView(generic.View):
         return render(request, self.template_name, {'results': results})
 
 
+class StartView(generic.TemplateView):
+    template_name = 'trenuj/start.html'
+
 
 
