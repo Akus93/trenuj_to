@@ -48,10 +48,6 @@
                     <p>{{ shortcut.description }}</p>
                     <img src="{{ shortcut.image.url }}" width="350px">
                 </a>
-            <br>Tagi:
-            {% for tag in shortcut.tag_set.all %}
-                {{ tag.name }} ,
-            {% endfor %}
             </div>
     {% endfor %}
 

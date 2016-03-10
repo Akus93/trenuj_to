@@ -2,7 +2,54 @@
 
 {% block outside %}
     {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/superslides.css' %}">
+    <div id="slides">
+  <ul class="slides-container">
+    <li>
+      <img src="{% static 'images/running.jpg' %}" alt="">
+      <div class="container">
+        Slide one
+      </div>
+    </li>
+    <li>
+      <img src="{% static 'images/running.jpg' %}" alt="">
+      <div class="container">
+        Slide two
+      </div>
+    </li>
+    <li>
+      <img src="{% static 'images/running.jpg' %}" alt="">
+      <div class="container">
+        Slide three
+      </div>
+    </li>
+  </ul>
+  <nav class="slides-navigation">
+    <a href="#" class="next">Next</a>
+    <a href="#" class="prev">Previous</a>
+    </nav>
+    </div>
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+     <script src="{% static 'js/slider.js' %}"></script>
+      <script>
+        $(function() {
+          var $slides = $('#slides');
 
+          Hammer($slides[0]).on("swipeleft", function(e) {
+            $slides.data('superslides').animate('next');
+          });
+
+          Hammer($slides[0]).on("swiperight", function(e) {
+            $slides.data('superslides').animate('prev');
+          });
+
+          $slides.superslides({
+            hashchange: true
+          });
+        });
+
+      </script>
 
 {% endblock %}
