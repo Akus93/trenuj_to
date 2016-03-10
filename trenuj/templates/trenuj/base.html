@@ -41,7 +41,8 @@
             <div class="col s3">
                 <ul class="right hide-on-med-and-down">
                     {% if not user.is_authenticated %}
-                        <li><a href="{% url 'login' %}">Zaloguj</a></li>
+                        <!--<li><a href="{#  {% url 'login' %} #}">Zaloguj</a></li>-->
+                        <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
                         <li><a href="{% url 'signup' %}">Zarejestruj</a></li>
                     {% else %}
                         <li><a href="{% url 'account' %}">Konto</a></li>
@@ -51,7 +52,8 @@
 
               <ul id="nav-mobile" class="side-nav">
                     {% if not user.is_authenticated %}
-                        <li><a href="{% url 'login' %}">Zaloguj</a></li>
+                        <!--<li><a href="{#  {% url 'login' %} #}">Zaloguj</a></li>-->
+                        <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
                         <li><a href="{% url 'signup' %}">Zarejestruj</a></li>
                     {% else %}
                         <li><a href="{% url 'account' %}">Konto</a></li>
@@ -71,6 +73,44 @@
 
         {% endblock %}
   </div>
+
+
+<!--LOGIN MODAL -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+                        <h4>Zaloguj się</h4>
+                        {% if form.errors %}
+                            <p>Twoja nazwa użytkownika i hasło nie pasują do siebie. Spróbuj jeszcze raz.</p>
+                        {% endif %}
+
+                        <div class="row">
+                            <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+                            {% csrf_token %}
+                                <div class="row">
+                                <div class="input-field col s6">
+                                  <i class="material-icons prefix">account_circle</i>
+                                  <input id="id_username" maxlength="254" name="username" type="text" class="validate" />
+                                  <label for="id_username">Nazwa użytkownika</label>
+                                </div>
+                                <div class="input-field col s6">
+                                  <i class="material-icons prefix">vpn_key</i>
+                                  <input id="id_password" name="password" type="password" class="validate" />
+                                  <label for="id_password">Hasło</label>
+                                </div>
+                              </div>
+                            <button class="waves-effect waves-light btn light-blue lighten-1" name="form" type="submit" >Zaloguj</button>
+                            <input type="hidden" name="next" value="{{ next }}" />
+                            </form>
+                        </div>
+    </div>
+  </div>
+    <script>
+        $(document).ready(function() {
+            $('.modal-trigger').leanModal();
+        });
+    </script>
+
+
 </main>
   <footer class="page-footer teal">
     <div class="container">
