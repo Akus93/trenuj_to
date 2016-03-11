@@ -41,7 +41,20 @@
                     <p>Nie masz jeszcze żadnych skrótów.</p>
                 {% else %}
                     {% for shortcut in shortcuts %}
-                        <a href="#" class="collection-item">{{ shortcut.title }}</a>
+                        <a href="#" class="collection-item">
+                            {{ shortcut.title }}
+                            {% if not shortcut.is_active %}
+                                <div style="display: inline-block" class="right">
+                                    <i class="material-icons tooltipped" data-position="top" data-delay="50"
+                                       data-tooltip="Oczekujący">sync</i>
+                                </div>
+                            {% else %}
+                                <div style="display: inline-block" class="right">
+                                    <i class="material-icons tooltipped" data-position="top" data-delay="50"
+                                       data-tooltip="Zaakceptowany">check</i>
+                                </div>
+                            {% endif %}
+                        </a>
                     {% endfor %}
                 {% endif %}
             </ul>

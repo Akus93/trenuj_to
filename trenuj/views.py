@@ -75,8 +75,8 @@ class AccountView(LoginRequiredMixin, generic.View):
         change_password_form = self.form_class(request.user)
         change_image_form = self.change_image_form_class()
         user_image = None
-        shortcuts = Shortcut.objects.filter(author=request.user.id)
-        articles = Article.objects.filter(author=request.user.id)
+        shortcuts = Shortcut.objects.filter(author=request.user.id).order_by('-create_date')
+        articles = Article.objects.filter(author=request.user.id).order_by('-create_date')
         if UserImage.objects.filter(user=request.user.id).exists():
             user_image = UserImage.objects.get(user=request.user.id)
         return render(request, self.template_name, {'change_password_form': change_password_form,
