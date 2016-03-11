@@ -9,6 +9,7 @@
     <script type="text/javascript" src="{% static 'redactor/redactor.js' %}"></script>
     <script type="text/javascript" src="{% static 'redactor/langs/en.js' %}"></script>
     <script type="text/javascript" src="{% static 'redactor/plugins/codemirror.js' %}"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -20,6 +21,13 @@
 </form>
 
 <br> <br>
+
+    <script type="text/javascript">
+        $(function()
+        {
+            $('.redactor-editor').css('height', '30em');
+        });
+    </script>
 
 <!--    <script type="text/javascript">
     $(function()
