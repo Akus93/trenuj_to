@@ -10,12 +10,11 @@ def save_tags(shortcut_id, tags):
 
 
 def search_shortcuts(words):
-    results = Shortcut.objects.filter(title__icontains=words)
+    words = words.lower().split(' ')
+    results = Shortcut.objects.filter(tag__name__in=words)
     return results
 
 
 def get_shortcuts_by_tag(tag):
     result = Shortcut.objects.filter(tag__name__iexact=tag)
     return result
-
-
