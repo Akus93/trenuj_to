@@ -10433,12 +10433,17 @@ select {
 }
 
 .slider .slides li .caption {
+  background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   position: absolute;
-  top: 15%;
-  left: 15%;
-  width: 70%;
+  bottom: 0%;
+  left: 0%;
+  width: 100%;
   opacity: 0;
+}
+
+.slider .slides li .caption h3 {
+  margin-top: 0px;
 }
 
 .slider .slides li .caption p {
@@ -10471,7 +10476,7 @@ select {
 }
 
 .slider .indicators .indicator-item.active {
-  background-color: #4CAF50;
+  background-color: #000;
 }
 
 .carousel {
