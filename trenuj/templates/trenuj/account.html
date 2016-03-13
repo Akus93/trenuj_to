@@ -18,16 +18,20 @@
 
         <div id="data" class="col s12">
             <br><br>
+            <h5><b>Witaj</b> {{ user.get_full_name|default:user.username }}</h5>
             <div id="profile_image">
                 {% if user_image %}
-                        <img src="{{ user_image.image.url }}" width="100" />
+                        <img src="{{ user_image.image.url }}" width="120" />
                 {% else %}
-                        <img src="{% static 'images/default_profile.png' %}" width="100" />
+                        <img src="{% static 'images/default_profile.png' %}" width="120" />
                 {% endif %}
             </div>
             <a class="waves-effect waves-light modal-trigger" data-target="modal2">Zmień zdjęcie</a>
 
-            <p>Username: {{ user.username }}</p>
+
+            <p>Nazwa użytkownika: {{ user.username }}</p>
+            <p>Imię: {{ user.first_name }}</p>
+            <p>Nazwisko: {{ user.last_name }}</p>
             <p>Email: {{ user.email }}</p>
 
             <a class="waves-effect waves-light btn modal-trigger" data-target="modal1">Zmień hasło</a>
@@ -57,14 +61,24 @@
                         </a>
                     {% endfor %}
                 {% endif %}
-            </ul>
+                <a href="{% url 'shortcut_create' %}" class="collection-item">
+                   <span class="btn-floating btn waves-effect waves-lights">
+                        <i class="material-icons">add</i>
+                    </span>
+                     <span style="margin-left: 0.4em;">
+                         Dodaj nowy
+                     </span>
+                </a>
 
+            </ul>
+            <!--
             <p>
                 Stwórz nowy skrót
                 <a href="{% url 'shortcut_create' %}" class="btn-floating btn waves-effect waves-lights">
                     <i class="material-icons">add</i>
                 </a>
             </p>
+            -->
         </div>
 
         <div id="articles" class="col s12">
@@ -78,14 +92,22 @@
                         <a href="{% url 'article' article.slug %}" class="collection-item">{{ article.title }}</a>
                     {% endfor %}
                 {% endif %}
+                <a href="{% url 'article_create' %}" class="collection-item">
+                   <span class="btn-floating btn waves-effect waves-lights">
+                        <i class="material-icons">add</i>
+                    </span>
+                     <span style="margin-left: 0.4em;">
+                         Dodaj nowy
+                     </span>
+                </a>
             </ul>
 
-            <p>
+            <!--<p>
                 Opublikuj nowy artykuł
                 <a href="{% url 'article_create' %}" class="btn-floating btn waves-effect waves-lights">
                     <i class="material-icons">add</i>
                 </a>
-            </p>
+            </p>-->
         </div>
     </div>
 
@@ -130,14 +152,18 @@
                 <form method="post" action="{% url 'change_image' %}" enctype=multipart/form-data>{% csrf_token %}
                     <div class="file-field input-field" id="upload">
                         <div class="btn">
-                            <span>Wybierz</span>
+                            <span style="margin-bottom: 0.2em;">Wybierz</span>
+                            <i class="material-icons ">face</i>
                             {{ change_image_form.image }}
                         </div>
                         <div class="file-path-wrapper">
                             <input class="file-path validate" type="text">
                         </div>
                     </div>
-                    <button class="waves-effect waves-light btn light-blue lighten-1" name="image_change_form" type="submit" >Zmień</button>
+                <div class="modal-footer">
+                    <a href="#!" style="margin-left: 1em;" class="modal-action modal-close waves-effect waves-light btn light-blue lighten-1">Anuluj</a>
+                    <button class="waves-effect waves-light btn light-blue lighten-1" name="change_password_form" type="submit" >Zmień</button>
+                </div>
                 </form>
             </div>
         </div>
@@ -163,7 +189,10 @@
 
     <script>
         $(document).ready(function() {
-            $('.modal-trigger').leanModal();
+            $('.modal-trigger').leanModal(
+                dismissible: true,
+                complete: -> $('.lean-overlay').remove()
+            )
         });
     </script>
 

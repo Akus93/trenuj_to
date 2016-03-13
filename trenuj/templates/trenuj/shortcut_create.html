@@ -30,7 +30,7 @@
                 {{ form.category }}
                 {{ form.category.label_tag }}
             </div>
-
+<br>
             {{ form.description.errors }}
             <div class="input-field col s12">
                 {{ form.description.label_tag }}
@@ -49,10 +49,11 @@
             </div>
 
             <br>
-            <label for="upload" style="font-size: 15px;">Obrazek:</label>
+            <!--<label for="upload" style="font-size: 15px;">Obrazek:</label>-->
             <div class="file-field input-field" id="upload">
                 <div class="btn">
-                    <span>Wybierz</span>
+                    <span>Wybierz obrazek</span>
+                    <i class="material-icons left">file_upload</i>
                     {{ form.image}}
                 </div>
                 <div class="file-path-wrapper">
