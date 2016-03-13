@@ -1,5 +1,5 @@
 from django.views import generic
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -170,6 +170,21 @@ class TagView(generic.View):
 
 class StartView(generic.TemplateView):
     template_name = 'trenuj/start.html'
+
+
+from el_pagination.decorators import page_template
+@page_template('trenuj/entry_index_page.html')
+def entry_index(
+        request, template='trenuj/entry_index.html', extra_context=None):
+    context = {
+        'entries': Shortcut.objects.all(),
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    from django.template import RequestContext
+    return render_to_response(
+        template, context, context_instance=RequestContext(request))
+
 
 
 

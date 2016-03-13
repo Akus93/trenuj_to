@@ -20,6 +20,7 @@ urlpatterns = [
     url(r'^tag/(?P<tag>[\w]+)/$', views.TagView.as_view(), name='tag'),
     url(r'^search/$', views.SearchView.as_view(), name='search'),
     url(r'^start/$', views.StartView.as_view(), name='start'),
+    url(r'^ajax/$', views.entry_index, name='ajax'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
