@@ -48,10 +48,14 @@
                     <img src="{{ shortcut.image.url }}" width="100%">
                     <h5>{{ shortcut.title }}</h5>
                     <p>{{ shortcut.description }}</p>
-
                 </a>
             </div>
         </div>
+        <!--ROW NA KAŻDE 3 ELEMENTY (POZOSTAJE PROBLEM WYSOKOŚCI)-->
+        {% if forloop.counter|divisibleby:3 %}
+            </div>
+            <div class = "shortcuts row">
+        {% endif %}
     {% endfor %}
     </div>
     <script>
