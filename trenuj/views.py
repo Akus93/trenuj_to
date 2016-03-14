@@ -1,5 +1,5 @@
 from django.views import generic
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -201,3 +201,13 @@ class ArticleUpdateView(LoginRequiredMixin, generic.UpdateView):
         return super(ArticleUpdateView, self).dispatch(request, *args, **kwargs)
 
 
+class ArticleDeleteView(LoginRequiredMixin, generic.DeleteView):
+    login_url = '/login/'
+    model = Article
+    success_url = '/account#articles'
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.author != self.request.user:
+            return HttpResponseRedirect('/')
+        return super(ArticleDeleteView, self).dispatch(request, *args, **kwargs)
