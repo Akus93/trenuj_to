@@ -41,9 +41,7 @@
             <br><br>
             <ul class="collection with-header">
                 <li class="collection-header"><h4>Twoje skróty</h4></li>
-                {% if not shortcuts %}
-                    <p>Nie masz jeszcze żadnych skrótów.</p>
-                {% else %}
+                {% if shortcuts %}
                     {% for shortcut in shortcuts %}
                         <a href="#" class="collection-item">
                             {{ shortcut.title }}
@@ -69,27 +67,27 @@
                          Dodaj nowy
                      </span>
                 </a>
-
             </ul>
-            <!--
-            <p>
-                Stwórz nowy skrót
-                <a href="{% url 'shortcut_create' %}" class="btn-floating btn waves-effect waves-lights">
-                    <i class="material-icons">add</i>
-                </a>
-            </p>
-            -->
         </div>
 
         <div id="articles" class="col s12">
             <br><br>
             <ul class="collection with-header">
                 <li class="collection-header"><h4>Twoje artykuły</h4></li>
-                {% if not articles %}
-                    <p>Nie masz jeszcze żadnych artykułów.</p>
-                {% else %}
+                {% if articles %}
                     {% for article in articles %}
-                        <a href="{% url 'article' article.slug %}" class="collection-item">{{ article.title }}</a>
+                        <li class="collection-item">
+                            <div>
+                                <a href="{% url 'article' article.slug %}">
+                                    {{ article.title }}
+                                </a>
+                                <a href="{% url 'article_edit' article.slug %}" class="secondary-content">
+                                    <i class="material-icons tooltipped" data-position="top" data-delay="50"
+                                    data-tooltip="Edytuj">create</i>
+                                </a>
+                            </div>
+                        </li>
+
                     {% endfor %}
                 {% endif %}
                 <a href="{% url 'article_create' %}" class="collection-item">
@@ -102,12 +100,6 @@
                 </a>
             </ul>
 
-            <!--<p>
-                Opublikuj nowy artykuł
-                <a href="{% url 'article_create' %}" class="btn-floating btn waves-effect waves-lights">
-                    <i class="material-icons">add</i>
-                </a>
-            </p>-->
         </div>
     </div>
 

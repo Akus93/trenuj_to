@@ -1,5 +1,5 @@
 from django.views import generic
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, redirect
 from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -186,5 +186,18 @@ def entry_index(
         template, context, context_instance=RequestContext(request))
 
 
+class ArticleUpdateView(LoginRequiredMixin, generic.UpdateView):
+    login_url = '/login/'
+    model = Article
+    fields = ['title', 'content']
+    template_name = 'trenuj/article_edit.html'
+    context_object_name = 'form'
+    success_url = '/account#articles'
+
+    def dispatch(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if obj.author != self.request.user:
+            return HttpResponseRedirect('/')
+        return super(ArticleUpdateView, self).dispatch(request, *args, **kwargs)
 
 
