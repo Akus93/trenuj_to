@@ -18,16 +18,79 @@
       </div>
     </li>
     <li id="register">
-      <img src="{% static 'images/running.jpg' %}" alt="">
-      <div class="container">
-        Slide three
-      </div>
+        <img src="{% static 'images/running.jpg' %}" alt="">
+        <div class = "wrapper">
+            <div>
+         <form action="{% url 'signup' %}" method="post">{% csrf_token %}
+
+
+
+            <div class="row">
+                <div class="col l6 m6 s12">
+
+                    <div class="input-field">
+                        <input id="id_username" maxlength="30" name="username" type="text" />
+                        <label for="id_username">Nazwa użytkownika:</label>
+                    </div>
+                </div>
+
+                <div class="col l6 m6 s12">
+
+                    <div class="input-field">
+                        <input id="id_email" name="email" type="email" />
+                        <label for="id_email">Email:</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col l6 m6 s12">
+
+                    <div class="input-field">
+                        <input id="id_password1" name="password1" type="password" />
+                        <label for="id_password1">Hasło:</label>
+                    </div>
+                </div>
+
+                <div class="col l6 m6 s12">
+
+                    <div class="input-field">
+                        <input id="id_password2" name="password2" type="password" />
+                        <label for="id_password2">Powtórz hasło:</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col l6 m6 s12">
+
+
+                    <div class="input-field">
+                        <input id="id_first_name" maxlength="30" name="first_name" type="text" />
+                        <label for="id_first_name">Imię:</label>
+                    </div>
+                </div>
+                <div class="col l6 m6 s12">
+
+                    <div class="input-field">
+                        <input id="id_last_name" maxlength="30" name="last_name" type="text" />
+                        <label for="id_last_name">Nazwisko:</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <button class="waves-effect waves-light btn light-blue lighten-1" name="signup_form" type="submit" >Zarejestruj</button>
+         </form>
+         </div>
+        </div>
     </li>
   </ul>
   <nav class="slides-navigation">
-    <a href="#" class="next">Next</a>
-    <a href="#register" class="last" >Previous</a>
-    </nav>
+    <div class = "wrapper">
+    <a href="javascript:" class="link waves-effect waves-light btn light-blue lighten-1">Rejestracja</a>
+    <a href="#" class="next waves-effect waves-light btn light-blue lighten-1">Dalej</a>
+    </div>
+  </nav>
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -49,7 +112,6 @@
             hashchange: true
           });
         });
-
       </script>
 
 {% endblock %}
