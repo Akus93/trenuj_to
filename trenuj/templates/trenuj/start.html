@@ -7,15 +7,28 @@
   <ul class="slides-container">
     <li>
       <img src="{% static 'images/running.jpg' %}" alt="">
-      <div class="container">
-        Slide one
+      <div class="slide-one">
+        PRZYKŁADOWY TEKST NA SLAJDZIE PIERWSZYM Z OBRAZKIEM W TLE
       </div>
+      <nav class="slides-navigation">
+        <div class = "wrapper">
+        <a href="javascript:" class="link waves-effect waves-light btn light-blue lighten-1">Rejestracja</a>
+        <a href="#" class="next waves-effect waves-light btn light-blue lighten-1">Dalej</a>
+        </div>
+      </nav>
     </li>
     <li>
       <img src="{% static 'images/running.jpg' %}" alt="">
-      <div class="container">
-        Slide two
+      <div class="slide-two">
+          <img class ="img" src="{% static 'images/background2.jpg' %}">
+          <div class="text">PRZYKŁADOWY TEKST NA SLAJDZIE DRUGIM Z OBRAZKIEM JAK WIDAĆ</div>
       </div>
+      <nav class="slides-navigation">
+        <div class = "wrapper">
+        <a href="javascript:" class="link waves-effect waves-light btn light-blue lighten-1">Rejestracja</a>
+        <a href="#" class="next waves-effect waves-light btn light-blue lighten-1">Dalej</a>
+        </div>
+      </nav>
     </li>
     <li class="register">
         <img src="{% static 'images/running.jpg' %}" alt="">
@@ -85,12 +98,6 @@
         </div>
     </li>
   </ul>
-  <nav class="slides-navigation">
-    <div class = "wrapper">
-    <a href="javascript:" class="link waves-effect waves-light btn light-blue lighten-1">Rejestracja</a>
-    <a href="#" class="next waves-effect waves-light btn light-blue lighten-1">Dalej</a>
-    </div>
-  </nav>
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -100,15 +107,7 @@
         $(function() {
           var $slides = $('#slides');
 
-          Hammer($slides[0]).on("swipeleft", function(e) {
-            $slides.data('superslides').animate('next');
-          });
-
-          Hammer($slides[0]).on("swiperight", function(e) {
-            $slides.data('superslides').animate('prev');
-          });
-
-          $slides.superslides({
+            $slides.superslides({
             hashchange: true
           });
         });

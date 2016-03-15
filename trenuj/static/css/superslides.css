@@ -81,3 +81,28 @@
   width: 50%;
   display: inline-block;
 }
+
+.slide-one {
+    position: absolute;
+    bottom: 25%;
+    width: 100%;
+    text-align: center;
+}
+
+.slide-two .img {
+    position: absolute !important;
+    width: 60% !important;
+    bottom: 30% !important;
+    left: 20% !important;
+    height: inherit !important;
+    top: inherit !important;
+}
+
+.slide-two .text {
+    position: absolute;
+    bottom: 50%;
+    left: 26%;
+    color: blue;
+    font-size: 20px;
+    background-color: red;
+}
