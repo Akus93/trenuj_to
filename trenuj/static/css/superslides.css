@@ -67,12 +67,12 @@
   background: #FFF;
 }
 
-#register {
+.register {
   width: 100%;
   text-align: center;
 }
 
-#register .wrapper {
+.register .wrapper {
     width: 50%;
     display: inline-block;
 }
