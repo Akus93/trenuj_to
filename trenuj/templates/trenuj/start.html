@@ -17,7 +17,8 @@
         Slide two
       </div>
     </li>
-    <li id="register">
+    <li>
+        <div id="register">
         <img src="{% static 'images/running.jpg' %}" alt="">
         <div class = "wrapper">
             <div>
@@ -82,6 +83,7 @@
          </form>
          </div>
         </div>
+        </div>
     </li>
   </ul>
   <nav class="slides-navigation">
@@ -93,8 +95,12 @@
     </div>
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-     <script src="{% static 'js/slider.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/slider.animate.js' %}"></script>
+    <script src="{% static 'js/hammer.min.js' %}"></script>
+    <script src="{% static 'js/slider.super.js' %}"></script>
+    <script src="{% static 'js/slider.js' %}"></script>
+
       <script>
         $(function() {
           var $slides = $('#slides');
