@@ -10,7 +10,7 @@
       <li>
         <a href="{{ shortcuts.0.link }}">
             <img src="{{ shortcuts.0.image.url }}">
-            <div class="caption center-align">
+            <div class="caption bottom-a-align">
               <h3>{{ shortcuts.0.title }}</h3>
               <h5 class="light grey-text text-lighten-3">{{ shortcuts.0.description }}</h5>
             </div>
@@ -43,8 +43,8 @@
     {% for shortcut in shortcuts%}
         <div class = "shortcut-wrap col s12 m6 l4" style = "border: solid 0.1px white; padding: 0;">
             <div class="shortcut" style="display: inline-block; border: solid 1px black; width: 100%;">
-                <a href="{{ shortcut.link }}">
                     <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 2px; margin: 5px; position: absolute;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                <a href="{{ shortcut.link }}">
                     <img src="{{ shortcut.image.url }}" width="100%">
                     <h5>{{ shortcut.title }}</h5>
                     <p>{{ shortcut.description }}</p>

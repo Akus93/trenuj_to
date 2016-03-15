@@ -69,3 +69,12 @@ main {
 *:focus {
     outline: 0 !important;
 }
+
+a {
+  color: inherit;
+}
+
+/*.shortcut {
+  height: 510px;
+}
+*/
