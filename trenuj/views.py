@@ -5,7 +5,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from .services import save_tags, search_shortcuts, get_shortcuts_by_tag
-from uuid import uuid4
+from base64 import b64decode
 
 
 class IndexView(generic.View):
@@ -69,18 +69,17 @@ class AccountView(LoginRequiredMixin, generic.View):
     login_url = '/login'
     template_name = 'trenuj/account.html'
     form_class = ChangePasswordForm
-    change_image_form_class = ProfileImageChangeForm
+    # change_image_form_class = ProfileImageChangeForm
 
     def get(self, request, *args, **kwargs):
         change_password_form = self.form_class(request.user)
-        change_image_form = self.change_image_form_class()
+        # change_image_form = self.change_image_form_class()
         user_image = None
         shortcuts = Shortcut.objects.filter(author=request.user.id).order_by('-create_date')
         articles = Article.objects.filter(author=request.user.id).order_by('-create_date')
         if UserImage.objects.filter(user=request.user.id).exists():
             user_image = UserImage.objects.get(user=request.user.id)
         return render(request, self.template_name, {'change_password_form': change_password_form,
-                                                    'change_image_form': change_image_form,
                                                     'user_image': user_image,
                                                     'articles': articles,
                                                     'shortcuts': shortcuts})
@@ -110,9 +109,9 @@ class ChangeProfileImageView(LoginRequiredMixin, generic.View):
     form_class = ProfileImageChangeForm
 
     def post(self, request, *args, **kwargs):
-        extension = request.FILES['image'].name.split('.')[-1]
-        request.FILES['image'].name = '{0}.{1}'.format(uuid4(), extension)
-        form = self.form_class(request.POST, request.FILES, user=request.user.id)
+        img64 = request.POST['imagebase64'].split(',')[1]
+        circle_image = b64decode(img64)
+        form = self.form_class(request.POST, request.FILES, user=request.user.id, circle_image=circle_image)
         if form.is_valid():
             form.save()
         return HttpResponseRedirect('/account/')
@@ -211,3 +210,4 @@ class ArticleDeleteView(LoginRequiredMixin, generic.DeleteView):
         if obj.author != self.request.user:
             return HttpResponseRedirect('/')
         return super(ArticleDeleteView, self).dispatch(request, *args, **kwargs)
+

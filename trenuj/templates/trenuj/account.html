@@ -1,10 +1,14 @@
 {% extends 'trenuj/base.html' %}
 
+{% load staticfiles %}
+
+{% block css %}
+    <link href="{% static 'css/croppie.css' %}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile-img.css' %}" />
+{% endblock %}
 
 
 {% block content %}
-
-    {% load staticfiles %}
 
 
     <div class="row">
@@ -21,9 +25,9 @@
             <h5><b>Witaj</b> {{ user.get_full_name|default:user.username }}</h5>
             <div id="profile_image">
                 {% if user_image %}
-                        <img src="{{ user_image.image.url }}" width="120" />
+                        <img src="{{ user_image.image.url }}" width="100" />
                 {% else %}
-                        <img src="{% static 'images/default_profile.png' %}" width="120" />
+                        <img src="{% static 'images/default_profile.png' %}" width="100" />
                 {% endif %}
             </div>
             <a class="waves-effect waves-light modal-trigger" data-target="modal2">Zmień zdjęcie</a>
@@ -140,40 +144,34 @@
         <div id="modal2" class="modal">
             <div class="modal-content">
                 <h4>Zmiana zdjęcia</h4>
-                <div id="preview">
-                    <img id="new_image" width="100px" src="{% static 'images/default_profile.png' %}"/>
-                </div>
-                <form method="post" action="{% url 'change_image' %}" enctype=multipart/form-data>{% csrf_token %}
-                    <div class="file-field input-field" id="upload">
-                        <div class="btn">
-                            <span style="margin-bottom: 0.2em;">Wybierz</span>
-                            <i class="material-icons ">face</i>
-                            {{ change_image_form.image }}
+                <form id="change_password_form" method="post" action="{% url 'change_image' %}" enctype=multipart/form-data>{% csrf_token %}
+                    <div class="profile-img-wrap upload-contener">
+                        <div class="upload-msg">
+                            Wybierz zdjęcie
                         </div>
-                        <div class="file-path-wrapper">
-                            <input class="file-path validate" type="text">
+                        <div id="upload-contener"></div>
+
+                        <div class="actions">
+                            <a class="btn file-btn waves-effect waves-light btn light-blue lighten-1">
+                                <span>Wybierz</span>
+                                <input type="file" name="image" id="change_profile_image" value="Wybierz zdjęcie" accept="image/*" />
+                                <input type="hidden" id="imagebase64" name="imagebase64">
+                            </a>
+                            <button class="upload-result waves-effect waves-light btn light-blue lighten-1">Zmień</button>
                         </div>
                     </div>
-                <div class="modal-footer">
-                    <a href="#!" style="margin-left: 1em;" class="modal-action modal-close waves-effect waves-light btn light-blue lighten-1">Anuluj</a>
-                    <button class="waves-effect waves-light btn light-blue lighten-1" name="change_password_form" type="submit" >Zmień</button>
-                </div>
                 </form>
             </div>
         </div>
 
-    <script>
-        document.getElementById("id_image").onchange = function () {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            document.getElementById("new_image").src = e.target.result;
-        };
-        reader.readAsDataURL(this.files[0]);
-        };
-    </script>
-    <!--END Zmiana zdjęcia -->
-
 <br><br>
+
+    <script type="text/javascript" src="{% static 'js/croppie.min.js' %}"></script>
+    <script src="{% static 'js/profile-img.js' %}"></script>
+    <script>
+        ChangeProfileImage.init();
+    </script>
+
 
     <script>
       $(document).ready(function(){

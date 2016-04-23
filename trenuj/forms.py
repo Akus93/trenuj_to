@@ -4,6 +4,8 @@ from django.contrib.auth import password_validation
 from .models import Shortcut, Category, UserImage, Article
 from django.contrib.auth.forms import PasswordChangeForm
 from django.template.defaultfilters import slugify
+from uuid import uuid4
+from django.core.files.base import ContentFile
 
 
 class SignupForm(forms.ModelForm):
@@ -89,6 +91,8 @@ class ProfileImageChangeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
+        circle_img = kwargs.pop('circle_image', None)
+        self.circle_image = ContentFile(circle_img, '{}.png'.format(uuid4()))
         super(ProfileImageChangeForm, self).__init__(*args, **kwargs)
 
     def save(self, commit=True):
@@ -96,11 +100,12 @@ class ProfileImageChangeForm(forms.ModelForm):
         if old:
             change_image = UserImage.objects.get(user=self.user)
             change_image.image.delete(False)
-            change_image.image = self.cleaned_data['image']
+            change_image.image = self.circle_image
             change_image.save()
             return change_image
         else:
             profile_image = super(ProfileImageChangeForm, self).save(commit=False)
+            profile_image.image = self.circle_image
             profile_image.user = User.objects.get(id=self.user)
             if commit:
                 profile_image.save()
