@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^account/password/change/$', views.ChangePasswordView.as_view(), name='change_password'),
     url(r'^account/image/change/$', views.ChangeProfileImageView.as_view(), name='change_image'),
     url(r'^article/create/$', views.ArticleCreateView.as_view(), name='article_create'),
+    url(r'^video/create/$', views.VideoCreateView.as_view(), name='video_create'),
     url(r'^article/view/(?P<slug>[\w-]+)/$', views.ArticleView.as_view(), name='article'),
     url(r'^article/edit/(?P<slug>[\w-]+)/$', views.ArticleUpdateView.as_view(), name='article_edit'),
     url(r'^article/delete/(?P<slug>[\w-]+)/$', views.ArticleDeleteView.as_view(), name='article_delete'),

@@ -2,60 +2,55 @@
 
 {% block content %}
     {% load staticfiles %}
+    {% load embed_video_tags %}
 
     <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
 <br>
   <div class="slider">
     <ul class="slides">
-      <li>
-        <a href="{{ shortcuts.0.link }}">
-            <img src="{{ shortcuts.0.image.url }}">
-            <div class="caption center-align">
-              <h3>{{ shortcuts.0.title }}</h3>
-              <h5 class="light grey-text text-lighten-3">{{ shortcuts.0.description }}</h5>
-            </div>
-        </a>
-      </li>
-      <li>
-          <a href="{{ shortcuts.1.link }}">
-            <img src="{{ shortcuts.1.image.url }}">
-            <div class="caption center-align">
-                <h3>{{ shortcuts.1.title }}</h3>
-                <h5 class="light grey-text text-lighten-3">{{ shortcuts.1.description }}</h5>
-            </div>
+        {% for slide in slider %}
+          <li>
+            <a href="{{ slide.link }}">
+                <img src="{{ slide.image.url }}">
+                <div class="caption center-align">
+                  <h3>{{ slide.title }}</h3>
+                  <h5 class="light grey-text text-lighten-3">{{ slide.description }}</h5>
+                </div>
             </a>
-      </li>
-      <li>
-          <a href="{{ shortcuts.2.link }}">
-              <img src="{{ shortcuts.2.image.url }}">
-              <div class="caption center-align">
-                  <h3>{{ shortcuts.2.title }}</h3>
-                  <h5 class="light grey-text text-lighten-3">{{ shortcuts.2.description }}</h5>
-              </div>
-          </a>
-      </li>
+          </li>
+        {% endfor %}
     </ul>
   </div>
 
 
-    <div class = "shortcuts row">
+    <div class="shortcuts">
+        <div class="row">
     {% for shortcut in shortcuts%}
-        <div class = "shortcut-wrap col s12 m6 l4" style = "border: solid 0.1px white; padding: 0;">
-            <div class="shortcut" style="display: inline-block; border: solid 1px black; width: 100%;">
-                    <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 10px; margin: 0px; position: absolute;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
-                <a href="{{ shortcut.link }}">
-                    <img src="{{ shortcut.image.url }}" width="100%">
-                    <h5 style="margin: 0.3em;">{{ shortcut.title }}</h5>
-                    <p style="margin: 0.5em;">{{ shortcut.description }}</p>
-                </a>
+        {% if shortcut.video %}
+            {% video shortcut.video as my_video %}
+                <div class = "shortcut-wrap col s12 m6 l4" style = "border: solid 0.1px white; padding: 0;">
+                    {% video my_video '100%x100%' %}
+                </div>
+            {% endvideo %}
+        {% else %}
+            <div class = "shortcut-wrap col s12 m6 l4" style = "border: solid 0.1px white; padding: 0;">
+                <div class="shortcut" style="display: inline-block; border: solid 1px black; width: 100%;">
+                        <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 10px; margin: 0px; position: absolute;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a href="{{ shortcut.link }}">
+                        <img src="{{ shortcut.image.url }}" width="100%">
+                        <h5 style="margin: 0.3em;">{{ shortcut.title }}</h5>
+                        <p style="margin: 0.5em;">{{ shortcut.description }}</p>
+                    </a>
+                </div>
             </div>
-        </div>
+        {% endif %}
         <!--ROW NA KAŻDE 3 ELEMENTY (POZOSTAJE PROBLEM WYSOKOŚCI)-->
         {% if forloop.counter|divisibleby:3 %}
             </div>
-            <div class = "shortcuts row">
+            <div class="row">
         {% endif %}
     {% endfor %}
+    </div>
     </div>
     <script>
         $(document).ready(function(){

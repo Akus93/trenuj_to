@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from .services import save_tags, search_shortcuts, get_shortcuts_by_tag
 from base64 import b64decode
+from .models import Slider
 
 
 class IndexView(generic.View):
@@ -13,7 +14,8 @@ class IndexView(generic.View):
 
     def get(self, request, *args, **kwargs):
         shortcuts = Shortcut.objects.filter(is_active=True)
-        return render(request, self.template_name, {'shortcuts': shortcuts})
+        slider = Slider.objects.filter(is_active=True)[:3]
+        return render(request, self.template_name, {'shortcuts': shortcuts, 'slider': slider})
 
 
 class LoginView(generic.View):
@@ -210,4 +212,25 @@ class ArticleDeleteView(LoginRequiredMixin, generic.DeleteView):
         if obj.author != self.request.user:
             return HttpResponseRedirect('/')
         return super(ArticleDeleteView, self).dispatch(request, *args, **kwargs)
+
+
+class VideoCreateView(LoginRequiredMixin, generic.View):
+    login_url = '/login/'
+    template_name = 'trenuj/video_create.html'
+    form_class = VideoCreateForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        tags = request.POST.get('tags', '')
+        form = self.form_class(request.POST, author=request.user.id)
+        if form.is_valid():
+            video = form.save()
+            if tags:
+                save_tags(video.id, tags)
+            return HttpResponseRedirect('/')
+        return render(request, self.template_name, {'form': form})
+
 

@@ -6,6 +6,7 @@ from redactor.fields import RedactorField
 from bs4 import BeautifulSoup
 from os import remove as remove_file, path
 from trenuj_to import settings
+from embed_video.fields import EmbedVideoField
 
 
 class Category(models.Model):
@@ -21,11 +22,12 @@ class Category(models.Model):
 
 class Shortcut(models.Model):
     title = models.CharField(max_length=128, unique=True, verbose_name='Tytuł')
-    description = models.TextField(max_length=256, verbose_name='Opis')
+    description = models.TextField(max_length=256, verbose_name='Opis', blank=True)
     category = models.ForeignKey(Category, verbose_name='Kategoria')
-    image = models.ImageField('Obrazek', upload_to='shortcut_images')
+    image = models.ImageField('Obrazek', upload_to='shortcut_images', blank=True)
     author = models.ForeignKey(User, verbose_name='Autor')
-    link = models.URLField(verbose_name='Adres artykułu')
+    link = models.URLField(verbose_name='Adres artykułu', blank=True)
+    video = EmbedVideoField(verbose_name='Adres do filmu', blank=True)
     is_active = models.BooleanField(default=False, verbose_name='Aktywny?')
     create_date = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Data dodania')
 
@@ -37,9 +39,34 @@ class Shortcut(models.Model):
     def __str__(self):
         return self.title
 
+    def is_video(self):
+        return True if self.video else False
+
 
 @receiver(pre_delete, sender=Shortcut)
 def shortcut_delete(sender, instance, **kwargs):
+    instance.image.delete(False)
+
+
+class Slider(models.Model):
+    title = models.CharField(max_length=64, verbose_name='Tytuł')
+    description = models.TextField(max_length=256, verbose_name='Opis')
+    link = models.URLField(verbose_name='Adres artykułu', blank=True)
+    image = models.ImageField('Obrazek', upload_to='slider_images', blank=True)
+    is_active = models.BooleanField(default=False, verbose_name='Aktywny?')
+    create_date = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Data dodania')
+
+    class Meta:
+        verbose_name_plural = "Slider"
+        verbose_name = 'slide'
+        ordering = ['-create_date']
+
+    def __str__(self):
+        return self.title
+
+
+@receiver(pre_delete, sender=Slider)
+def slider_delete(sender, instance, **kwargs):
     instance.image.delete(False)
 
 

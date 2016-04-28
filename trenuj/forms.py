@@ -67,12 +67,29 @@ class ShortcutCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop('author', None)
-        self.is_active = False
-        self.entrance = 2
         super(ShortcutCreateForm, self).__init__(*args, **kwargs)
 
     def save(self, commit=True):
         shortcut = super(ShortcutCreateForm, self).save(commit=False)
+        shortcut.author = User.objects.get(id=self.author)
+        if commit:
+            shortcut.save()
+        return shortcut
+
+
+class VideoCreateForm(forms.ModelForm):
+    class Meta:
+        model = Shortcut
+        fields = ['title', 'category', 'video']
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
+
+    def __init__(self, *args, **kwargs):
+        self.author = kwargs.pop('author', None)
+        super(VideoCreateForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        shortcut = super(VideoCreateForm, self).save(commit=False)
         shortcut.author = User.objects.get(id=self.author)
         if commit:
             shortcut.save()

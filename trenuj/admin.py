@@ -3,7 +3,7 @@ from .models import *
 
 
 class ShortcutAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'is_active', 'create_date')
+    list_display = ('title', 'author', 'is_active', 'create_date', 'is_video')
     list_filter = ['create_date', 'is_active']
     search_fields = ['title', 'author__username']
     list_editable = ['is_active']
@@ -19,4 +19,4 @@ class ArticleAdmin(admin.ModelAdmin):
 
 admin.site.register(Shortcut, ShortcutAdmin)
 admin.site.register(Article, ArticleAdmin)
-admin.site.register([Category, Tag, UserImage])
+admin.site.register([Category, Tag, UserImage, Slider])

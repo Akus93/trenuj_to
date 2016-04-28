@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'trenuj.apps.TrenujConfig',
     'redactor',
     'el_pagination',
+    'embed_video',
 ]
 
 MIDDLEWARE_CLASSES = [
