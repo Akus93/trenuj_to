@@ -6,6 +6,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.template.defaultfilters import slugify
 from uuid import uuid4
 from django.core.files.base import ContentFile
+from embed_video.fields import EmbedVideoFormField
 
 
 class SignupForm(forms.ModelForm):
@@ -55,7 +56,7 @@ class SignupForm(forms.ModelForm):
         return user
 
 
-class ShortcutCreateForm(forms.ModelForm):
+class LinkCreateForm(forms.ModelForm):
 
     class Meta:
         model = Shortcut
@@ -64,13 +65,15 @@ class ShortcutCreateForm(forms.ModelForm):
     category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
     description = forms.CharField(widget=forms.Textarea(attrs={'class': "materialize-textarea"}),
                                   max_length=256, label='Opis')
+    image = forms.ImageField('Obrazek')
+    link = forms.URLField()
 
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop('author', None)
-        super(ShortcutCreateForm, self).__init__(*args, **kwargs)
+        super(LinkCreateForm, self).__init__(*args, **kwargs)
 
     def save(self, commit=True):
-        shortcut = super(ShortcutCreateForm, self).save(commit=False)
+        shortcut = super(LinkCreateForm, self).save(commit=False)
         shortcut.author = User.objects.get(id=self.author)
         if commit:
             shortcut.save()
@@ -83,6 +86,7 @@ class VideoCreateForm(forms.ModelForm):
         fields = ['title', 'category', 'video']
 
     category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
+    video = EmbedVideoFormField()
 
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop('author', None)
@@ -90,6 +94,29 @@ class VideoCreateForm(forms.ModelForm):
 
     def save(self, commit=True):
         shortcut = super(VideoCreateForm, self).save(commit=False)
+        shortcut.author = User.objects.get(id=self.author)
+        if commit:
+            shortcut.save()
+        return shortcut
+
+
+class ImageCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Shortcut
+        exclude = ['author', 'link']
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': "materialize-textarea"}),
+                                  max_length=256, label='Opis')
+    image = forms.ImageField(label='Obrazek')
+
+    def __init__(self, *args, **kwargs):
+        self.author = kwargs.pop('author', None)
+        super(ImageCreateForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        shortcut = super(ImageCreateForm, self).save(commit=False)
         shortcut.author = User.objects.get(id=self.author)
         if commit:
             shortcut.save()

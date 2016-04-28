@@ -42,10 +42,19 @@ class Shortcut(models.Model):
     def is_video(self):
         return True if self.video else False
 
+    def type(self):
+        if self.video:
+            return 'video'
+        elif self.link and self.image:
+            return 'link'
+        else:
+            return 'image'
+
 
 @receiver(pre_delete, sender=Shortcut)
 def shortcut_delete(sender, instance, **kwargs):
-    instance.image.delete(False)
+    if instance.image:
+        instance.image.delete(False)
 
 
 class Slider(models.Model):

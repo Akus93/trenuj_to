@@ -1,0 +1,76 @@
+{% extends 'trenuj/base.html' %}
+
+{% block content %}
+
+    {% load staticfiles %}
+    {% block css %}
+        <link rel="stylesheet" href="{% static "css/materialize-tags.min.css" %}" type="text/css" />
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js'%}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+    <script src="{% static 'js/materialize-tags.min.js' %}"></script>
+
+    <div class="card-panel">
+        <h4 class="thin">Dodaj skrót</h4>
+        <br>
+        <form action="" method="post" enctype=multipart/form-data>{% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            {{ form.title.errors }}
+            <div class="input-field col s12">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+            </div>
+<br>
+            {{ form.category.errors }}
+            <div class="input-field col s12">
+                {{ form.category }}
+                {{ form.category.label_tag }}
+            </div>
+<br>
+            {{ form.description.errors }}
+            <div class="input-field col s12">
+                {{ form.description.label_tag }}
+                {{ form.description }}
+            </div>
+
+            {{ form.link.errors }}
+            <div class="input-field col s12">
+                {{ form.link.label_tag }}
+                {{ form.link }}
+            </div>
+
+            <div class="input-field col s12">
+                <label for="tags">Tagi:</label>
+                <input type="text" name="tags" id="tags" data-role="materialtags" value="" />
+            </div>
+
+            <br>
+            <!--<label for="upload" style="font-size: 15px;">Obrazek:</label>-->
+            {{ form.image.errors }}
+            <div class="file-field input-field" id="upload">
+                <div class="btn">
+                    <span>Wybierz obrazek</span>
+                    <i class="material-icons left">file_upload</i>
+                    {{ form.image}}
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+
+            <br><br>
+            <button class="waves-effect waves-light btn-large light-blue lighten-1" name="shortcut_form" type="submit" >Dodaj</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('select').material_select();
+        });
+    </script>
+
+{% endblock %}

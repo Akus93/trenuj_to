@@ -45,18 +45,42 @@ class SignupView(generic.TemplateView):
         return render(request, self.template_name, {'form': form})
 
 
-class ShortcutCreateView(LoginRequiredMixin, generic.View):
+class LinkCreateView(LoginRequiredMixin, generic.View):
     login_url = '/login/'
-    template_name = 'trenuj/shortcut_create.html'
-    form_class = ShortcutCreateForm
+    template_name = 'trenuj/link_create.html'
+    form_class = LinkCreateForm
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        extension = request.FILES['image'].name.split('.')[-1]
-        request.FILES['image'].name = '{0}.{1}'.format(uuid4(), extension)
+        if request.FILES.get('image'):
+            extension = request.FILES['image'].name.split('.')[-1]
+            request.FILES['image'].name = '{0}.{1}'.format(uuid4(), extension)
+        tags = request.POST.get('tags', '')
+        form = self.form_class(request.POST, request.FILES, author=request.user.id)
+        if form.is_valid():
+            shortcut = form.save()
+            if tags:
+                save_tags(shortcut.id, tags)
+            return HttpResponseRedirect('/')
+        return render(request, self.template_name, {'form': form})
+
+
+class ImageCreateView(LoginRequiredMixin, generic.View):
+    login_url = '/login/'
+    template_name = 'trenuj/image_create.html'
+    form_class = ImageCreateForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        if request.FILES.get('image'):
+            extension = request.FILES['image'].name.split('.')[-1]
+            request.FILES['image'].name = '{0}.{1}'.format(uuid4(), extension)
         tags = request.POST.get('tags', '')
         form = self.form_class(request.POST, request.FILES, author=request.user.id)
         if form.is_valid():

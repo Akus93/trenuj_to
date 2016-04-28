@@ -3,7 +3,7 @@ from .models import *
 
 
 class ShortcutAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'is_active', 'create_date', 'is_video')
+    list_display = ('title', 'author', 'is_active', 'create_date', 'type')
     list_filter = ['create_date', 'is_active']
     search_fields = ['title', 'author__username']
     list_editable = ['is_active']
