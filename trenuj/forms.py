@@ -1,6 +1,12 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth import password_validation
+from .models import Shortcut, Category, UserImage, Article
+from django.contrib.auth.forms import PasswordChangeForm
+from django.template.defaultfilters import slugify
+from uuid import uuid4
+from django.core.files.base import ContentFile
+from embed_video.fields import EmbedVideoFormField
 
 
 class SignupForm(forms.ModelForm):
@@ -48,3 +54,122 @@ class SignupForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class LinkCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Shortcut
+        exclude = ['author']
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': "materialize-textarea"}),
+                                  max_length=256, label='Opis')
+    image = forms.ImageField('Obrazek')
+    link = forms.URLField()
+
+    def __init__(self, *args, **kwargs):
+        self.author = kwargs.pop('author', None)
+        super(LinkCreateForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        shortcut = super(LinkCreateForm, self).save(commit=False)
+        shortcut.author = User.objects.get(id=self.author)
+        if commit:
+            shortcut.save()
+        return shortcut
+
+
+class VideoCreateForm(forms.ModelForm):
+    class Meta:
+        model = Shortcut
+        fields = ['title', 'category', 'video']
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
+    video = EmbedVideoFormField()
+
+    def __init__(self, *args, **kwargs):
+        self.author = kwargs.pop('author', None)
+        super(VideoCreateForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        shortcut = super(VideoCreateForm, self).save(commit=False)
+        shortcut.author = User.objects.get(id=self.author)
+        if commit:
+            shortcut.save()
+        return shortcut
+
+
+class ImageCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Shortcut
+        exclude = ['author', 'link']
+
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': "materialize-textarea"}),
+                                  max_length=256, label='Opis')
+    image = forms.ImageField(label='Obrazek')
+
+    def __init__(self, *args, **kwargs):
+        self.author = kwargs.pop('author', None)
+        super(ImageCreateForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        shortcut = super(ImageCreateForm, self).save(commit=False)
+        shortcut.author = User.objects.get(id=self.author)
+        if commit:
+            shortcut.save()
+        return shortcut
+
+
+class ChangePasswordForm(PasswordChangeForm):
+    pass
+
+
+class ProfileImageChangeForm(forms.ModelForm):
+
+    class Meta:
+        model = UserImage
+        fields = ['image']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        circle_img = kwargs.pop('circle_image', None)
+        self.circle_image = ContentFile(circle_img, '{}.png'.format(uuid4()))
+        super(ProfileImageChangeForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        old = UserImage.objects.filter(user=self.user).count()
+        if old:
+            change_image = UserImage.objects.get(user=self.user)
+            change_image.image.delete(False)
+            change_image.image = self.circle_image
+            change_image.save()
+            return change_image
+        else:
+            profile_image = super(ProfileImageChangeForm, self).save(commit=False)
+            profile_image.image = self.circle_image
+            profile_image.user = User.objects.get(id=self.user)
+            if commit:
+                profile_image.save()
+            return profile_image
+
+
+class ArticeCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Article
+        fields = ['title', 'content']
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(ArticeCreateForm, self).__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        article = super(ArticeCreateForm, self).save(commit=False)
+        article.author = User.objects.get(id=self.user)
+        article.slug = slugify(self.cleaned_data['title'])
+        if commit:
+            article.save()
+        return article

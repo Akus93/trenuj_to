@@ -6,10 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <title>Trenuj.to</title>
 
-  <!-- CSS  -->
+  <!-- CSS -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="{% static 'css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="{% static 'css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <!--SCRIPTS -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    {% block css %}
+    {% endblock %}
 </head>
 <body>
 <main>
@@ -22,9 +26,9 @@
             </div>
 
             <div class="col s5">
-                <form style="width: auto; padding-left: 0;" action="" method="post">{% csrf_token %}
+                <form style="width: auto; padding-left: 0;" action="{% url 'search' %}" method="post">{% csrf_token %}
                     <div class="input-field">
-                        <input id="search" type="search" required placeholder="Szukaj...">
+                        <input id="search" type="search" name="search" required placeholder="Szukaj...">
                         <label class="active" for="search"><i class="material-icons" style="color: black">search</i></label>
                         <i class="material-icons">close</i>
                     </div>
@@ -34,20 +38,22 @@
             <div class="col s3">
                 <ul class="right hide-on-med-and-down">
                     {% if not user.is_authenticated %}
-                        <li><a href="#">Zaloguj</a></li>
+                        <!--<li><a href="{#  {% url 'login' %} #}">Zaloguj</a></li>-->
+                        <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
                         <li><a href="{% url 'signup' %}">Zarejestruj</a></li>
                     {% else %}
-                        <li><a href="#">Konto</a></li>
+                        <li><a href="{% url 'account' %}">Konto</a></li>
                         <li><a href="{% url 'logout' %}">Wyloguj</a></li>
                     {% endif %}
                 </ul>
 
               <ul id="nav-mobile" class="side-nav">
                     {% if not user.is_authenticated %}
-                        <li><a href="#">Zaloguj</a></li>
+                        <!--<li><a href="{#  {% url 'login' %} #}">Zaloguj</a></li>-->
+                        <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
                         <li><a href="{% url 'signup' %}">Zarejestruj</a></li>
                     {% else %}
-                        <li><a href="#">Konto</a></li>
+                        <li><a href="{% url 'account' %}">Konto</a></li>
                         <li><a href="{%  url 'logout' %}">Wyloguj</a></li>
                     {% endif %}
               </ul>
@@ -56,24 +62,64 @@
         </div>
     </div>
   </nav>
+    {% block outside %}
 
+    {% endblock %}
   <div class="container">
         {% block content %}
 
         {% endblock %}
   </div>
+
+
+<!--LOGIN MODAL -->
+  <div id="login-modal" class="modal">
+    <div class="modal-content">
+                        <h4>Zaloguj się</h4>
+                        {% if form.errors %}
+                            <p>Twoja nazwa użytkownika i hasło nie pasują do siebie. Spróbuj jeszcze raz.</p>
+                        {% endif %}
+
+                        <div class="row">
+                            <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+                            {% csrf_token %}
+                                <div class="row">
+                                <div class="input-field col l6 m6 s12">
+                                  <i class="material-icons prefix">account_circle</i>
+                                  <input id="id_username" maxlength="254" name="username" type="text" class="validate" />
+                                  <label for="id_username">Nazwa użytkownika</label>
+                                </div>
+                                <div class="input-field col l6 m6 s12">
+                                  <i class="material-icons prefix">vpn_key</i>
+                                  <input id="id_password" name="password" type="password" class="validate" />
+                                  <label for="id_password">Hasło</label>
+                                </div>
+                              </div>
+                            <button class="waves-effect waves-light btn light-blue lighten-1" name="form" type="submit" >Zaloguj</button>
+                            <input type="hidden" name="next" value="{{ next }}" />
+                            </form>
+                        </div>
+    </div>
+  </div>
+    <script>
+        $(document).ready(function() {
+            $('.modal-trigger').leanModal();
+        });
+    </script>
+
+
 </main>
   <footer class="page-footer teal">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
+          <h5 class="white-text">O stronie</h5>
+          <p class="grey-text text-lighten-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 
 
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
+          <h5 class="white-text">O nas</h5>
           <ul>
             <li><a class="white-text" href="#!">Link 1</a></li>
             <li><a class="white-text" href="#!">Link 2</a></li>
@@ -82,7 +128,7 @@
           </ul>
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
+          <h5 class="white-text">Kontakt</h5>
           <ul>
             <li><a class="white-text" href="#!">Link 1</a></li>
             <li><a class="white-text" href="#!">Link 2</a></li>
@@ -94,16 +140,16 @@
     </div>
     <div class="footer-copyright">
       <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
+      Made by <a class="brown-text text-lighten-3" href="#">Dawid i Remik</a>
       </div>
     </div>
   </footer>
 
 
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <!--  Scripts -->
   <script src="{% static 'js/materialize.js' %}"></script>
   <script src="{% static 'js/init.js' %}"></script>
+
     <script>
          $(".button-collapse").sideNav();
     </script>
