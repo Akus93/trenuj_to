@@ -8988,7 +8988,6 @@ textarea.materialize-textarea + label:after {
 }
 
 .input-field input[type=search] {
-  display: block;
   line-height: inherit;
   padding-left: 4rem;
   width: calc(100% - 4rem);
@@ -11258,4 +11257,16 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   .picker--time .picker__box {
     margin-bottom: 5em;
   }
+}
+
+#add-post-btn {
+  position: absolute;
+  z-index: 100;
+  right: 0%;
+  top: 9.85%;
+}
+#add-post-btn button {
+  padding: 0;
+  padding-left: 5px;
+  padding-right: 5px;
 }
