@@ -1,0 +1,56 @@
+{% extends 'trenuj/base.html' %}
+
+{% block content %}
+
+    {% load staticfiles %}
+    {% block css %}
+        <link rel="stylesheet" href="{% static "css/materialize-tags.min.css" %}" type="text/css" />
+    {% endblock %}
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'js/materialize.js'%}"></script>
+    <script src="{% static 'js/init.js' %}"></script>
+    <script src="{% static 'js/materialize-tags.min.js' %}"></script>
+
+    <div class="card-panel">
+        <h4 class="thin">Dodaj video</h4>
+        <br>
+        <form action="" method="post">{% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            {{ form.title.errors }}
+            <div class="input-field col s12">
+                {{ form.title.label_tag }}
+                {{ form.title }}
+            </div>
+<br>
+            {{ form.category.errors }}
+            <div class="input-field col s12">
+                {{ form.category }}
+                {{ form.category.label_tag }}
+            </div>
+<br>
+            {{ form.video.errors }}
+            <div class="input-field col s12">
+                {{ form.video.label_tag }}
+                {{ form.video }}
+            </div>
+
+            <div class="input-field col s12">
+                <label for="tags">Tagi:</label>
+                <input type="text" name="tags" id="tags" data-role="materialtags" value="" />
+            </div>
+
+            <br><br>
+            <button class="waves-effect waves-light btn-large light-blue lighten-1" name="video_form" type="submit" >Dodaj</button>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('select').material_select();
+        });
+    </script>
+
+{% endblock %}

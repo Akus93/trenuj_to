@@ -1,0 +1,36 @@
+{% extends 'trenuj/base.html' %}
+
+
+{% block content %}
+
+    {% if not results %}
+
+        <p>Brak wyników wyszukiwania.</p>
+
+    {% else %}
+
+          <div class = "shortcuts row">
+        {% for result in results%}
+                <div class = "shortcut-wrap col s12 m6 l4" style = "border: solid 0.1px white; padding: 0;">
+                    <div class="shortcut" style="display: inline-block; border: solid 1px black; width: 100%;">
+                        <a href="{{ result.link }}">
+                            <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 2px; margin: 5px; position: absolute;"><a href="{% url 'category' result.category.name %}" style= "color: white;">{{ result.category.name }}</a></div>
+                            <img src="{{ result.image.url }}" width="100%">
+                            <h5>{{ result.title }}</h5>
+                            <p>{{ result.description }}</p>
+
+                        </a>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:3 %}
+                    </div>
+                    <div class = "shortcuts row">
+                {% endif %}
+        {% endfor %}
+
+    {% endif %}
+
+    <br>
+    <br>
+
+{% endblock %}

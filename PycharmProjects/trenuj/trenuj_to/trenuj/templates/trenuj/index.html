@@ -1,10 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h2>Test</h2>
-</body>
-</html>
+{% extends 'trenuj/base.html' %}
+
+{% block content %}
+    {% load staticfiles %}
+    {% load embed_video_tags %}
+
+    <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
+<br>
+  <div class="slider">
+    <ul class="slides">
+        {% for slide in slider %}
+          <li>
+            <a href="{{ slide.link }}">
+                <img src="{{ slide.image.url }}">
+                <div class="caption center-align">
+                  <h3>{{ slide.title }}</h3>
+                  <h5 class="light grey-text text-lighten-3">{{ slide.description }}</h5>
+                </div>
+            </a>
+          </li>
+        {% endfor %}
+    </ul>
+  </div>
+
+
+    <div class="shortcuts">
+        <div class="row">
+    {% for shortcut in shortcuts%}
+        {% if shortcut.type == 'video' %}
+            {% video shortcut.video as my_video %}
+                <div class = "shortcut-wrap col s12 m6 l6" style = "padding: 0;">
+                    {% video my_video '100%x100%' %}
+                </div>
+            {% endvideo %}
+        {% else %}
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
+                        <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a href="{{ shortcut.link }}">
+                        <img src="{{ shortcut.image.url }}" width="100%">
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 2%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                        </div>
+                        <p style="margin: 0.5em; display: none">{{ shortcut.description }}</p>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if forloop.counter|divisibleby:4 %}
+            </div>
+            <div class="row">
+        {% endif %}
+    {% endfor %}
+    </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $('.slider').slider({full_width: true});
+        });
+    </script>
+
+{% endblock %}

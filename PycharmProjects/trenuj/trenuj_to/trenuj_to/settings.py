@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'trenuj.apps.TrenujConfig',
+    'redactor',
+    'el_pagination',
+    'embed_video',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -56,7 +59,7 @@ ROOT_URLCONF = 'trenuj_to.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'trenuj/templates')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -110,9 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Warsaw'
 
 USE_I18N = True
 
@@ -125,3 +128,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "trenuj/static"),
+)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'trenuj/uploads')
+MEDIA_URL = '/media/'
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/'
+
+REDACTOR_OPTIONS = {'lang': 'en', 'plugins': ['codemirror']}
+REDACTOR_UPLOAD = 'articles/'
+REDACTOR_UPLOAD_HANDLER = 'redactor.handlers.UUIDUploader'
+REDACTOR_AUTH_DECORATOR = 'django.contrib.auth.decorators.login_required'
+
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
