@@ -28,24 +28,26 @@
     {% for shortcut in shortcuts%}
         {% if shortcut.type == 'video' %}
             {% video shortcut.video as my_video %}
-                <div class = "shortcut-wrap col s12 m6 l4" style = "border: solid 0.1px white; padding: 0;">
+                <div class = "shortcut-wrap col s12 m6 l6" style = "padding: 0;">
                     {% video my_video '100%x100%' %}
                 </div>
             {% endvideo %}
         {% else %}
-            <div class = "shortcut-wrap col s12 m6 l4" style = "border: solid 0.1px white; padding: 0;">
-                <div class="shortcut" style="display: inline-block; border: solid 1px black; width: 100%;">
-                        <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 10px; margin: 0px; position: absolute;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
-                    <a href="{{ shortcut.link }}">
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
+                        <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a class="modal-trigger" data-target="modal-view" ><!--href="{{ shortcut.link }}"-->
                         <img src="{{ shortcut.image.url }}" width="100%">
-                        <h5 style="margin: 0.3em;">{{ shortcut.title }}</h5>
-                        <p style="margin: 0.5em;">{{ shortcut.description }}</p>
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                        </div>
+                        <p style="margin: 0.5em; display: none">{{ shortcut.description }}</p>
                     </a>
                 </div>
             </div>
         {% endif %}
 
-        {% if forloop.counter|divisibleby:3 %}
+        {% if forloop.counter|divisibleby:4 %}
             </div>
             <div class="row">
         {% endif %}
@@ -58,4 +60,12 @@
         });
     </script>
 
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('.modal-trigger').leanModal();
+        });
+    </script>
 {% endblock %}

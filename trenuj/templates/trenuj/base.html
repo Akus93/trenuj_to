@@ -16,31 +16,46 @@
     {% endblock %}
 </head>
 <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.6";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
 <main>
   <nav class="white" role="navigation">
     <div class="nav-wrapper container">
         <div class="row">
 
-            <div class="col s4">
+            <div class="col s3 m3 l2">
                 <a id="logo" style="color: black; font-size: xx-large" href="{% url 'index' %}">Trenuj.to</a>
             </div>
 
-            <div class="col s5">
+            <div class="col s0 m0 l4">
+                <ul class="center hide-on-med-and-down">
+                        <li><a class="modal-trigger" data-target="login-modal">Zdjęcia</a></li>
+                        <li><a class="modal-trigger" data-target="register-modal">Wideo</a></li>
+                        <li><a class="modal-trigger" data-target="register-modal">Artykuły</a></li>
+                </ul>
+            </div>
+
+            <div class="col s8 m8 l3">
                 <form style="width: auto; padding-left: 0;" action="{% url 'search' %}" method="post">{% csrf_token %}
                     <div class="input-field">
                         <input id="search" type="search" name="search" required placeholder="Szukaj...">
                         <label class="active" for="search"><i class="material-icons" style="color: black">search</i></label>
-                        <i class="material-icons">close</i>
                     </div>
                 </form>
             </div>
 
-            <div class="col s3">
+            <div class="col s1 m1 l3">
                 <ul class="right hide-on-med-and-down">
                     {% if not user.is_authenticated %}
                         <!--<li><a href="{#  {% url 'login' %} #}">Zaloguj</a></li>-->
                         <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
-                        <li><a href="{% url 'signup' %}">Zarejestruj</a></li>
+                        <li><a class="modal-trigger" data-target="register-modal">Zarejestruj</a></li>
                     {% else %}
                         <li><a href="{% url 'account' %}">Konto</a></li>
                         <li><a href="{% url 'logout' %}">Wyloguj</a></li>
@@ -50,18 +65,43 @@
               <ul id="nav-mobile" class="side-nav">
                     {% if not user.is_authenticated %}
                         <!--<li><a href="{#  {% url 'login' %} #}">Zaloguj</a></li>-->
+                        <li><form style="width: auto; padding-left: 0;" action="{% url 'search' %}" method="post">{% csrf_token %}
+                            <div class="input-field">
+                                <input id="search" type="search" name="search" required placeholder="Szukaj...">
+                                <label class="active" for="search"><i class="material-icons" style="color: black">search</i></label>
+                                <i class="material-icons">close</i>
+                            </div>
+                        </form></li>
+                        <li><a class="modal-trigger">Zdjęcia</a></li>
+                        <li><a class="modal-trigger">Wideo</a></li>
+                        <li><a class="modal-trigger">Artykuły</a></li>
                         <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
-                        <li><a href="{% url 'signup' %}">Zarejestruj</a></li>
+                        <li><a class="modal-trigger" data-target="register-modal">Zarejestruj</a></li>
                     {% else %}
+                        <li><a class="modal-trigger">Zdjęcia</a></li>
+                        <li><a class="modal-trigger">Wideo</a></li>
+                        <li><a class="modal-trigger">Artykuły</a></li>
                         <li><a href="{% url 'account' %}">Konto</a></li>
                         <li><a href="{%  url 'logout' %}">Wyloguj</a></li>
                     {% endif %}
               </ul>
-              <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+              <a href="#" data-activates="nav-mobile" style="color: black;" class="button-collapse"><i class="material-icons">menu</i></a>
             </div>
         </div>
     </div>
   </nav>
+{%  if request.path != 'start' %}
+<div id="add-post-btn">
+    {% if not user.is_authenticated %}
+                        <a href="{% url 'start' %}">
+                            <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
+                        </a>
+                    {% else %}
+                        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj Post</button>
+                    {% endif %}
+
+</div>
+{% endif %}
     {% block outside %}
 
     {% endblock %}
@@ -101,6 +141,86 @@
                         </div>
     </div>
   </div>
+
+
+<div id="register-modal" class="modal">
+    <div class="modal-content">
+                        <h4>Zarejestruj się</h4>
+                        {% if form.errors %}
+                            <p>Wypełnij poprawie wszystkie pola.</p>
+                        {% endif %}
+        <div class="row">
+            <form action="" method="post">{% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                    <div class="row">
+                        <div class="col l6 m6 s12">
+                            {{ form.username.errors }}
+                            <div class="input-field">
+                                {{ form.username }}
+                                {{ form.username.label_tag }}
+                            </div>
+                        </div>
+
+                        <div class="col l6 m6 s12">
+                            {{ form.email.errors }}
+                            <div class="input-field">
+                                {{ form.email }}
+                                {{ form.email.label_tag }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col l6 m6 s12">
+                            {{ form.password1.errors }}
+                            <div class="input-field">
+                                {{ form.password1 }}
+                                {{ form.password1.label_tag }}
+                            </div>
+                        </div>
+
+                        <div class="col l6 m6 s12">
+                            {{ form.password2.errors }}
+                            <div class="input-field">
+                                {{ form.password2 }}
+                                {{ form.password2.label_tag }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col l6 m6 s12">
+                            {{ form.first_name.errors }}
+
+                            <div class="input-field">
+                                {{ form.first_name}}
+                                {{ form.first_name.label_tag }}
+                            </div>
+                        </div>
+                        <div class="col l6 m6 s12">
+                            {{ form.last_name.errors }}
+                            <div class="input-field">
+                                {{ form.last_name }}
+                                {{ form.last_name.label_tag }}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="waves-effect waves-light btn light-blue lighten-1" name="signup_form" type="submit" >Zarejestruj</button>
+                </form>
+            </div>
+    </div>
+</div>
+
+
+ <div id="add-post-modal" class="modal">
+    <div class="modal-content">
+                       <div>  <a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+</div>
+    </div>
+  </div>
+
     <script>
         $(document).ready(function() {
             $('.modal-trigger').leanModal();
@@ -109,6 +229,7 @@
 
 
 </main>
+<!--
   <footer class="page-footer teal">
     <div class="container">
       <div class="row">
@@ -144,7 +265,7 @@
       </div>
     </div>
   </footer>
-
+-->
 
   <!--  Scripts -->
   <script src="{% static 'js/materialize.js' %}"></script>
