@@ -91,16 +91,7 @@
     </div>
   </nav>
 {%  if request.path != 'start' %}
-<div id="add-post-btn">
-    {% if not user.is_authenticated %}
-                        <a href="{% url 'start' %}">
-                            <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
-                        </a>
-                    {% else %}
-                        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj Post</button>
-                    {% endif %}
 
-</div>
 {% endif %}
     {% block outside %}
 
@@ -150,66 +141,66 @@
                             <p>Wypełnij poprawie wszystkie pola.</p>
                         {% endif %}
         <div class="row">
-            <form action="" method="post">{% csrf_token %}
+                     <form action="{% url 'signup' %}" method="post">{% csrf_token %}
 
-                {{ form.non_field_errors }}
 
-                    <div class="row">
-                        <div class="col l6 m6 s12">
-                            {{ form.username.errors }}
-                            <div class="input-field">
-                                {{ form.username }}
-                                {{ form.username.label_tag }}
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col l6 m6 s12">
 
-                        <div class="col l6 m6 s12">
-                            {{ form.email.errors }}
-                            <div class="input-field">
-                                {{ form.email }}
-                                {{ form.email.label_tag }}
-                            </div>
-                        </div>
+                    <div class="input-field">
+                        <input id="id_username" maxlength="30" name="username" type="text" />
+                        <label for="id_username">Nazwa użytkownika:</label>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="col l6 m6 s12">
-                            {{ form.password1.errors }}
-                            <div class="input-field">
-                                {{ form.password1 }}
-                                {{ form.password1.label_tag }}
-                            </div>
-                        </div>
+                <div class="col l6 m6 s12">
 
-                        <div class="col l6 m6 s12">
-                            {{ form.password2.errors }}
-                            <div class="input-field">
-                                {{ form.password2 }}
-                                {{ form.password2.label_tag }}
-                            </div>
-                        </div>
+                    <div class="input-field">
+                        <input id="id_email" name="email" type="email" />
+                        <label for="id_email">Email:</label>
                     </div>
-
-                    <div class="row">
-                        <div class="col l6 m6 s12">
-                            {{ form.first_name.errors }}
-
-                            <div class="input-field">
-                                {{ form.first_name}}
-                                {{ form.first_name.label_tag }}
-                            </div>
-                        </div>
-                        <div class="col l6 m6 s12">
-                            {{ form.last_name.errors }}
-                            <div class="input-field">
-                                {{ form.last_name }}
-                                {{ form.last_name.label_tag }}
-                            </div>
-                        </div>
-                    </div>
-                    <button class="waves-effect waves-light btn light-blue lighten-1" name="signup_form" type="submit" >Zarejestruj</button>
-                </form>
+                </div>
             </div>
+
+            <div class="row">
+                <div class="col l6 m6 s12">
+
+                    <div class="input-field">
+                        <input id="id_password1" name="password1" type="password" />
+                        <label for="id_password1">Hasło:</label>
+                    </div>
+                </div>
+
+                <div class="col l6 m6 s12">
+
+                    <div class="input-field">
+                        <input id="id_password2" name="password2" type="password" />
+                        <label for="id_password2">Powtórz hasło:</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col l6 m6 s12">
+
+
+                    <div class="input-field">
+                        <input id="id_first_name" maxlength="30" name="first_name" type="text" />
+                        <label for="id_first_name">Imię:</label>
+                    </div>
+                </div>
+                <div class="col l6 m6 s12">
+
+                    <div class="input-field">
+                        <input id="id_last_name" maxlength="30" name="last_name" type="text" />
+                        <label for="id_last_name">Nazwisko:</label>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <button class="waves-effect waves-light btn light-blue lighten-1" name="signup_form" type="submit" >Zarejestruj</button>
+             <br><br>
+         </form>
     </div>
 </div>
 

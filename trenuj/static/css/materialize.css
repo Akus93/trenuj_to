@@ -6647,26 +6647,26 @@ nav ul a span.badge {
 }
 
 .container {
-  margin: 0 ;
-  width: 100%;
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
 }
 
 @media only screen and (min-width: 601px) {
   .container {
-    width: 100%;
+    width: 85%;
   }
 }
 
 @media only screen and (min-width: 993px) {
   .container {
-    width: 100%;
-    margin-left: 0%;
-    margin-right: 0%;
+    width: 70%;
   }
 }
 
 .container .row {
-  width: 100%;
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
 }
 
 .section {
@@ -11269,4 +11269,10 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   padding: 0;
   padding-left: 5px;
   padding-right: 5px;
+}
+
+.main-page-content {
+  position:absolute;
+  left:0;
+  right:0;
 }
