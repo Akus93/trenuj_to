@@ -11260,10 +11260,10 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 }
 
 #add-post-btn {
-  position: absolute;
+  position: fixed;
   z-index: 100;
   right: 0%;
-  top: 9.85%;
+  top: 10%;
 }
 #add-post-btn button {
   padding: 0;
@@ -11276,3 +11276,174 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   left:0;
   right:0;
 }
+
+#add-post-modal {
+  background-color: inherit !important;
+  box-shadow: none !important;
+  height: 100% !important;
+  }
+
+.btn-xlarge {
+    padding: 40px 40px;
+    font-size: 15px; //change this to your desired size
+    line-height: normal;
+    -webkit-border-radius: 60px;
+       -moz-border-radius: 60px;
+            border-radius: 60px;
+}
+.btn-xlarge .material-icons {
+  font-size: 2.6rem !important;
+  top: 25%;
+  position: absolute;
+}
+
+#add-post-modal div div {
+  position: absolute;
+  box-sizing: initial;
+}
+
+@media (max-width: 1400px) {
+
+.btn-xlarge {
+    padding: 40px 40px;
+    font-size: 15px; //change this to your desired size
+    line-height: normal;
+    -webkit-border-radius: 60px;
+       -moz-border-radius: 60px;
+            border-radius: 60px;
+}
+.btn-xlarge .material-icons {
+  font-size: 2.6rem !important;
+  top: 25%;
+  position: absolute;
+}
+
+#add-post-modal div div {
+  position: absolute;
+  box-sizing: initial;
+}
+
+#article-title {
+  position: absolute;
+  top: 50%;
+  left: 29%;
+}
+#article-modal-btn {
+  position: absolute;
+  left: 53%;
+}
+
+#link-title {
+  position:absolute;
+  top: 50%;
+  left: 37%;
+}
+
+#link-modal-btn {
+  position: absolute;
+  left: 37%;
+}
+
+#image-title {
+  position:absolute;
+  top: 50%;
+  left: 27%;
+}
+
+#image-modal-btn {
+  position: absolute;
+  left: 37%;
+  top: 24%;
+}
+
+#video-title {
+  position:absolute;
+  top: 50%;
+  left: 30%;
+}
+
+#video-modal-btn {
+  position: absolute;
+  left: 53%;
+  top: 24%;
+}
+}
+
+@media (max-width: 1300px) {
+
+.btn-xlarge {
+    padding: 35px 35px;
+    font-size: 15px; //change this to your desired size
+    line-height: normal;
+    -webkit-border-radius: 60px;
+       -moz-border-radius: 60px;
+            border-radius: 60px;
+}
+
+}
+
+@media (max-width: 1110px){
+
+.btn-xlarge {
+    padding: 30px 30px;
+}
+
+}
+
+.btn-xlarge .material-icons {
+  font-size: 2.6rem !important;
+  top: 25%;
+  position: absolute;
+}
+
+#add-post-modal div div {
+  position: absolute;
+  box-sizing: initial;
+}
+
+#article-title {
+  position: absolute;
+  top: 50%;
+  left: 29%;
+}
+#article-modal-btn {
+  position: absolute;
+  left: 53%;
+}
+
+#link-title {
+  position:absolute;
+  top: 50%;
+  left: 37%;
+}
+
+#link-modal-btn {
+  position: absolute;
+  left: 37%;
+}
+
+#image-title {
+  position:absolute;
+  top: 50%;
+  left: 27%;
+}
+
+#image-modal-btn {
+  position: absolute;
+  left: 37%;
+  top: 24%;
+}
+
+#video-title {
+  position:absolute;
+  top: 50%;
+  left: 30%;
+}
+
+#video-modal-btn {
+  position: absolute;
+  left: 53%;
+  top: 24%;
+}
+
+

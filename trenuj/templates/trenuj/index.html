@@ -12,7 +12,7 @@
                             <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
                         </a>
                     {% else %}
-                        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj Post</button>
+                        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj</button>
                     {% endif %}
 
 </div>
@@ -80,5 +80,21 @@
     </div>
   </div>
 
+ <div id="add-post-modal" class="modal">
+    <div class="modal-content">
+        <div id="video-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light red" href="{% url 'video_create' %}"><i class="material-icons">subscriptions</i><div id="video-title">Wideo</div></a>
+        </div>
+        <div id="image-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light green" href="{% url 'image_create' %}"><i class="material-icons">image</i><div id="image-title">Zdjęcie</div></a>
+        </div>
+        <div id="link-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light blue" href="{% url 'link_create' %}"><i class="material-icons">link</i><div id="link-title">Link</div></a>
+        </div>
+        <div id="article-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light orange" href="{% url 'article_create' %}"><i class="material-icons">subject</i><div id="article-title">Artykuł</div></a>
+        </div>
+    </div>
+  </div>
 
 {% endblock %}
