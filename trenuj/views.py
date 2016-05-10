@@ -258,3 +258,12 @@ class VideoCreateView(LoginRequiredMixin, generic.View):
         return render(request, self.template_name, {'form': form})
 
 
+class UserMediaView(generic.View):
+    template_name = 'trenuj/user_media.html'
+
+    def get(self, request, *args, **kwargs):
+        user = self.kwargs['username']
+        shortcuts = Shortcut.objects.filter(author__username=user, is_active=True)
+        return render(request, self.template_name, {'shortcuts': shortcuts})
+
+
