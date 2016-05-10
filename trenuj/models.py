@@ -129,3 +129,10 @@ class UserImage(models.Model):
 @receiver(pre_delete, sender=UserImage)
 def user_image_delete(sender, instance, **kwargs):
     instance.image.delete(False)
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(User, related_name='user', verbose_name='Użytkownik')
+    follower = models.ForeignKey(User, related_name='follower')
+
+

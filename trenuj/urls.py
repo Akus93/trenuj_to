@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^article/edit/(?P<slug>[\w-]+)/$', views.ArticleUpdateView.as_view(), name='article_edit'),
     url(r'^article/delete/(?P<slug>[\w-]+)/$', views.ArticleDeleteView.as_view(), name='article_delete'),
 
+    url(r'^user/(?P<username>[\w]+)/media/$', views.UserMediaView.as_view(), name='user_media'),
     url(r'^category/(?P<name>[\w-]+)/$', views.CategoryView.as_view(), name='category'),
     url(r'^tag/(?P<tag>[\w]+)/$', views.TagView.as_view(), name='tag'),
     url(r'^search/$', views.SearchView.as_view(), name='search'),
