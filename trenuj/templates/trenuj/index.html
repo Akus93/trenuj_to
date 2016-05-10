@@ -48,7 +48,7 @@
             <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
                 <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
                         <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
-                    <a class="modal-trigger" data-target="modal-view" >
+                    <a class="modal-trigger" data-target="modal-view" value="{{ shortcut.id }}">
                         <div>
                         <img src="{{ shortcut.image.url }}" width="100%"></div>
                         <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
@@ -74,7 +74,11 @@
     </script>
 
 </div>
+<div id="modal-view" class="modal">
+    <div class="modal-content">
 
+    </div>
+  </div>
 
 
 {% endblock %}
