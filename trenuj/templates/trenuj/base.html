@@ -35,9 +35,10 @@
 
             <div class="col s0 m0 l4">
                 <ul class="center hide-on-med-and-down">
-                        <li><a class="modal-trigger" data-target="login-modal">Zdjęcia</a></li>
-                        <li><a class="modal-trigger" data-target="register-modal">Wideo</a></li>
-                        <li><a class="modal-trigger" data-target="register-modal">Artykuły</a></li>
+                        <li><a href="{% url 'images' %}">Zdjęcia</a></li>
+                        <li><a href="{% url 'videos' %}">Wideo</a></li>
+                        <li><a href="{% url 'links' %}">Linki</a></li>
+                        <li><a href="#">Artykuły</a></li>
                 </ul>
             </div>
 
@@ -72,9 +73,10 @@
                                 <i class="material-icons">close</i>
                             </div>
                         </form></li>
-                        <li><a class="modal-trigger">Zdjęcia</a></li>
-                        <li><a class="modal-trigger">Wideo</a></li>
-                        <li><a class="modal-trigger">Artykuły</a></li>
+                        <li><a href="{% url 'images' %}">Zdjęcia</a></li>
+                        <li><a href="{% url 'videos' %}">Wideo</a></li>
+                        <li><a href="{% url 'links' %}">Linki</a></li>
+                        <li><a href="#">Artykuły</a></li>
                         <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
                         <li><a class="modal-trigger" data-target="register-modal">Zarejestruj</a></li>
                     {% else %}

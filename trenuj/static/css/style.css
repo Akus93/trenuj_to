@@ -78,3 +78,19 @@ a {
   height: 510px;
 }
 */
+
+.article-title {
+  font-size: 2.2em;
+  color: #333333;
+  text-decoration: none;
+  text-align: center;
+}
+
+.article-author {
+    color: #aeaeae;;
+    text-align: center;
+    font-size: .8em;
+
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}

@@ -139,7 +139,7 @@ MEDIA_URL = '/media/'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
-REDACTOR_OPTIONS = {'lang': 'en', 'plugins': ['codemirror']}
+REDACTOR_OPTIONS = {'lang': 'pl'}
 REDACTOR_UPLOAD = 'articles/'
 REDACTOR_UPLOAD_HANDLER = 'redactor.handlers.UUIDUploader'
 REDACTOR_AUTH_DECORATOR = 'django.contrib.auth.decorators.login_required'

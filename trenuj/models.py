@@ -28,6 +28,7 @@ class Shortcut(models.Model):
     author = models.ForeignKey(User, verbose_name='Autor')
     link = models.URLField(verbose_name='Adres artykułu', blank=True)
     video = EmbedVideoField(verbose_name='Adres do filmu', blank=True)
+    type = models.CharField(verbose_name='Typ', max_length=10)
     is_active = models.BooleanField(default=False, verbose_name='Aktywny?')
     create_date = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Data dodania')
 
@@ -38,17 +39,6 @@ class Shortcut(models.Model):
 
     def __str__(self):
         return self.title
-
-    def is_video(self):
-        return True if self.video else False
-
-    def type(self):
-        if self.video:
-            return 'video'
-        elif self.link and self.image:
-            return 'link'
-        else:
-            return 'image'
 
 
 @receiver(pre_delete, sender=Shortcut)
@@ -82,7 +72,11 @@ def slider_delete(sender, instance, **kwargs):
 class Article(models.Model):
     title = models.CharField(max_length=128, unique=True, verbose_name='Tytuł')
     slug = models.SlugField()
-    content = RedactorField(verbose_name='Artykuł')
+    content = RedactorField(verbose_name='Artykuł',
+                            redactor_options={'lang': 'pl', 'formatting': ['p', 'blockquote', 'h5'],
+                                              'buttons': ['formatting', 'bold', 'italic', 'deleted', 'image', 'video',
+                                                          'link', 'align', 'horizontalrule', 'align'],
+                                              'toolbarFixed': True, 'toolbarOverflow': True})
     author = models.ForeignKey(User, verbose_name='Autor')
     create_date = models.DateTimeField(auto_now_add=True, blank=True, verbose_name='Data utworzenia')
 
@@ -135,4 +129,21 @@ class Follow(models.Model):
     user = models.ForeignKey(User, related_name='user', verbose_name='Użytkownik')
     follower = models.ForeignKey(User, related_name='follower')
 
+    class Meta:
+        verbose_name_plural = "Obserwowani"
+        verbose_name = 'obserwowanych'
 
+    def __str__(self):
+        return '{} obserwuje {}'.format(self.follower.get_full_name() or self.follower.username, self.user.get_full_name() or self.user.username)
+
+
+class Clipboard(models.Model):
+    user = models.ForeignKey(User, verbose_name='Użytkownik')
+    shortcut = models.ForeignKey(Shortcut, verbose_name='Kafelek')
+
+    class Meta:
+        verbose_name_plural = "Do przeczytania"
+        verbose_name = 'do przeczytania'
+
+    def __str__(self):
+        return '{} chce przeczytać {}'.format(self.user.get_full_name() or self.user.username, self.shortcut.title)

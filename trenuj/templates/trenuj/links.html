@@ -1,0 +1,39 @@
+{% extends 'trenuj/base.html' %}
+
+{% block content %}
+    {% load staticfiles %}
+
+    <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
+    <script src="{% static 'js/api.js' %}"></script>
+
+    <div class = "main-page-content">
+        <div class="shortcuts">
+            <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
+            {% for shortcut in shortcuts%}
+                <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                    <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
+                        <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                        <a class="modal-trigger" data-target="modal-view" value="{{ shortcut.id }}">
+                            <div>
+                            <img src="{{ shortcut.image.url }}" width="100%"></div>
+                            <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                                <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                            </div>
+                            <p style="margin: 0.5em; display: none">{{ shortcut.description }}</p>
+                        </a>
+                    </div>
+                     {% if user.is_authenticated %}
+                         {% if shortcut.type == 'link' %}
+                            <button onclick="addToClipboard({{ shortcut.id }})">Do przeczytania</button>
+                         {% endif %}
+                     {% endif %}
+                </div>
+                {% if forloop.counter|divisibleby:4 %}
+                    </div>
+                    <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

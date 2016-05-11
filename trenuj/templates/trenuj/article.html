@@ -7,8 +7,7 @@
 
     <script type="text/javascript" src="{% static 'redactor/jquery.redactor.init.js' %}"></script>
     <script type="text/javascript" src="{% static 'redactor/redactor.js' %}"></script>
-    <script type="text/javascript" src="{% static 'redactor/langs/en.js' %}"></script>
-    <script type="text/javascript" src="{% static 'redactor/plugins/codemirror.js' %}"></script>
+    <script type="text/javascript" src="{% static 'redactor/langs/pl.js' %}"></script>
 
     <style type="text/css">
         img { max-width: 100%; }
@@ -17,12 +16,14 @@
 
 {% block content %}
 
-    <h2>{{ article.title }}</h2>
+    <br>
+    <br>
+
+    <h4 class="article-title">{{ article.title }}</h4>
+    <h5 class="article-author">BY {{ article.author.get_full_name|default:article.author.username }}</h5>
+    <br>
     <div class="redactor">
         {{ article.content|safe }}
-    </div>
-    <div id="author" class="right italic">
-        <h5>Autor: {{ article.author.get_full_name|default:article.author.username }}</h5>
     </div>
 
 {% endblock %}

@@ -75,6 +75,7 @@ class LinkCreateForm(forms.ModelForm):
     def save(self, commit=True):
         shortcut = super(LinkCreateForm, self).save(commit=False)
         shortcut.author = User.objects.get(id=self.author)
+        shortcut.type = 'link'
         if commit:
             shortcut.save()
         return shortcut
@@ -95,6 +96,7 @@ class VideoCreateForm(forms.ModelForm):
     def save(self, commit=True):
         shortcut = super(VideoCreateForm, self).save(commit=False)
         shortcut.author = User.objects.get(id=self.author)
+        shortcut.type = 'video'
         if commit:
             shortcut.save()
         return shortcut
@@ -118,6 +120,7 @@ class ImageCreateForm(forms.ModelForm):
     def save(self, commit=True):
         shortcut = super(ImageCreateForm, self).save(commit=False)
         shortcut.author = User.objects.get(id=self.author)
+        shortcut.type = 'image'
         if commit:
             shortcut.save()
         return shortcut

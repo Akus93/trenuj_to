@@ -15,6 +15,11 @@ urlpatterns = [
     url(r'^account/password/change/$', views.ChangePasswordView.as_view(), name='change_password'),
     url(r'^account/image/change/$', views.ChangeProfileImageView.as_view(), name='change_image'),
 
+    url(r'^links/$', views.LinksView.as_view(), name='links'),
+    url(r'^videos/$', views.VideosView.as_view(), name='videos'),
+    url(r'^images/$', views.ImagesView.as_view(), name='images'),
+    # url(r'^articles/$', views.ArticlesView.as_view(), name='articles'),
+
     url(r'^link/create/$', views.LinkCreateView.as_view(), name='link_create'),
     url(r'^video/create/$', views.VideoCreateView.as_view(), name='video_create'),
     url(r'^image/create/$', views.ImageCreateView.as_view(), name='image_create'),
@@ -29,6 +34,12 @@ urlpatterns = [
     url(r'^search/$', views.SearchView.as_view(), name='search'),
     url(r'^start/$', views.StartView.as_view(), name='start'),  # slajder z rejestracja
     url(r'^ajax/$', views.entry_index, name='ajax'),            # test endlesspagination
+    url(r'^user/(?P<username>[\w]+)/follow/delete/$', views.FollowDeleteView.as_view(), name='delete_follow'),
+    url(r'^clipboard/delete/(?P<shortcut_id>[\d]+)/$', views.ClipboardDeleteView.as_view(), name='delete_clipboard'),
+
+    # API
+    url(r'^api/follow/$', views.AddFollowerView.as_view(), name='follow'),
+    url(r'^api/clipboard/add/$', views.AddToClipboardView.as_view(), name='add_to_clipboard'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

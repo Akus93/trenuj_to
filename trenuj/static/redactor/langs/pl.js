@@ -1,7 +1,7 @@
 (function ($)
 {
 	$.Redactor.opts.langs['pl'] = {
-    "format": "Formatuj",
+    "formatting": "Formatowanie",
     "image": "Obrazek",
     "file": "Plik",
     "link": "Link",
@@ -14,9 +14,9 @@
     "deleted-abbr": "S",
     "underline-abbr": "U",
     "lists": "Lista",
-    "link-insert": "Wstaw link",
-    "link-edit": "Edytuj link",
-    "link-in-new-tab": "Otwórz link w nowej karcie",
+    "link_insert": "Wstaw link",
+    "link_edit": "Edytuj link",
+    "link_in_new_tab": "Otwórz link w nowej karcie",
     "unlink": "Usuń link",
     "cancel": "Anuluj",
     "close": "Zamknij",
@@ -32,8 +32,8 @@
     "heading1": "Nagłówek 1",
     "heading2": "Nagłówek 2",
     "heading3": "Nagłówek 3",
-    "heading4": "Nagłówek 4",
-    "heading5": "Nagłówek 5",
+    "header4": "Nagłówek",
+    "header5": "Nagłówek",
     "heading6": "Nagłówek 6",
     "filename": "Nazwa",
     "optional": "opcjonalnie",
@@ -46,7 +46,8 @@
     "accessibility-help-label": "Edytor tekstu",
     "caption": "Caption",
     "bulletslist": "Bullets",
-    "numberslist": "Numbers"
+    "numberslist": "Numbers",
+    "video": "Film"
 };
 
 })(jQuery);

@@ -1,12 +1,12 @@
 from django.views import generic
 from django.shortcuts import render, render_to_response
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import *
 from .services import save_tags, search_shortcuts, get_shortcuts_by_tag
 from base64 import b64decode
-from .models import Slider
+from .models import Slider, Follow, Clipboard
 
 
 class IndexView(generic.View):
@@ -95,20 +95,22 @@ class AccountView(LoginRequiredMixin, generic.View):
     login_url = '/login'
     template_name = 'trenuj/account.html'
     form_class = ChangePasswordForm
-    # change_image_form_class = ProfileImageChangeForm
 
     def get(self, request, *args, **kwargs):
         change_password_form = self.form_class(request.user)
-        # change_image_form = self.change_image_form_class()
         user_image = None
         shortcuts = Shortcut.objects.filter(author=request.user.id).order_by('-create_date')
         articles = Article.objects.filter(author=request.user.id).order_by('-create_date')
+        followed = Follow.objects.filter(follower=request.user)
+        clipboard = Clipboard.objects.filter(user=request.user)
         if UserImage.objects.filter(user=request.user.id).exists():
             user_image = UserImage.objects.get(user=request.user.id)
         return render(request, self.template_name, {'change_password_form': change_password_form,
                                                     'user_image': user_image,
                                                     'articles': articles,
-                                                    'shortcuts': shortcuts})
+                                                    'shortcuts': shortcuts,
+                                                    'followed': followed,
+                                                    'clipboard': clipboard})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
@@ -267,3 +269,86 @@ class UserMediaView(generic.View):
         return render(request, self.template_name, {'shortcuts': shortcuts})
 
 
+class AddFollowerView(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            username = request.GET.get('user')
+            try:
+                user = User.objects.get(username=username)
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'Nie ma takiego użytkownika.'})
+            follower = request.user
+            if not Follow.objects.filter(user=user, follower=follower).count():
+                follow = Follow(user=user, follower=follower)
+                follow.save()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'error': 'Już obserwujesz tego użytkownika.'})
+        return JsonResponse({'error': 'Brak autoryzacji.'})
+
+
+class AddToClipboardView(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated():
+            shortcut_id = request.GET.get('shortcut_id')
+            try:
+                shortcut = Shortcut.objects.get(id=shortcut_id)
+            except User.DoesNotExist:
+                return JsonResponse({'error': 'Nie ma takiego kafelka.'})
+            if not Clipboard.objects.filter(user=request.user, shortcut=shortcut).count():
+                clipboard = Clipboard(user=request.user, shortcut=shortcut)
+                clipboard.save()
+                return JsonResponse({'success': True})
+            else:
+                return JsonResponse({'error': 'Już dodałeś ten kafelek do przeczytania.'})
+        return JsonResponse({'error': 'Brak autoryzacji.'})
+
+
+class FollowDeleteView(LoginRequiredMixin, generic.View):
+    login_url = '/login/'
+
+    def get(self, request, *args, **kwargs):
+        username = kwargs['username']
+        try:
+            Follow.objects.get(user__username=username, follower=request.user).delete()
+        except Follow.DoesNotExist:
+            pass
+        return HttpResponseRedirect('/account/')
+
+
+class ClipboardDeleteView(LoginRequiredMixin, generic.View):
+    login_url = '/login/'
+
+    def get(self, request, *args, **kwargs):
+        shortcut_id = kwargs['shortcut_id']
+        try:
+            Clipboard.objects.get(user=request.user, shortcut=shortcut_id).delete()
+        except Follow.DoesNotExist:
+            pass
+        return HttpResponseRedirect('/account/')
+
+
+class LinksView(generic.View):
+    template_name = 'trenuj/links.html'
+
+    def get(self, request, *args, **kwargs):
+        shortcuts = Shortcut.objects.filter(is_active=True, type='link')
+        return render(request, self.template_name, {'shortcuts': shortcuts})
+
+
+class VideosView(generic.View):
+    template_name = 'trenuj/videos.html'
+
+    def get(self, request, *args, **kwargs):
+        shortcuts = Shortcut.objects.filter(is_active=True, type='video')
+        return render(request, self.template_name, {'shortcuts': shortcuts})
+
+
+class ImagesView(generic.View):
+    template_name = 'trenuj/images.html'
+
+    def get(self, request, *args, **kwargs):
+        shortcuts = Shortcut.objects.filter(is_active=True, type='image')
+        return render(request, self.template_name, {'shortcuts': shortcuts})

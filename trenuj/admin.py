@@ -19,4 +19,4 @@ class ArticleAdmin(admin.ModelAdmin):
 
 admin.site.register(Shortcut, ShortcutAdmin)
 admin.site.register(Article, ArticleAdmin)
-admin.site.register([Category, Tag, UserImage, Slider])
+admin.site.register([Category, Tag, UserImage, Slider, Follow, Clipboard])
