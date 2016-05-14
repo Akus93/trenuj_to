@@ -11285,7 +11285,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 .btn-xlarge {
     padding: 40px 40px;
-    font-size: 15px; //change this to your desired size
+    font-size: 15px;
     line-height: normal;
     -webkit-border-radius: 60px;
        -moz-border-radius: 60px;
@@ -11306,7 +11306,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 .btn-xlarge {
     padding: 40px 40px;
-    font-size: 15px; //change this to your desired size
+    font-size: 15px;
     line-height: normal;
     -webkit-border-radius: 60px;
        -moz-border-radius: 60px;
@@ -11373,7 +11373,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 
 .btn-xlarge {
     padding: 35px 35px;
-    font-size: 15px; //change this to your desired size
+    font-size: 15px;
     line-height: normal;
     -webkit-border-radius: 60px;
        -moz-border-radius: 60px;
@@ -11446,4 +11446,19 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   top: 24%;
 }
 
+.shortcut-picture {
+  display: inline-block;
+  float: left;
+  width: 50%;
+}
 
+.shortcut-description {
+
+}
+
+.right-wrapper {
+  display: inline-block;
+  text-align: center;
+  float: right;
+  width: 50%;
+}

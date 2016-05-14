@@ -49,13 +49,12 @@
             <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
                 <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
                     <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
-                    <a class="modal-trigger" data-target="modal-view" value="{{ shortcut.id }}">
+                    <a class="modal-trigger" data-target="modal-view-{{ shortcut.id }}">
                         <div>
                         <img src="{{ shortcut.image.url }}" width="100%"></div>
                         <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
                             <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
                         </div>
-                        <p style="margin: 0.5em; display: none">{{ shortcut.description }}</p>
                     </a>
                 </div>
                  {% if user.is_authenticated %}
@@ -80,11 +79,25 @@
     </script>
 
 </div>
-<div id="modal-view" class="modal">
-    <div class="modal-content">
-
-    </div>
+{% for shortcut in shortcuts%}
+    <div id="modal-view-{{ shortcut.id }}" class="modal" style="width: 80%">
+        <div class="modal-content" style="padding: 0;">
+            {% if shortcut.type == 'video' %}
+                {% video shortcut.video as my_video %}
+                    <div class = "shortcut-wrap col s12 m6 l6" style = "padding: 0;">
+                        {% video my_video '100%x100%' %}
+                    </div>
+                {% endvideo %}
+            {% else %}
+                        <div class="shortcut-picture"><img src="{{ shortcut.image.url }}" width="100%"></div>
+                        <div class="right-wrapper">
+                            <div class="shortcut-description">{{ shortcut.description }}</div>
+                            <div class="shortcut-author"> {{ shortcut.author }}</div>
+                        </div>
+            {% endif %}
+        </div>
   </div>
+{% endfor %}
 
  <div id="add-post-modal" class="modal">
     <div class="modal-content">
