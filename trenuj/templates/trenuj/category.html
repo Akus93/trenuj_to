@@ -67,7 +67,7 @@
                         <div class="shortcut-picture"><img src="{{ shortcut.image.url }}" width="100%"></div>
                         <div class="right-wrapper">
                             <div class="shortcut-description">{{ shortcut.description }}</div>
-                            <div class="shortcut-author"> {{ shortcut.author }}</div>
+                            <div class="shortcut-author"> <img src="{{ shortcut.author.userimage.image.url }}"/> {{ shortcut.author }}</div>
                         </div>
             {% endif %}
         </div>
