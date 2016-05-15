@@ -18,6 +18,9 @@
                     {% endif %}
 </div>
 
+{% load cache %}
+{% cache 600 slider %}
+
 <div class = "main-page-content">
   <div class="slider">
     <ul class="slides">
@@ -35,6 +38,7 @@
     </ul>
   </div>
 
+{% endcache %}
 
     <div class="shortcuts">
         <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">

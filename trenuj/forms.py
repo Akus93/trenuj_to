@@ -60,7 +60,7 @@ class LinkCreateForm(forms.ModelForm):
 
     class Meta:
         model = Shortcut
-        exclude = ['author']
+        exclude = ['author', 'type']
 
     category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
     description = forms.CharField(widget=forms.Textarea(attrs={'class': "materialize-textarea"}),

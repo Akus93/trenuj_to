@@ -3,7 +3,7 @@
 {% lazy_paginate 15 entries %}
 
 <div class = "shortcuts row">
-{% for entry in entries%}
+{% for entry in entries %}
         <div class = "shortcut-wrap col s12 m6 l4" style = "border: solid 0.1px white; padding: 0;">
             <div class="shortcut" style="display: inline-block; border: solid 1px black; width: 100%;">
                 <a href="{{ entry.link }}">

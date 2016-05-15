@@ -1,6 +1,6 @@
 function follow(username) {
     $.ajax({
-        url : "api/follow/",
+        url : "/api/follow/",
         type : "GET",
         data : { user: username},
 
@@ -16,7 +16,7 @@ function follow(username) {
 
 function addToClipboard(shortcutId) {
     $.ajax({
-        url : "api/clipboard/add/",
+        url : "/api/clipboard/add/",
         type : "GET",
         data : { shortcut_id: shortcutId },
 

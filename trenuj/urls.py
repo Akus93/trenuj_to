@@ -5,6 +5,7 @@ from django.contrib.auth import views as auth_views
 from trenuj_to import settings
 from . import views
 
+
 urlpatterns = [
     url(r'^$', views.IndexView.as_view(), name='index'),
     url(r'^signup/$', views.SignupView.as_view(), name='signup'),
@@ -32,8 +33,9 @@ urlpatterns = [
     url(r'^category/(?P<name>[\w-]+)/$', views.CategoryView.as_view(), name='category'),
     url(r'^tag/(?P<tag>[\w]+)/$', views.TagView.as_view(), name='tag'),
     url(r'^search/$', views.SearchView.as_view(), name='search'),
-    url(r'^start/$', views.StartView.as_view(), name='start'),  # slajder z rejestracja
+    url(r'^start/$', views.StartView.as_view(), name='start'),
     url(r'^ajax/$', views.entry_index, name='ajax'),            # test endlesspagination
+
     url(r'^user/(?P<username>[\w]+)/follow/delete/$', views.FollowDeleteView.as_view(), name='delete_follow'),
     url(r'^clipboard/delete/(?P<shortcut_id>[\d]+)/$', views.ClipboardDeleteView.as_view(), name='delete_clipboard'),
 

@@ -1,3 +1,4 @@
+from django.utils.decorators import classonlymethod
 from django.views import generic
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, JsonResponse
@@ -7,13 +8,14 @@ from .forms import *
 from .services import save_tags, search_shortcuts, get_shortcuts_by_tag
 from base64 import b64decode
 from .models import Slider, Follow, Clipboard
+from el_pagination.views import AjaxListView
 
 
 class IndexView(generic.View):
     template_name = 'trenuj/index.html'
 
     def get(self, request, *args, **kwargs):
-        shortcuts = Shortcut.objects.filter(is_active=True)
+        shortcuts = Shortcut.objects.select_related('author', 'category', 'author__userimage').filter(is_active=True)
         slider = Slider.objects.filter(is_active=True)[:3]
         return render(request, self.template_name, {'shortcuts': shortcuts, 'slider': slider})
 
@@ -204,13 +206,22 @@ from el_pagination.decorators import page_template
 def entry_index(
         request, template='trenuj/entry_index.html', extra_context=None):
     context = {
-        'entries': Shortcut.objects.all(),
+        'entries': Shortcut.objects.filter(type__in=['image', 'link']),
     }
     if extra_context is not None:
         context.update(extra_context)
     from django.template import RequestContext
     return render_to_response(
         template, context, context_instance=RequestContext(request))
+
+
+class LinksView(AjaxListView):
+    template_name = 'trenuj/links.html'
+
+    @classonlymethod
+    def as_view(cls):
+        return super(AjaxListView, cls).as_view(queryset=Shortcut.objects.filter(type='link'),
+                                                context_object_name='links', page_template='trenuj/links_page.html')
 
 
 class ArticleUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -328,14 +339,6 @@ class ClipboardDeleteView(LoginRequiredMixin, generic.View):
         except Follow.DoesNotExist:
             pass
         return HttpResponseRedirect('/account/')
-
-
-class LinksView(generic.View):
-    template_name = 'trenuj/links.html'
-
-    def get(self, request, *args, **kwargs):
-        shortcuts = Shortcut.objects.filter(is_active=True, type='link')
-        return render(request, self.template_name, {'shortcuts': shortcuts})
 
 
 class VideosView(generic.View):
