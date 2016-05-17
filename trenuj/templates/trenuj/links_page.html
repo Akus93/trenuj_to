@@ -1,31 +1,74 @@
 {% load el_pagination_tags %}
 
 {% lazy_paginate 32 links %}
-
+<div id="add-post-btn">
+    {% if not user.is_authenticated %}
+                        <a href="{% url 'start' %}">
+                            <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
+                        </a>
+                    {% else %}
+                        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj</button>
+                    {% endif %}
+</div>
     <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
-    {% for shortcut in links %}
-        <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
-            <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
-                <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
-                <a class="modal-trigger" data-target="modal-view" value="{{ shortcut.id }}">
-                    <div>
-                    <img src="{{ shortcut.image.url }}" width="100%"></div>
-                    <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
-                        <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
-                    </div>
-                    <p style="margin: 0.5em; display: none">{{ shortcut.description }}</p>
-                </a>
+{% for shortcut in links%}
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
+                    <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a class="modal-trigger" data-target="modal-view-{{ shortcut.id }}">
+                        <div>
+                        <img src="{{ shortcut.image.url }}" width="100%"></div>
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                        </div>
+                    </a>
+                </div>
             </div>
-             {% if user.is_authenticated %}
-                 {% if shortcut.type == 'link' %}
-                    <button onclick="addToClipboard({{ shortcut.id }})">Do przeczytania</button>
-                 {% endif %}
-             {% endif %}
-        </div>
         {% if forloop.counter|divisibleby:4 %}
             </div>
             <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
         {% endif %}
     {% endfor %}
+</div>
 
+{% for shortcut in links%}
+    <div id="modal-view-{{ shortcut.id }}" class="modal" style="width: 80%">
+        <div class="modal-content" style="padding: 0;">
+                        <div class="shortcut-picture"><img src="{{ shortcut.image.url }}" width="100%"></div>
+                        <div class="right-wrapper">
+                            <div class="shortcut-author">
+                                <img src="{{ shortcut.author.userimage.image.url }}"/>
+                                <div class="author">{{ shortcut.author }}</div>
+                            </div>
+                            <div class="shortcut-description">{{ shortcut.description }}</div>
+                        {%  if shortcut.type == 'link' %}
+                            <a href="{{ shortcut.link }}">
+                                <button class="waves-effect waves-light btn white lighten-1" style="color: black"> Przejdź do strony</button>
+                            </a>
+                        {%  endif %}
+                        {% if user.is_authenticated %}
+                            {% if shortcut.type == 'link' %}
+                                <button class="waves-effect waves-light btn white lighten-1" style="color: black" onclick="addToClipboard({{ shortcut.id }})">Do przeczytania</button>
+                            {% endif %}
+                        {% endif %}
+                        </div>
+        </div>
+  </div>
+{% endfor %}
+ <div id="add-post-modal" class="modal">
+    <div class="modal-content">
+        <div id="video-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light red" href="{% url 'video_create' %}"><i class="material-icons">subscriptions</i><div id="video-title">Wideo</div></a>
+        </div>
+        <div id="image-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light green" href="{% url 'image_create' %}"><i class="material-icons">image</i><div id="image-title">Zdjęcie</div></a>
+        </div>
+        <div id="link-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light blue" href="{% url 'link_create' %}"><i class="material-icons">link</i><div id="link-title">Link</div></a>
+        </div>
+        <div id="article-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light orange" href="{% url 'article_create' %}"><i class="material-icons">subject</i><div id="article-title">Artykuł</div></a>
+        </div>
+    </div>
+  </div>
 {% show_more %}
