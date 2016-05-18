@@ -309,9 +309,9 @@ class AddToClipboardView(generic.View):
             if not Clipboard.objects.filter(user=request.user, shortcut=shortcut).count():
                 clipboard = Clipboard(user=request.user, shortcut=shortcut)
                 clipboard.save()
-                return JsonResponse({'success': True})
+                return JsonResponse({'success': 'Dodałeś ten artykuł do przeczytania.'})
             else:
-                return JsonResponse({'error': 'Już dodałeś ten kafelek do przeczytania.'})
+                return JsonResponse({'error': 'Już dodałeś ten artykuł do przeczytania.'})
         return JsonResponse({'error': 'Brak autoryzacji.'})
 
 

@@ -10,12 +10,12 @@
 <br>
 <div id="add-post-btn">
     {% if not user.is_authenticated %}
-                        <a href="{% url 'start' %}">
-                            <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
-                        </a>
-                    {% else %}
-                        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj</button>
-                    {% endif %}
+        <a href="{% url 'start' %}">
+            <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
+        </a>
+    {% else %}
+        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj</button>
+    {% endif %}
 </div>
 
 {% load cache %}
