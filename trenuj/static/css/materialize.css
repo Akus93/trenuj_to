@@ -11302,12 +11302,24 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 }
 
 #add-post-modal {
-    width: 25%;
+    width: 20%;
     left: 0;
     position: absolute;
     right: 0;
     margin: auto;
     max-height: 100%;
+}
+
+@media (min-width: 2400px) {
+    #add-post-modal {
+      width: 15%;
+    }
+}
+
+@media (max-width: 1880px) {
+    #add-post-modal {
+    width: 25%;
+    }
 }
 
 @media (max-width: 1286px) {
