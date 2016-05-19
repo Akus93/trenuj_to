@@ -21,7 +21,7 @@ class Category(models.Model):
 
 
 class Shortcut(models.Model):
-    title = models.CharField(max_length=128, unique=True, verbose_name='Tytuł')
+    title = models.CharField(max_length=64, unique=True, verbose_name='Tytuł')
     description = models.TextField(max_length=256, verbose_name='Opis', blank=True)
     category = models.ForeignKey(Category, verbose_name='Kategoria')
     image = models.ImageField('Obrazek', upload_to='shortcut_images', blank=True)

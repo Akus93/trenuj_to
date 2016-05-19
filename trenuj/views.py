@@ -291,7 +291,7 @@ class AddFollowerView(generic.View):
             if not Follow.objects.filter(user=user, follower=follower).count():
                 follow = Follow(user=user, follower=follower)
                 follow.save()
-                return JsonResponse({'success': True})
+                return JsonResponse({'success': 'Dodano do obserwowanych.'})
             else:
                 return JsonResponse({'error': 'Już obserwujesz tego użytkownika.'})
         return JsonResponse({'error': 'Brak autoryzacji.'})
