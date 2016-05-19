@@ -37,8 +37,8 @@
                 <ul class="center hide-on-med-and-down">
                         <li><a href="{% url 'images' %}">Zdjęcia</a></li>
                         <li><a href="{% url 'videos' %}">Wideo</a></li>
-                        <li><a href="{% url 'links' %}">Linki</a></li>
-                        <li><a href="#">Artykuły</a></li>
+                        <li><a href="{% url 'links' %}">Artykuły</a></li>
+
                 </ul>
             </div>
 
@@ -75,14 +75,14 @@
                         </form></li>
                         <li><a href="{% url 'images' %}">Zdjęcia</a></li>
                         <li><a href="{% url 'videos' %}">Wideo</a></li>
-                        <li><a href="{% url 'links' %}">Linki</a></li>
-                        <li><a href="#">Artykuły</a></li>
+                        <li><a href="{% url 'links' %}">Artykuły</a></li>
+                        <!--<li><a href="#">Artykuły</a></li>-->
                         <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
                         <li><a class="modal-trigger" data-target="register-modal">Zarejestruj</a></li>
                     {% else %}
-                        <li><a class="modal-trigger">Zdjęcia</a></li>
-                        <li><a class="modal-trigger">Wideo</a></li>
-                        <li><a class="modal-trigger">Artykuły</a></li>
+                        <li><a href="{% url 'images' %}">Zdjęcia</a></li>
+                        <li><a href="{% url 'videos' %}">Wideo</a></li>
+                        <li><a href="{% url 'links' %}">Artykuły</a></li>
                         <li><a href="{% url 'account' %}">Konto</a></li>
                         <li><a href="{%  url 'logout' %}">Wyloguj</a></li>
                     {% endif %}

@@ -11447,3 +11447,28 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     text-overflow: ellipsis;
     overflow: hidden;
 }
+
+.right-wrapper button {
+    margin-bottom: 1%;
+    margin-top: 1%;
+}
+
+.shortcut-author {
+  margin-top: 20%;
+}
+
+@media (max-width: 1280px){
+  .shortcut-author {
+  margin-top: 10%;
+  }
+}
+
+@media (max-width: 1136px){
+  .shortcut-author {
+  margin-top: 0%;
+  }
+}
+
+.title-background h5 {
+    line-height: 120%;
+}
