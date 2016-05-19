@@ -3,9 +3,13 @@ function follow(username) {
         url : "/api/follow/",
         type : "GET",
         data : { user: username},
+        dataType: 'json',
 
         success : function(json) {
-            console.log(json);
+            if (json.hasOwnProperty('error'))
+                Materialize.toast(json.error, 4000);
+            else
+                Materialize.toast(json.success, 4000);
         },
 
         error : function(xhr, errmsg, err) {
@@ -19,9 +23,13 @@ function addToClipboard(shortcutId) {
         url : "/api/clipboard/add/",
         type : "GET",
         data : { shortcut_id: shortcutId },
+        dataType: 'json',
 
         success : function(json) {
-            console.log(json);
+            if (json.hasOwnProperty('error'))
+                Materialize.toast(json.error, 4000);
+            else
+                Materialize.toast(json.success, 4000);
         },
 
         error : function(xhr, errmsg, err) {

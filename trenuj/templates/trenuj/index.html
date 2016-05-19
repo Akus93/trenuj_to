@@ -10,12 +10,12 @@
 <br>
 <div id="add-post-btn">
     {% if not user.is_authenticated %}
-                        <a href="{% url 'start' %}">
-                            <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
-                        </a>
-                    {% else %}
-                        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj</button>
-                    {% endif %}
+        <a href="{% url 'start' %}">
+            <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
+        </a>
+    {% else %}
+        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj</button>
+    {% endif %}
 </div>
 
 {% load cache %}
@@ -89,24 +89,24 @@
                     </div>
                 {% endvideo %}
             {% else %}
-                        <div class="shortcut-picture"><img src="{{ shortcut.image.url }}" width="100%"></div>
-                        <div class="right-wrapper">
-                            <div class="shortcut-author">
-                                <img src="{{ shortcut.author.userimage.image.url }}"/>
-                                <div class="author">{{ shortcut.author }}</div>
-                            </div>
-                            <div class="shortcut-description">{{ shortcut.description }}</div>
-                        {%  if shortcut.type == 'link' %}
-                            <a href="{{ shortcut.link }}">
-                                <button class="waves-effect waves-light btn white lighten-1" style="color: black"> Przejdź do strony</button>
-                            </a>
-                        {%  endif %}
-                        {% if user.is_authenticated %}
-                            {% if shortcut.type == 'link' %}
-                                <button class="waves-effect waves-light btn white lighten-1" style="color: black" onclick="addToClipboard({{ shortcut.id }})">Do przeczytania</button>
-                            {% endif %}
-                        {% endif %}
-                        </div>
+                <div class="shortcut-picture"><img src="{{ shortcut.image.url }}" width="100%"></div>
+                <div class="right-wrapper">
+                    <div class="shortcut-author">
+                        <img src="{{ shortcut.author.userimage.image.url }}"/>
+                        <div class="author">{{ shortcut.author }}</div>
+                    </div>
+                    <div class="shortcut-description">{{ shortcut.description }}</div>
+                {%  if shortcut.type == 'link' %}
+                    <a href="{{ shortcut.link }}">
+                        <button class="waves-effect waves-light btn white lighten-1" style="color: black"> Przejdź do strony</button>
+                    </a>
+                {%  endif %}
+                {% if user.is_authenticated %}
+                    {% if shortcut.type == 'link' %}
+                        <button class="waves-effect waves-light btn white lighten-1" style="color: black" onclick="addToClipboard({{ shortcut.id }})">Do przeczytania</button>
+                    {% endif %}
+                {% endif %}
+                </div>
             {% endif %}
         </div>
   </div>
@@ -128,5 +128,15 @@
         </div>
     </div>
   </div>
+    
+    
+    <script>
+        $(document).ready(function () {
+            var hash = window.location.hash.substring(1);
+            if (hash) {
+                 $('#modal-view-'+hash).openModal();
+            }
+        })
+    </script>
 
 {% endblock %}

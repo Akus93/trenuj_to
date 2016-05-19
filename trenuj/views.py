@@ -57,9 +57,8 @@ class LinkCreateView(LoginRequiredMixin, generic.View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        if request.FILES.get('image'):
-            extension = request.FILES['image'].name.split('.')[-1]
-            request.FILES['image'].name = '{0}.{1}'.format(uuid4(), extension)
+        img64 = request.POST['imagebase64'].split(',')[1]
+        request.FILES['image'] = ContentFile(b64decode(img64), '{}.png'.format(uuid4()))
         tags = request.POST.get('tags', '')
         form = self.form_class(request.POST, request.FILES, author=request.user.id)
         if form.is_valid():
@@ -80,9 +79,8 @@ class ImageCreateView(LoginRequiredMixin, generic.View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
-        if request.FILES.get('image'):
-            extension = request.FILES['image'].name.split('.')[-1]
-            request.FILES['image'].name = '{0}.{1}'.format(uuid4(), extension)
+        img64 = request.POST['imagebase64'].split(',')[1]
+        request.FILES['image'] = ContentFile(b64decode(img64), '{}.png'.format(uuid4()))
         tags = request.POST.get('tags', '')
         form = self.form_class(request.POST, request.FILES, author=request.user.id)
         if form.is_valid():
@@ -311,9 +309,9 @@ class AddToClipboardView(generic.View):
             if not Clipboard.objects.filter(user=request.user, shortcut=shortcut).count():
                 clipboard = Clipboard(user=request.user, shortcut=shortcut)
                 clipboard.save()
-                return JsonResponse({'success': True})
+                return JsonResponse({'success': 'Dodałeś ten artykuł do przeczytania.'})
             else:
-                return JsonResponse({'error': 'Już dodałeś ten kafelek do przeczytania.'})
+                return JsonResponse({'error': 'Już dodałeś ten artykuł do przeczytania.'})
         return JsonResponse({'error': 'Brak autoryzacji.'})
 
 
