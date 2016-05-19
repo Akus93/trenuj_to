@@ -11469,6 +11469,6 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   }
 }
 
-.title-background h5 {
-    line-height: 120%;
+h5 {
+    line-height: 120% !important;
 }
