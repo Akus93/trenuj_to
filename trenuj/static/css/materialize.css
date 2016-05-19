@@ -11472,3 +11472,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 h5 {
     line-height: 120% !important;
 }
+
+.author .btn-floating {
+    width: 20px;
+    height: 20px;
+}
+.author .btn-floating i {
+    line-height: 0px;
+}

@@ -63,7 +63,7 @@
                 <div class="right-wrapper">
                     <div class="shortcut-author">
                         <img src="{{ shortcut.author.userimage.image.url }}"/>
-                        <div class="author">{{ shortcut.author }}<a onclick="follow({{ shortcut.author }})"><i class="material-icons" style="font-size: 20px">loyalty</i></a></div>
+                        <div class="author">{{ shortcut.author }}<button class="btn-floating btn-small waves-effect waves-light" onclick="follow({{ shortcut.author }})"><i class="material-icons" style="font-size: 22px">loyalty</i></button></div>
                     </div>
                     <div class="shortcut-description">{{ shortcut.description }}</div>
                 {%  if shortcut.type == 'link' %}
