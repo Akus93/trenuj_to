@@ -92,7 +92,7 @@
 </div>
 {% for shortcut in shortcuts%}
     <div id="modal-view-{{ shortcut.id }}" class="modal" style="width: 60%">
-        <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">
+        <div class="modal-content">
             {% if shortcut.type == 'video' %}
                 {% video shortcut.video as my_video %}
                     <div class = "shortcut-wrap col s12 m6 l6" style = "padding: 0; height: 100%;">

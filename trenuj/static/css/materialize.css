@@ -11304,7 +11304,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 #add-post-modal {
     width: 20%;
     left: 0;
-    position: absolute;
+    position: fixed;
     right: 0;
     margin: auto;
     max-height: 100%;
@@ -11479,4 +11479,23 @@ h5 {
 }
 .author .btn-floating i {
     line-height: 0px;
+}
+
+.lean-overlay {
+  opacity: 0.9 !important;
+}
+
+.modal-content {
+  padding: 0 !important;
+  overflow:hidden;
+}
+
+.modal {
+  background-color: transparent;
+  color: white;
+  box-shadow: none;
+}
+
+.redactor {
+  word-wrap: break-word;
 }
