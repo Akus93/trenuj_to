@@ -49,7 +49,6 @@ function getShortcut(shortcutId) {
                 Materialize.toast(json.error, 4000);
             else {
                 var shortcut = json.success;
-                $('#shortcut-loader').empty();
                 $('#shortcut-image').prepend($('<img>', {src: shortcut.image, width: '100%'}));
                 $('#shortcut-author-img').prepend($('<img>', {src: shortcut.author_img}));
                 $('#shortcut-desc').prepend('<p>' + shortcut.description + '</p>')
@@ -73,7 +72,6 @@ function getShortcut(shortcutId) {
 function showShortcut(shortcut_id) {
      $('#shortcut-modal').openModal({
          ready: function () {
-             $('#shortcut-loader').prepend('<div class="progress"><div class="indeterminate"></div></div>');
              getShortcut(shortcut_id);
          },
          complete: function() {
@@ -96,7 +94,6 @@ function getVideo(shortcutId) {
             if (resp.hasOwnProperty('error'))
                 Materialize.toast(resp.error, 4000);
             else {
-                $('#video-loader').empty();
                 $('#video-content').html(resp);
             }
         },
@@ -110,7 +107,6 @@ function getVideo(shortcutId) {
 function showVideo(shortcut_id) {
      $('#video-modal').openModal({
          ready: function () {
-             $('#video-loader').prepend('<div class="progress"><div class="indeterminate"></div></div>');
              getVideo(shortcut_id);
          },
          complete: function() {
