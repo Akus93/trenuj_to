@@ -1,0 +1,7 @@
+{% load embed_video_tags %}
+
+<div style="height: 100%;">
+    {% video shortcut.video as my_video %}
+        {% video my_video '100%x100%' %}
+    {% endvideo %}
+</div>

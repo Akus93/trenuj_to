@@ -42,6 +42,10 @@ urlpatterns = [
     # API
     url(r'^api/follow/$', views.AddFollowerView.as_view(), name='follow'),
     url(r'^api/clipboard/add/$', views.AddToClipboardView.as_view(), name='add_to_clipboard'),
+
+    #TEST API
+    url(r'^api/shortcut/(?P<shortcut_id>[\d]+)$', views.GetShortcutView.as_view(), name='get_shortcut'),
+    url(r'^api/video/(?P<shortcut_id>[\d]+)$', views.GetVideoView.as_view(), name='get_video'),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

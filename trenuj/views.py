@@ -9,6 +9,7 @@ from .services import save_tags, search_shortcuts, get_shortcuts_by_tag
 from base64 import b64decode
 from .models import Slider, Follow, Clipboard
 from el_pagination.views import AjaxListView
+from django.contrib.staticfiles.templatetags.staticfiles import static
 
 
 class IndexView(generic.View):
@@ -334,7 +335,7 @@ class ClipboardDeleteView(LoginRequiredMixin, generic.View):
         shortcut_id = kwargs['shortcut_id']
         try:
             Clipboard.objects.get(user=request.user, shortcut=shortcut_id).delete()
-        except Follow.DoesNotExist:
+        except Clipboard.DoesNotExist:
             pass
         return HttpResponseRedirect('/account/')
 
@@ -353,3 +354,43 @@ class ImagesView(generic.View):
     def get(self, request, *args, **kwargs):
         shortcuts = Shortcut.objects.filter(is_active=True, type='image')
         return render(request, self.template_name, {'shortcuts': shortcuts})
+
+
+class GetShortcutView(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        shortcut_id = kwargs['shortcut_id']
+        img_url = None
+        try:
+            shortcut = Shortcut.objects.select_related('category', 'author').get(id=shortcut_id, type__in=['link', 'image'])
+        except Shortcut.DoesNotExist:
+            return JsonResponse({'error': 'Kafelek nie istnieje.'})
+        try:
+            img_url = shortcut.author.userimage.image.url
+        except UserImage.DoesNotExist:
+            img_url = static('images/default_profile.png')
+        return JsonResponse({
+            'success': {
+                'id': shortcut.id,
+                'image': shortcut.image.url or False,
+                'author_img': img_url,
+                'description': shortcut.description or False,
+                'author': shortcut.author.username,
+                'category': shortcut.category.name,
+                'link': shortcut.link or False,
+                'type': shortcut.type,
+                'video': shortcut.video or False,
+                'is_authenticated': request.user.is_authenticated(),
+                }
+        })
+
+
+class GetVideoView(generic.View):
+
+    def get(self, request, *args, **kwargs):
+        shortcut_id = kwargs['shortcut_id']
+        try:
+            shortcut = Shortcut.objects.get(id=shortcut_id, type='video')
+        except Shortcut.DoesNotExist:
+            return JsonResponse({'error': 'Video nie istnieje.'})
+        return render_to_response('trenuj/video.html', {'shortcut': shortcut})
