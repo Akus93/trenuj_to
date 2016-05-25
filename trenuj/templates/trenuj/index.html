@@ -60,7 +60,7 @@
                     <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
                     <a onclick="showShortcut('{{ shortcut.id }}')">
                         <div>
-                        <img src="{{ shortcut.image.url }}" width="100%"></div>
+                        <img src="{{ shortcut.image.url }}" style="width:100%; height: 100%;"></div>
                         <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
                             <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
                         </div>
@@ -134,7 +134,7 @@
     <script>
         $(document).ready(function () {
             var hash = window.location.hash.substring(1);
-            if (hash) {
+            if (hash && hash != '_=_') {
                  showShortcut(hash);
             }
         })

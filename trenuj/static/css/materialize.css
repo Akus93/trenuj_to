@@ -11400,6 +11400,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   display: inline-block;
   float: left;
   width: 50%;
+  max-height: 100%;
 }
 
 .shortcut-description {
@@ -11433,6 +11434,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     }
     .shortcut-picture {
         width: 100%;
+        max-height: 100%;
     }
 }
 

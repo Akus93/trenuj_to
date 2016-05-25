@@ -49,7 +49,8 @@ function getShortcut(shortcutId) {
                 Materialize.toast(json.error, 4000);
             else {
                 var shortcut = json.success;
-                $('#shortcut-image').prepend($('<img>', {src: shortcut.image, width: '100%'}));
+                //$('#shortcut-image').prepend($('<img>', {src: shortcut.image, width: '100%'}));
+                $('#shortcut-image').prepend('<img src="' + shortcut.image + '" width="100%">');
                 $('#shortcut-author-img').prepend($('<img>', {src: shortcut.author_img}));
                 $('#shortcut-desc').prepend('<p>' + shortcut.description + '</p>')
                 $('#shortcut-author-info').prepend('<div class="author">' + shortcut.author + '<button id="author-follow-btn" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons" style="font-size: 22px">loyalty</i></button></div>');
