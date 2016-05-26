@@ -84,10 +84,11 @@ class LinkCreateForm(forms.ModelForm):
 class VideoCreateForm(forms.ModelForm):
     class Meta:
         model = Shortcut
-        fields = ['title', 'category', 'video']
+        fields = ['title', 'category', 'video', 'image']
 
     category = forms.ModelChoiceField(queryset=Category.objects.all(), initial=0, label='Kategoria')
     video = EmbedVideoFormField()
+    image = forms.ImageField('Obrazek')
 
     def __init__(self, *args, **kwargs):
         self.author = kwargs.pop('author', None)

@@ -260,8 +260,10 @@ class VideoCreateView(LoginRequiredMixin, generic.View):
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
+        img64 = request.POST['imagebase64'].split(',')[1]
+        request.FILES['image'] = ContentFile(b64decode(img64), '{}.png'.format(uuid4()))
         tags = request.POST.get('tags', '')
-        form = self.form_class(request.POST, author=request.user.id)
+        form = self.form_class(request.POST, request.FILES, author=request.user.id)
         if form.is_valid():
             video = form.save()
             if tags:

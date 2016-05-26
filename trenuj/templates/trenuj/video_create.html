@@ -5,6 +5,7 @@
     {% load staticfiles %}
     {% block css %}
         <link rel="stylesheet" href="{% static "css/materialize-tags.min.css" %}" type="text/css" />
+        <link href="{% static 'css/croppie.css' %}" type="text/css" rel="stylesheet"/>
     {% endblock %}
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
@@ -12,10 +13,29 @@
     <script src="{% static 'js/init.js' %}"></script>
     <script src="{% static 'js/materialize-tags.min.js' %}"></script>
 
+
+    <style>
+      input[type="range"] + .thumb {
+          position: static;
+          display: none;
+      }
+
+    .n-tag {
+        border: none !important;
+    }
+
+    #id_title {
+        border: none !important;
+        border-bottom: 1px solid #9e9e9e !important;
+        width: 100% !important;
+    }
+
+    </style>
+
     <div class="card-panel">
         <h4 class="thin">Dodaj video</h4>
         <br>
-        <form action="" method="post">{% csrf_token %}
+        <form id="link-create-form" action="" method="post" enctype=multipart/form-data>{% csrf_token %}
 
             {{ form.non_field_errors }}
 
@@ -42,10 +62,34 @@
                 <input type="text" name="tags" id="tags" data-role="materialtags" value="" />
             </div>
 
+            <link rel="stylesheet" type="text/css" href="{% static 'css/profile-img.css' %}" />
+            <div class="profile-img-wrap upload-contener">
+                <div class="upload-msg">
+                    Wybierz zdjęcie
+                </div>
+                <div id="upload-contener"></div>
+
+                <div class="actions">
+                    <a class="btn file-btn waves-effect waves-light btn light-blue lighten-1">
+                        <span>Wybierz</span>
+                        <input type="file" name="image" id="choose_image" value="Wybierz zdjęcie" accept="image/*" />
+                        <input type="hidden" id="imagebase64" name="imagebase64">
+                    </a>
+
+                    <button class="upload-result waves-effect waves-light btn light-blue lighten-1" name="shortcut_form" >Dodaj</button>
+                </div>
+            </div>
             <br><br>
-            <button class="waves-effect waves-light btn-large light-blue lighten-1" name="video_form" type="submit" >Dodaj</button>
         </form>
     </div>
+
+
+    <script type="text/javascript" src="{% static 'js/croppie.min.js' %}"></script>
+    <script src="{% static 'js/shortcut-img.js' %}"></script>
+
+   <script>
+        AddShortcutImage.init();
+    </script>
 
     <script>
         $(document).ready(function() {
