@@ -53,7 +53,7 @@ function getShortcut(shortcutId) {
                 $('#shortcut-image').prepend('<img src="' + shortcut.image + '" width="100%">');
                 $('#shortcut-author-img').prepend($('<img>', {src: shortcut.author_img}));
                 $('#shortcut-desc').prepend('<p>' + shortcut.description + '</p>')
-                $('#shortcut-author-info').prepend('<div class="author">' + shortcut.author + '<button id="author-follow-btn" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons" style="font-size: 22px">loyalty</i></button></div>');
+                $('#shortcut-author-info').prepend('<div class="author">' + shortcut.author + '<div style="width: 100%"><button style="font-size: 13px; border-radius: 5px; margin: 0; padding-top: 0; line-height: 0; width: 67px; height: 22px;" class="btn-floating btn-small waves-effect waves-light">Obserwuj</button></div></div>');
                 $('#author-follow-btn').attr("onclick", "follow(\'"+shortcut.author+"\')");
                 if (shortcut.type == 'link') {
                     $('#shortcut-link-btn').prepend('<a href="'+shortcut.link+'" target="_blank"><button class="waves-effect waves-light btn white lighten-1" style="color: black"> Przejdź do strony</button> </a>');

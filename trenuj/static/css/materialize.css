@@ -6660,7 +6660,7 @@ nav ul a span.badge {
 
 @media only screen and (min-width: 993px) {
   .container {
-    width: 70%;
+    width: 95%;
   }
 }
 
@@ -7425,6 +7425,7 @@ nav ul.left {
 }
 
 nav .input-field {
+  background-color: rgba(100,100,100,0.5);
   margin: 0;
 }
 
@@ -8056,7 +8057,7 @@ small {
 
 .btn, .btn-large, .btn-flat {
   border: none;
-  border-radius: 2px;
+  border-radius: 10px;
   display: inline-block;
   height: 36px;
   line-height: 36px;
@@ -8994,7 +8995,6 @@ textarea.materialize-textarea + label:after {
 }
 
 .input-field input[type=search]:focus {
-  background-color: #fff;
   border: 0;
   box-shadow: none;
   color: #444;
@@ -11281,6 +11281,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   background-color: inherit !important;
   box-shadow: none !important;
   height: 100% !important;
+  top: 33% !important;
   }
 
 .btn-xlarge {
@@ -11412,7 +11413,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 }
 
 .shortcut-author img {
-    width: 10%;
+    width: 20%;
 }
 
 .shortcut-author {
@@ -11456,7 +11457,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 }
 
 .shortcut-author {
-  margin-top: 20%;
+  margin-top: 2%;
 }
 
 @media (max-width: 1280px){
@@ -11483,8 +11484,12 @@ h5 {
     line-height: 0px;
 }
 
+.author {
+  font-size: 20px;
+}
+
 .lean-overlay {
-  opacity: 0.9 !important;
+  opacity: 0.93 !important;
 }
 
 .modal-content {
