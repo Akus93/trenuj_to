@@ -13,7 +13,7 @@
             <i class="medium material-icons" style="color: #00b0ff; background-color: white;">info_outline</i>
         </a>
     {% else %}
-        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj</button>
+        <button class="wbtn-floating btn-xlarge waves-effect waves-light red btn lighten-1 modal-trigger" data-target="add-post-modal">+</button>
     {% endif %}
 </div>
 
@@ -41,7 +41,7 @@
             {% video shortcut.video as my_video %}
             <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
                 <div class="shortcut" style="display: inline-block; width: 100%; height: inherit; position: relative;">
-                    <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
                     <a onclick="showVideo('{{ shortcut.id }}')">
                         <div style="display: inline; position: absolute; z-index: 1; font-size: 1px; top: 50%; left: 40%;">
                             <i class="material-icons" style="font-size: 4vw;color: white;">play_circle_outline</i>
@@ -57,7 +57,7 @@
         {% else %}
             <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
                 <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
-                    <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 2px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
                     <a onclick="showShortcut('{{ shortcut.id }}')">
                         <div>
                         <img src="{{ shortcut.image.url }}" style="width:100%; height: 100%;"></div>

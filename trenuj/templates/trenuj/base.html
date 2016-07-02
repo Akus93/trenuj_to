@@ -25,7 +25,7 @@
     fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
 <main>
-  <nav class="white" role="navigation">
+  <nav class="white topbar" role="navigation">
     <div class="nav-wrapper container">
         <div class="row">
 
@@ -58,8 +58,16 @@
                         <li><a class="modal-trigger" data-target="login-modal">Zaloguj</a></li>
                         <li><a class="modal-trigger" data-target="register-modal">Zarejestruj</a></li>
                     {% else %}
-                        <li><a href="{% url 'account' %}">Konto</a></li>
+                        <li><a href="{% url 'account' %}" style="height: 64px;">
+                            {% if user_image %}
+                                <img src="{{ user_image.image.url }}" width="50" style="margin-top: 9px;"/>
+                            {% else %}
+                                <img src="{% static 'images/default_profile.png' %}" width="50" style="margin-top: 9px;"/>
+                            {% endif %}
+                            <div style="display: inline; position: relative; top: -20px;">{{ user.get_full_name|default:user.username }}</div>
+                        </a></li>
                         <li><a href="{% url 'logout' %}">Wyloguj</a></li>
+
                     {% endif %}
                 </ul>
 
@@ -98,7 +106,7 @@
     {% block outside %}
 
     {% endblock %}
-  <div class="container">
+  <div class="container" style="margin-top: 65px;">
         {% block content %}
 
         {% endblock %}

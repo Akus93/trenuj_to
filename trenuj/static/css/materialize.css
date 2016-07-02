@@ -6646,6 +6646,11 @@ nav ul a span.badge {
   content: "\e8f5";
 }
 
+.topbar {
+    position: fixed;
+    z-index: 100;
+}
+
 .container {
   margin: 0 auto;
   max-width: 1280px;
@@ -7427,6 +7432,8 @@ nav ul.left {
 nav .input-field {
   background-color: rgba(100,100,100,0.5);
   margin: 0;
+  line-height: 3;
+  margin-top: 10px;
 }
 
 nav .input-field input {
@@ -7442,7 +7449,7 @@ nav .input-field input:focus, nav .input-field input[type=text]:valid, nav .inpu
 }
 
 nav .input-field label {
-  top: 0;
+  top: -10px;
   left: 0;
 }
 
@@ -11269,6 +11276,10 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   padding: 0;
   padding-left: 5px;
   padding-right: 5px;
+  color: whitesmoke;
+  font-size: 28px;
+  width: 50px;
+  height: 50px;
 }
 
 .main-page-content {
