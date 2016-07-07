@@ -17,8 +17,8 @@
     {% endif %}
 </div>
 
-    <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
-{% for shortcut in videos %}
+    <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important;">
+    {% for shortcut in videos %}
             {% video shortcut.video as my_video %}
             <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
                 <div class="shortcut" style="display: inline-block; width: 100%; height: inherit; position: relative;">
@@ -37,12 +37,12 @@
             {% endvideo %}
         {% if forloop.counter|divisibleby:4 %}
             </div>
-            <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
+            <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important;">
         {% endif %}
     {% endfor %}
 </div>
 
-  <div id="video-modal" class="modal" style="width: 60%">
+  <div id="video-modal" class="modal shortcut-modal" style="width: 60%">
     <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">
         <div id="video-content" style="height: 100%;"></div>
     </div>

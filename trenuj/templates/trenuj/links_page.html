@@ -15,7 +15,7 @@
     {% endif %}
 </div>
 
-    <div class="row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
+    <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
 {% for shortcut in links%}
            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
                 <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
@@ -31,12 +31,12 @@
             </div>
         {% if forloop.counter|divisibleby:4 %}
             </div>
-            <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
+            <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important;">
         {% endif %}
     {% endfor %}
 </div>
 
-  <div id="shortcut-modal" class="modal" style="width: 60%">
+  <div id="shortcut-modal" class="modal shortcut-modal" style="width: 60%">
     <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">
         <div id="shortcut-image" class="shortcut-picture"></div>
         <div class="right-wrapper">

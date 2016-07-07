@@ -31,7 +31,7 @@
     </div>
   </div>
 
-  <div id="shortcut-modal" class="modal" style="width: 60%">
+  <div id="shortcut-modal" class="modal shortcut-modal" style="width: 60%">
     <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">
         <div id="shortcut-image" class="shortcut-picture"></div>
         <div class="right-wrapper">
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <div id="video-modal" class="modal" style="width: 60%">
+  <div id="video-modal" class="modal shortcut-modal" style="width: 60%">
     <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">
         <div id="video-content" style="height: 100%;"></div>
     </div>
@@ -58,7 +58,7 @@
 
 
 <div class="shortcuts main-page-content">
-    <div class="row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
+    <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
     {% for shortcut in results %}
         {% if shortcut.type == 'video' %}
             {% video shortcut.video as my_video %}
@@ -93,7 +93,7 @@
         {% endif %}
         {% if forloop.counter|divisibleby:4 %}
             </div>
-            <div class="row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
+            <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
         {% endif %}
     {% endfor %}
 </div>

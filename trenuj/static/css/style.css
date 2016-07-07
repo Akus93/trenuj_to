@@ -104,5 +104,8 @@ a {
 .row {
     margin-left: 0 !important;
     margin-right: 0 !important;
+}
+
+.shortcut-row{
     font-size: 0;
 }
