@@ -7,7 +7,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.IndexView.as_view(), name='index'),
+    url(r'^$', views.index, name='index'),
     url(r'^signup/$', views.SignupView.as_view(), name='signup'),
     url(r'^logout/$', views.LogoutView.as_view(), name='logout'),
     url(r'^login/$', auth_views.login, name='login'),
@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^tag/(?P<tag>[\w]+)/$', views.TagView.as_view(), name='tag'),
     url(r'^search/$', views.SearchView.as_view(), name='search'),
     url(r'^start/$', views.StartView.as_view(), name='start'),
-    url(r'^ajax/$', views.entry_index, name='ajax'),            # test endlesspagination
+    # url(r'^ajax/$', views.index, name='ajax'),             test endlesspagination
 
     url(r'^user/(?P<username>[\w]+)/follow/delete/$', views.FollowDeleteView.as_view(), name='delete_follow'),
     url(r'^clipboard/delete/(?P<shortcut_id>[\d]+)/$', views.ClipboardDeleteView.as_view(), name='delete_clipboard'),
@@ -43,7 +43,7 @@ urlpatterns = [
     url(r'^api/follow/$', views.AddFollowerView.as_view(), name='follow'),
     url(r'^api/clipboard/add/$', views.AddToClipboardView.as_view(), name='add_to_clipboard'),
 
-    #TEST API
+    # TEST API
     url(r'^api/shortcut/(?P<shortcut_id>[\d]+)$', views.GetShortcutView.as_view(), name='get_shortcut'),
     url(r'^api/video/(?P<shortcut_id>[\d]+)$', views.GetVideoView.as_view(), name='get_video'),
 ]

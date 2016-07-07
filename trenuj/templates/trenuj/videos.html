@@ -1,48 +1,48 @@
 {% extends 'trenuj/base.html' %}
 
+{% load staticfiles %}
+
+
+{% block css %}
+    <style>
+     .endless_loading {
+         font-size:0;
+     }
+
+    .endless_more {
+        font-size:0;
+    }
+    </style>
+
+{% endblock %}
+
 {% block content %}
-    {% load staticfiles %}
-    {% load embed_video_tags %}
-<div id="add-post-btn">
-    {% if not user.is_authenticated %}
-        <a href="{% url 'start' %}">
-            <button class="waves-effect waves-light btn white lighten-1" style="color:black;">Dowiedz się więcej</button>
-        </a>
-    {% else %}
-        <button class="waves-effect waves-light btn white lighten-1 modal-trigger" data-target="add-post-modal" style="color:black;">Dodaj</button>
-    {% endif %}
-</div>
-    <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
-    <div class = "main-page-content">
+
+{#<script src="http://code.jquery.com/jquery-latest.js"></script>#}
+    <script src="{% static 'el-pagination/js/el-pagination.js' %}"></script>
+    <script src="{% static 'js/api.js' %}"></script>
+
+     <div class = "main-page-content">
         <div class="shortcuts">
-            <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
-            {% for shortcut in shortcuts %}
-                {% video shortcut.video as my_video %}
-                    <div class = "shortcut-wrap col s12 m6 l6" style = "padding: 0;">
-                        {% video my_video '100%x100%' %}
-                    </div>
-                {% endvideo %}
-                {% if forloop.counter|divisibleby:2 %}
-                    </div>
-                    <div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
-                {% endif %}
-            {% endfor %}
-        </div>
+
+    {% include page_template %}
+
+
     </div>
- <div id="add-post-modal" class="modal">
-    <div class="modal-content">
-        <div id="video-modal-btn">
-            <a class="btn-floating btn-xlarge waves-effect waves-light red" href="{% url 'video_create' %}"><i class="material-icons">subscriptions</i><div id="video-title">Wideo</div></a>
         </div>
-        <div id="image-modal-btn">
-            <a class="btn-floating btn-xlarge waves-effect waves-light green" href="{% url 'image_create' %}"><i class="material-icons">image</i><div id="image-title">Zdjęcie</div></a>
-        </div>
-        <div id="link-modal-btn">
-            <a class="btn-floating btn-xlarge waves-effect waves-light blue" href="{% url 'link_create' %}"><i class="material-icons">link</i><div id="link-title">Link</div></a>
-        </div>
-        <div id="article-modal-btn">
-            <a class="btn-floating btn-xlarge waves-effect waves-light orange" href="{% url 'article_create' %}"><i class="material-icons">subject</i><div id="article-title">Artykuł</div></a>
-        </div>
-    </div>
-  </div>
+
+
+    <script>
+        $.endlessPaginate({
+            paginateOnScroll: true,
+            paginateOnScrollMargin: 1,
+            onClick: function(context) {
+                $('<div class="preloader-wrapper big active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div> </div><div class="gap-patch"> <div class="circle"></div> </div><div class="circle-clipper right"> <div class="circle"></div> </div> </div> </div>').appendTo("#load");
+            },
+            onCompleted: function(context, fragment) {
+                $('#load').empty()
+            }
+        });
+    </script>
+
 {% endblock %}

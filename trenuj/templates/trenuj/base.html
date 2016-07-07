@@ -59,8 +59,8 @@
                         <li><a class="modal-trigger" data-target="register-modal">Zarejestruj</a></li>
                     {% else %}
                         <li><a href="{% url 'account' %}" style="height: 64px;">
-                            {% if user_image %}
-                                <img src="{{ user_image.image.url }}" width="50" style="margin-top: 9px;"/>
+                            {% if user.userimage.image.url %}
+                                <img src="{{ user.userimage.image.url }}" width="50" style="margin-top: 9px;"/>
                             {% else %}
                                 <img src="{% static 'images/default_profile.png' %}" width="50" style="margin-top: 9px;"/>
                             {% endif %}

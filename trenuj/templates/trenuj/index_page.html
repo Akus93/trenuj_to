@@ -1,0 +1,47 @@
+{% load el_pagination_tags %}
+
+{% load staticfiles %}
+{% load embed_video_tags %}
+
+{% lazy_paginate 16 shortcuts %}
+
+    {% for shortcut in shortcuts %}
+        {% if shortcut.type == 'video' %}
+            {% video shortcut.video as my_video %}
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; height: inherit; position: relative;">
+                    <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a onclick="showVideo('{{ shortcut.id }}')">
+                        <div style="display: inline; position: absolute; z-index: 1; font-size: 1px; top: 50%; left: 40%;">
+                            <i class="material-icons" style="font-size: 4vw; color: white;">play_circle_outline</i>
+                        </div>
+                        <img src="{{ shortcut.image.url }}" width="100%" style="height: 100%;">
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endvideo %}
+        {% else %}
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
+                    <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 2px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a onclick="showShortcut('{{ shortcut.id }}')">
+                        <div>
+                        <img src="{{ shortcut.image.url }}" style="width:100%; height: 100%;"></div>
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:4 %}
+            </div>
+            <div class="row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
+        {% endif %}
+    {% endfor %}
+</div>
+<div class="row" style="margin-left: 0 !important; margin-right: 0 !important;">
+{% show_more %}
