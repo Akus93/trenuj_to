@@ -10,15 +10,19 @@ from base64 import b64decode
 from .models import Slider, Follow, Clipboard
 from el_pagination.views import AjaxListView
 from django.contrib.staticfiles.templatetags.staticfiles import static
+from el_pagination.decorators import page_template
+from django.template import RequestContext
 
 
-class IndexView(generic.View):
-    template_name = 'trenuj/index.html'
-
-    def get(self, request, *args, **kwargs):
-        shortcuts = Shortcut.objects.select_related('author', 'category', 'author__userimage').filter(is_active=True)
-        slider = Slider.objects.filter(is_active=True)[:3]
-        return render(request, self.template_name, {'shortcuts': shortcuts, 'slider': slider})
+@page_template('trenuj/index_page.html')
+def index(request, template='trenuj/index.html', extra_context=None):
+    context = {
+        'shortcuts': Shortcut.objects.select_related('author', 'category', 'author__userimage').filter(is_active=True),
+        'slider': Slider.objects.filter(is_active=True)[:3],
+    }
+    if extra_context is not None:
+        context.update(extra_context)
+    return render_to_response(template, context, context_instance=RequestContext(request))
 
 
 class LoginView(generic.View):
@@ -200,27 +204,31 @@ class StartView(generic.TemplateView):
     template_name = 'trenuj/start.html'
 
 
-from el_pagination.decorators import page_template
-@page_template('trenuj/entry_index_page.html')
-def entry_index(
-        request, template='trenuj/entry_index.html', extra_context=None):
-    context = {
-        'entries': Shortcut.objects.filter(type__in=['image', 'link']),
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-    from django.template import RequestContext
-    return render_to_response(
-        template, context, context_instance=RequestContext(request))
-
-
 class LinksView(AjaxListView):
     template_name = 'trenuj/links.html'
 
     @classonlymethod
     def as_view(cls):
-        return super(AjaxListView, cls).as_view(queryset=Shortcut.objects.filter(type='link'),
+        return super(AjaxListView, cls).as_view(queryset=Shortcut.objects.filter(is_active=True, type='link'),
                                                 context_object_name='links', page_template='trenuj/links_page.html')
+
+
+class ImagesView(AjaxListView):
+    template_name = 'trenuj/images.html'
+
+    @classonlymethod
+    def as_view(cls):
+        return super(AjaxListView, cls).as_view(queryset=Shortcut.objects.filter(is_active=True, type='image'),
+                                                context_object_name='images', page_template='trenuj/images_page.html')
+
+
+class VideosView(AjaxListView):
+    template_name = 'trenuj/videos.html'
+
+    @classonlymethod
+    def as_view(cls):
+        return super(AjaxListView, cls).as_view(queryset=Shortcut.objects.filter(is_active=True, type='video'),
+                                                context_object_name='videos', page_template='trenuj/videos_page.html')
 
 
 class ArticleUpdateView(LoginRequiredMixin, generic.UpdateView):
@@ -340,22 +348,6 @@ class ClipboardDeleteView(LoginRequiredMixin, generic.View):
         except Clipboard.DoesNotExist:
             pass
         return HttpResponseRedirect('/account/')
-
-
-class VideosView(generic.View):
-    template_name = 'trenuj/videos.html'
-
-    def get(self, request, *args, **kwargs):
-        shortcuts = Shortcut.objects.filter(is_active=True, type='video')
-        return render(request, self.template_name, {'shortcuts': shortcuts})
-
-
-class ImagesView(generic.View):
-    template_name = 'trenuj/images.html'
-
-    def get(self, request, *args, **kwargs):
-        shortcuts = Shortcut.objects.filter(is_active=True, type='image')
-        return render(request, self.template_name, {'shortcuts': shortcuts})
 
 
 class GetShortcutView(generic.View):

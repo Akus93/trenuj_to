@@ -94,3 +94,18 @@ a {
     letter-spacing: .1em;
     text-transform: uppercase;
 }
+
+.shortcut {
+    cursor: pointer;
+    cursor: hand;
+    font-size: 0px;
+}
+
+.row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.shortcut-row{
+    font-size: 0;
+}

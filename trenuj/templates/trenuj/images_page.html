@@ -3,7 +3,7 @@
 {% load staticfiles %}
 <script src="{% static 'js/api.js' %}"></script>
 
-{% lazy_paginate 16 links %}
+{% lazy_paginate 16 images %}
 
 <div id="add-post-btn">
     {% if not user.is_authenticated %}
@@ -15,8 +15,8 @@
     {% endif %}
 </div>
 
-    <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
-{% for shortcut in links%}
+    <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important;">
+{% for shortcut in images%}
            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
                 <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
                     <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 2px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
