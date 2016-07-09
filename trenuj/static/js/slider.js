@@ -898,7 +898,6 @@ $.fn[plugin].fx = {};
             $('#slides').superslides('animate' , ind)
          });
 
-
 /*
         document.onclick = function() {
             if($('#register').css('display') == 'block')
