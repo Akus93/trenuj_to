@@ -58,7 +58,9 @@ Superslides = function(el, options) {
         that.animate('next');
       }
     });
-
+    
+    
+    
     $(window).on('resize', function() {
       setTimeout(function() {
         var $children = that.$container.children();
