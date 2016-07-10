@@ -1211,7 +1211,7 @@ $(document).ready(function(){
       }
 
       $content = $($active[0].hash);
-
+/*
       // append indicator then set indicator width to tab width
       $this.append('<div class="indicator"></div>');
       var $indicator = $this.find('.indicator');
@@ -1230,7 +1230,7 @@ $(document).ready(function(){
           $indicator.css({"left": $index * $tab_width});
         }
       });
-
+*/
       // Hide the remaining content
       $links.not($active).each(function () {
         $(this.hash).hide();
@@ -3249,6 +3249,15 @@ $(document).ready(function(){
           $slider.height(options.height);
         }
 
+      //controls
+        $('a.control_prev').click(function () {
+                $(this).trigger('sliderPrev');
+        });
+
+        $('a.control_next').click(function () {
+                $(this).trigger('sliderNext');
+        });
+
 
         // Set initial positions of captions
         $slides.find('.caption').each(function () {
@@ -3323,7 +3332,6 @@ $(document).ready(function(){
 
           }, options.transition + options.interval
         );
-
 
         // HammerJS, Swipe navigation
 
@@ -3466,8 +3474,9 @@ $(document).ready(function(){
       $(this).trigger('sliderNext');
     },
     prev : function() {
-      $(this).trigger('sliderPrev');
+      $(this).trigger('zPrev');
     }
+
   };
 
 
@@ -6828,3 +6837,4 @@ Picker.extend( 'pickadate', DatePicker )
       }
     }; // Plugin end
 }( jQuery ));
+
