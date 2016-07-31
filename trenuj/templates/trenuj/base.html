@@ -18,14 +18,17 @@
     {% endblock %}
 </head>
 <body>
+
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s); js.id = id;
-    js.src = "//connect.facebook.net/pl_PL/sdk.js#xfbml=1&version=v2.6";
-    fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));</script>
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.7";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
 <main>
   <nav class="white topbar" role="navigation">
     <div class="nav-wrapper container">
@@ -118,37 +121,38 @@
 <!--LOGIN MODAL -->
   <div id="login-modal" class="modal">
     <div class="modal-content">
-                        <h4>Zaloguj się</h4>
-                        {% if form.errors %}
-                            <p>Twoja nazwa użytkownika i hasło nie pasują do siebie. Spróbuj jeszcze raz.</p>
-                        {% endif %}
+        <h4>Zaloguj się</h4>
+        {% if form.errors %}
+            <p>Twoja nazwa użytkownika i hasło nie pasują do siebie. Spróbuj jeszcze raz.</p>
+        {% endif %}
 
-                        <div class="row">
-                            <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
-                            {% csrf_token %}
-                                <div class="row">
-                                <div class="input-field col l6 m6 s12">
-                                  <i class="material-icons prefix">account_circle</i>
-                                  <input id="id_username" maxlength="254" name="username" type="text" class="validate" />
-                                  <label for="id_username">Nazwa użytkownika</label>
-                                </div>
-                                <div class="input-field col l6 m6 s12">
-                                  <i class="material-icons prefix">vpn_key</i>
-                                  <input id="id_password" name="password" type="password" class="validate" />
-                                  <label for="id_password">Hasło</label>
-                                </div>
-                              </div>
-                            <button class="waves-effect waves-light btn light-blue lighten-1" name="form" type="submit" >Zaloguj</button>
-                            <div id="register_now" class="waves-effect waves-light"><a class="modal-trigger" data-target="register-modal">Nie masz jeszcze konta? Załóż konto.</a></div>
-                            <input type="hidden" name="next" value="{{ next }}" />
-                            </form>
-                        </div>
 
-                        <!--FACEBOOK-->
-                        {% load socialaccount %}
-                        <a href="{% provider_login_url "facebook" method="oauth2" %}">Facebook OAuth2</a>
-                        <a href="{% provider_login_url "google" method="oauth" %}">Google OAuth</a>
+        <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
+        {% csrf_token %}
+          <div class="row">
+            <div class="input-field col l6 m6 s12">
+              <i class="material-icons prefix">account_circle</i>
+              <input id="id_username" maxlength="254" name="username" type="text" class="validate" />
+              <label for="id_username">Nazwa użytkownika</label>
+            </div>
+            <div class="input-field col l6 m6 s12">
+              <i class="material-icons prefix">vpn_key</i>
+              <input id="id_password" name="password" type="password" class="validate" />
+              <label for="id_password">Hasło</label>
+            </div>
+          </div>
+            <button style="margin-left: 1em;" class="waves-effect waves-light btn light-blue lighten-1" name="form" type="submit" >Zaloguj</button>
+            <div id="register_now" class="waves-effect waves-light"><a style="margin-left: 1em;" href="{% url 'signup' %}">Nie masz jeszcze konta? Załóż je.</a></div>
+            <input type="hidden" name="next" value="{{ next }}" />
+        </form>
 
+
+        <!--SOCIAL-->
+        {% load socialaccount %}
+        <div class="social-login">
+            <a href="{% provider_login_url "facebook" method="oauth2" %}"><img class="social-login-btn" src="{% static 'images/social/facebook-login.png' %}" /></a>
+            <a href="{% provider_login_url "google" method="oauth" %}"><img class="social-login-btn" src="{% static 'images/social/google-login.png' %}" /></a>
+        </div>
     </div>
   </div>
 
@@ -218,7 +222,7 @@
             </div>
             <br>
             <button class="waves-effect waves-light btn light-blue lighten-1" name="signup_form" type="submit" >Zarejestruj</button>
-            <div id="register_now" class="waves-effect waves-light"><a class="modal-trigger" data-target="login-modal">Masz już konto? Zaloguj się.</a></div>
+            <div id="register_now" class="waves-effect waves-light"><a href="{% url 'login' %}">Masz już konto? Zaloguj się.</a></div>
              <br><br>
          </form>
     </div>

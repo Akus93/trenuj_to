@@ -1,50 +1,90 @@
 {% extends 'trenuj/base.html' %}
-
-
 {% load embed_video_tags %}
+{% load staticfiles %}
 
 {% block content %}
 
-    {% if not shortcuts %}
+    <div id="add-post-btn">
+        {% if not user.is_authenticated %}
+            <a href="{% url 'start' %}">
+                <i class="medium material-icons" style="color: #00b0ff; background-color: white;">info_outline</i>
+            </a>
+        {% else %}
+            <button class="wbtn-floating btn-xlarge waves-effect waves-light red btn lighten-1 modal-trigger" data-target="add-post-modal">+</button>
+        {% endif %}
+    </div>
 
-        <p>Ten użytkownik nie posiada żadnych kafelków.</p>
-
-    {% else %}
-
-        <div class="shortcuts">
-                <div class="row">
-            {% for shortcut in shortcuts%}
-                {% if shortcut.type == 'video' %}
-                    {% video shortcut.video as my_video %}
-                        <div class = "shortcut-wrap col s12 m6 l6" style = "padding: 0;">
-                            {% video my_video '100%x100%' %}
-                        </div>
-                    {% endvideo %}
-                {% else %}
-                    <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
-                        <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
-                                <div style="background-color: rgba(255, 0, 0, 0.7); display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
-                            <a class="modal-trigger" data-target="modal-view" ><!--href="{{ shortcut.link }}"-->
-                                <img src="{{ shortcut.image.url }}" width="100%">
-                                <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
-                                    <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
-                                </div>
-                                <p style="margin: 0.5em; display: none">{{ shortcut.description }}</p>
-                            </a>
-                        </div>
-                    </div>
-                {% endif %}
-
-                {% if forloop.counter|divisibleby:4 %}
-                    </div>
-                    <div class="row">
-                {% endif %}
-            {% endfor %}
+ <div id="add-post-modal" class="modal">
+    <div class="modal-content">
+        <div id="video-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light red" href="{% url 'video_create' %}"><i class="material-icons">subscriptions</i><div id="video-title">Wideo</div></a>
         </div>
+        <div id="image-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light green" href="{% url 'image_create' %}"><i class="material-icons">image</i><div id="image-title">Zdjęcie</div></a>
+        </div>
+        <div id="link-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light blue" href="{% url 'link_create' %}"><i class="material-icons">link</i><div id="link-title">Link</div></a>
+        </div>
+        <div id="article-modal-btn">
+            <a class="btn-floating btn-xlarge waves-effect waves-light orange" href="{% url 'article_create' %}"><i class="material-icons">subject</i><div id="article-title">Artykuł</div></a>
+        </div>
+    </div>
+  </div>
 
-    {% endif %}
+    <div id="shortcut-modal" class="modal shortcut-modal" style="width: 70%; overflow:hidden;">
+        <div class="modal-content" style="padding: 0; height: auto; overflow:hidden;">
+            <div id="shortcut-content"></div>
+        </div>
+    </div>
 
-    <br>
-    <br>
+  <div id="video-modal" class="modal shortcut-modal" style="width: 60%">
+    <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">
+        <div id="video-content" style="height: 100%;"></div>
+    </div>
+  </div>
+
+
+<div class="shortcuts main-page-content">
+    <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
+    {% for shortcut in shortcuts %}
+        {% if shortcut.type == 'video' %}
+            {% video shortcut.video as my_video %}
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; height: inherit; position: relative;">
+                    <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a onclick="showVideo('{{ shortcut.id }}')">
+{#                        <div style="display: inline; position: absolute; z-index: 1; font-size: 1px; top: 50%; left: 40%;">#}
+{#                            <i class="material-icons" style="font-size: 4vw; color: white;">play_circle_outline</i>#}
+{#                        </div>#}
+                        <img src="{{ shortcut.image.url }}" width="100%" style="height: 100%;">
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endvideo %}
+        {% else %}
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
+                    <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 2px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a onclick="showShortcut('{{ shortcut.id }}')">
+                        <div>
+                        <img src="{{ shortcut.image.url }}" style="width:100%; height: 100%;"></div>
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:4 %}
+            </div>
+            <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
+        {% endif %}
+    {% endfor %}
+</div>
+
+<script src="{% static 'js/api.js' %}"></script>
 
 {% endblock %}

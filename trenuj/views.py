@@ -350,33 +350,47 @@ class ClipboardDeleteView(LoginRequiredMixin, generic.View):
         return HttpResponseRedirect('/account/')
 
 
+# class GetShortcutView(generic.View):
+#
+#     def get(self, request, *args, **kwargs):
+#         shortcut_id = kwargs['shortcut_id']
+#         img_url = None
+#         try:
+#             shortcut = Shortcut.objects.select_related('category', 'author').get(id=shortcut_id, type__in=['link', 'image'])
+#         except Shortcut.DoesNotExist:
+#             return JsonResponse({'error': 'Kafelek nie istnieje.'})
+#         try:
+#             img_url = shortcut.author.userimage.image.url
+#         except UserImage.DoesNotExist:
+#             img_url = static('images/default_profile.png')
+#         return JsonResponse({
+#             'success': {
+#                 'id': shortcut.id,
+#                 'image': shortcut.image.url or False,
+#                 'author_img': img_url,
+#                 'description': shortcut.description or False,
+#                 'author': shortcut.author.username,
+#                 'category': shortcut.category.name,
+#                 'link': shortcut.link or False,
+#                 'type': shortcut.type,
+#                 'video': shortcut.video or False,
+#                 'is_authenticated': request.user.is_authenticated(),
+#                 }
+#         })
+
+
 class GetShortcutView(generic.View):
 
     def get(self, request, *args, **kwargs):
         shortcut_id = kwargs['shortcut_id']
-        img_url = None
         try:
             shortcut = Shortcut.objects.select_related('category', 'author').get(id=shortcut_id, type__in=['link', 'image'])
         except Shortcut.DoesNotExist:
-            return JsonResponse({'error': 'Kafelek nie istnieje.'})
-        try:
-            img_url = shortcut.author.userimage.image.url
-        except UserImage.DoesNotExist:
-            img_url = static('images/default_profile.png')
-        return JsonResponse({
-            'success': {
-                'id': shortcut.id,
-                'image': shortcut.image.url or False,
-                'author_img': img_url,
-                'description': shortcut.description or False,
-                'author': shortcut.author.username,
-                'category': shortcut.category.name,
-                'link': shortcut.link or False,
-                'type': shortcut.type,
-                'video': shortcut.video or False,
-                'is_authenticated': request.user.is_authenticated(),
-                }
-        })
+            return render_to_response('trenuj/shortcut.html', {'error': 'Strona nie istnieje'})
+        author_image = shortcut.author.userimage.image.url or static('images/default_profile.png')
+        return render_to_response('trenuj/shortcut.html', {'shortcut': shortcut,
+                                                           'author_image': author_image,
+                                                           'is_authenticated': request.user.is_authenticated()})
 
 
 class GetVideoView(generic.View):

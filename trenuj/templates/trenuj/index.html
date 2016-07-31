@@ -18,6 +18,7 @@
 
 {% block content %}
 
+
     <div id="add-post-btn">
         {% if not user.is_authenticated %}
             <a href="{% url 'start' %}">
@@ -55,24 +56,11 @@
     </div>
   </div>
 
-  <div id="shortcut-modal" class="modal shortcut-modal" style="width: 60%">
-    <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">
-        <div id="shortcut-image" class="shortcut-picture"></div>
-        <div class="right-wrapper">
-            <div class="shortcut-author">
-                <div id="shortcut-author-img"></div>
-                <div id="shortcut-author-info"></div>
-            </div>
-            <div id="shortcut-desc" class="shortcut-description"></div>
-            <!--if type==link-->
-            <div id="shortcut-link-btn" style="display: inline-block;"></div>
-            <!--if is_authenticated-->
-            <div id="clipboard-btn" style="display: inline-block;"></div>
-            <!--endif-->
-            <!--endif-->
+    <div id="shortcut-modal" class="modal shortcut-modal" style="width: 70%; overflow:hidden;">
+        <div class="modal-content" style="padding: 0; height: auto; overflow:hidden;">
+            <div id="shortcut-content"></div>
         </div>
     </div>
-  </div>
 
   <div id="video-modal" class="modal shortcut-modal" style="width: 60%">
     <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">

@@ -1,0 +1,41 @@
+{% load staticfiles %}
+
+<div class="shortcut-picture">
+    <img src="{{ shortcut.image.url }}" width="100%" >
+</div>
+<div class="right-wrapper">
+    <div class="shortcut-modal-body" style="position: relative; height: 100%;">
+        <div class="shortcut-author">
+            <img class="shortcut-author-img" src="{{ author_image }}"/>
+            <div class="shortcut-author-info">
+                <div class="author">
+                    {{ shortcut.author }}
+                    <div style="width: 100%">
+                        <button style="font-size: 13px; border-radius: 5px; margin: 0; padding-top: 0; line-height: 0; width: 67px; height: 22px;" class="btn-floating btn-small waves-effect waves-light" onclick="follow('{{ shortcut.author.username }}')">
+                            Obserwuj
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="shortcut-description">
+            <p>{{ shortcut.description }}</p>
+        </div>
+        {% if shortcut.type == 'link' %}
+            <div class="shortcut-link-btn" style="display: inline-block;">
+                <a href="{{ shortcut.link }}" target="_blank"><button class="waves-effect waves-light btn white lighten-1" style="color: black"> Przejdź do strony</button> </a>
+            </div>
+        {% endif %}
+        {% if is_authenticated %}
+            <div class="clipboard-btn" style="display: inline-block;">
+                <button class="waves-effect waves-light btn white lighten-1" style="color: black" onclick="addToClipboard({{ shortcut.id }})">Do przeczytania</button>
+            </div>
+        {% endif %}
+    </div>
+    <div id="shortcut-social" class="shortcut-modal-social" style="position: absolute; bottom: 0;">
+        <img src="{% static 'images/social/facebook2.png' %}" height="35" style=""/>
+        <img src="{% static 'images/social/google2.png' %}" height="35" style=""/>
+        <img src="{% static 'images/social/telegram2.png' %}" height="35" style=""/>
+        <img src="{% static 'images/social/twitter2.png' %}" height="35" style=""/>
+    </div>
+</div>
