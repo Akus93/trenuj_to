@@ -1,6 +1,7 @@
 {% extends 'trenuj/base.html' %}
 
 {% load staticfiles %}
+{% load embed_video_tags %}
 
 {% block css %}
     <link href="{% static 'css/croppie.css' %}" type="text/css" rel="stylesheet"/>
@@ -113,25 +114,80 @@
 
         <div id="followed" class="col s12">
             <br><br>
-            <ul class="collection with-header">
-            <li class="collection-header"><h4>Obserwowani</h4></li>
-            {% if followed %}
-                {% for person in followed %}
-                    <li class="collection-item">
-                        <div>
-                            <a href="{% url 'user_media' person.user.username %}">
-                                {{  person.user.username }}
-                            </a>
-                            <a href="{% url 'delete_follow' person.user.username %}" class="secondary-content">
-                                <i class="material-icons tooltipped" data-position="top" data-delay="50"
-                                data-tooltip="Przestań obserwować">delete</i>
-                            </a>
+{#            <ul class="collection with-header">#}
+{#            <li class="collection-header"><h4>Obserwowani</h4></li>#}
+{#            {% if followed %}#}
+{#                {% for person in followed %}#}
+{#                    <li class="collection-item">#}
+{#                        <div>#}
+{#                            <a href="{% url 'user_media' person.user.username %}">#}
+{#                                {{  person.user.username }}#}
+{#                            </a>#}
+{#                            <a href="{% url 'delete_follow' person.user.username %}" class="secondary-content">#}
+{#                                <i class="material-icons tooltipped" data-position="top" data-delay="50"#}
+{#                                data-tooltip="Przestań obserwować">delete</i>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                    </li>#}
+{#                {% endfor %}#}
+{#                {% else %}#}
+{#                 <p>Nie obserwujesz jeszcze nikogo.</p>#}
+{#            {% endif %}#}
+
+            <div id="shortcut-modal" class="modal shortcut-modal" style="width: 70%; overflow:hidden;">
+                <div class="modal-content" style="padding: 0; height: auto; overflow:hidden;">
+                    <div id="shortcut-content"></div>
+                </div>
+            </div>
+
+            <div id="video-modal" class="modal shortcut-modal" style="width: 60%">
+                <div class="modal-content" style="padding: 0; height: 30em; overflow:hidden;">
+                    <div id="video-content" style="height: 100%;"></div>
+                </div>
+            </div>
+
+    <div class="shortcuts main-page-content">
+    <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
+    {% for shortcut in followed %}
+        {% if shortcut.type == 'video' %}
+            {% video shortcut.video as my_video %}
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; height: inherit; position: relative;">
+                    <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 5px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a onclick="showVideo('{{ shortcut.id }}')">
+{#                        <div style="display: inline; position: absolute; z-index: 1; font-size: 1px; top: 50%; left: 40%;">#}
+{#                            <i class="material-icons" style="font-size: 4vw; color: white;">play_circle_outline</i>#}
+{#                        </div>#}
+                        <img src="{{ shortcut.image.url }}" width="100%" style="height: 100%;">
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
                         </div>
-                    </li>
-                {% endfor %}
-                {% else %}
-                 <p>Nie obserwujesz jeszcze nikogo.</p>
-            {% endif %}
+                    </a>
+                </div>
+            </div>
+            {% endvideo %}
+        {% else %}
+            <div class = "shortcut-wrap col s12 m6 l3" style = "padding: 0;">
+                <div class="shortcut" style="display: inline-block; width: 100%; position: relative;">
+                    <div style="background-color: rgba(3, 169, 244, 0.7);top: 3%; display: inline; padding: 2px; margin: 0px; position: absolute; z-index: 1; font-size: 14.5px !important;"><a href="{% url 'category' shortcut.category.name %}" style= "color: white;">{{ shortcut.category.name }}</a></div>
+                    <a onclick="showShortcut('{{ shortcut.id }}')">
+                        <div>
+                        <img src="{{ shortcut.image.url }}" style="width:100%; height: 100%;"></div>
+                        <div class="title_background" style="width: 100%; background-color: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0%;">
+                            <h5 style="margin: 0.3em; color:white;">{{ shortcut.title }}</h5>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:4 %}
+            </div>
+            <div class="row shortcut-row" style="margin-left: 0 !important; margin-right: 0 !important; font-size: 0px;">
+        {% endif %}
+        {% endfor %}
+    </div>
+
+
         </div>
 
         <div id="clipboard" class="col s12">
@@ -216,6 +272,8 @@
 
     <script type="text/javascript" src="{% static 'js/croppie.min.js' %}"></script>
     <script src="{% static 'js/profile-img.js' %}"></script>
+    <script src="{% static 'js/api.js' %}"></script>
+
     <script>
         ChangeProfileImage.init();
     </script>

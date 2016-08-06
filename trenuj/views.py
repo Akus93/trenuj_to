@@ -106,7 +106,9 @@ class AccountView(LoginRequiredMixin, generic.View):
         user_image = None
         shortcuts = Shortcut.objects.filter(author=request.user.id).order_by('-create_date')
         articles = Article.objects.filter(author=request.user.id).order_by('-create_date')
-        followed = Follow.objects.filter(follower=request.user)
+        followed_users = Follow.objects.filter(follower=request.user).values('user__username')
+        followed_usernames = [v['user__username'] for v in followed_users]
+        followed = Shortcut.objects.filter(author__username__in=followed_usernames)
         clipboard = Clipboard.objects.filter(user=request.user)
         if UserImage.objects.filter(user=request.user.id).exists():
             user_image = UserImage.objects.get(user=request.user.id)
