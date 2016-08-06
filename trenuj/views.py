@@ -378,7 +378,6 @@ class ClipboardDeleteView(LoginRequiredMixin, generic.View):
 #                 }
 #         })
 
-
 class GetShortcutView(generic.View):
 
     def get(self, request, *args, **kwargs):
@@ -387,7 +386,10 @@ class GetShortcutView(generic.View):
             shortcut = Shortcut.objects.select_related('category', 'author').get(id=shortcut_id, type__in=['link', 'image'])
         except Shortcut.DoesNotExist:
             return render_to_response('trenuj/shortcut.html', {'error': 'Strona nie istnieje'})
-        author_image = shortcut.author.userimage.image.url or static('images/default_profile.png')
+        try:
+            author_image = shortcut.author.userimage.image.url
+        except UserImage.DoesNotExist:
+            author_image = static('images/default_profile.png')
         return render_to_response('trenuj/shortcut.html', {'shortcut': shortcut,
                                                            'author_image': author_image,
                                                            'is_authenticated': request.user.is_authenticated()})
