@@ -276,6 +276,19 @@
 {#-->#}
 
   <!--  Scripts -->
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <script>
+                window.onload = function () {
+                    Materialize.toast("{{ message }}", 10000);
+                };
+                </script>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
   <script src="{% static 'js/materialize.js' %}"></script>
   <script src="{% static 'js/init.js' %}"></script>
 

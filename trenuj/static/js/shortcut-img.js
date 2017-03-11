@@ -33,13 +33,13 @@ var AddShortcutImage = (function() {
 
 		$uploadCrop = $('#upload-contener').croppie({
 			viewport: {
-				width: 350,
-				height: 350,
+				width: 450,
+				height: 450,
 				type: 'square'
 			},
 			boundary: {
-				width: 450,
-				height: 450
+				width: 550,
+				height: 550
 			},
 			exif: false
 		});

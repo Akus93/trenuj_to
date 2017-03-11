@@ -3,6 +3,7 @@ from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from .forms import *
 from .services import save_tags, search_shortcuts, get_shortcuts_by_tag
 from base64 import b64decode
@@ -85,6 +86,7 @@ class LinkCreateView(LoginRequiredMixin, generic.View):
             shortcut = form.save()
             if tags:
                 save_tags(shortcut.id, tags)
+            messages.add_message(request, messages.INFO, 'Twój post czeka na zatwierdzenie przez administratora.')
             return HttpResponseRedirect('/')
         return render(request, self.template_name, {'form': form})
 
@@ -107,6 +109,7 @@ class ImageCreateView(LoginRequiredMixin, generic.View):
             shortcut = form.save()
             if tags:
                 save_tags(shortcut.id, tags)
+            messages.add_message(request, messages.INFO, 'Twój post czeka na zatwierdzenie przez administratora.')
             return HttpResponseRedirect('/')
         return render(request, self.template_name, {'form': form})
 
@@ -266,6 +269,7 @@ class VideoCreateView(LoginRequiredMixin, generic.View):
             video = form.save()
             if tags:
                 save_tags(video.id, tags)
+            messages.add_message(request, messages.INFO, 'Twój post czeka na zatwierdzenie przez administratora.')
             return HttpResponseRedirect('/')
         return render(request, self.template_name, {'form': form})
 
