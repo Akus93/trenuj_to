@@ -1,4 +1,3 @@
-from django.utils.decorators import classonlymethod
 from django.views import generic
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponseRedirect, JsonResponse
@@ -10,23 +9,39 @@ from base64 import b64decode
 from .models import Slider, Follow, Clipboard
 from el_pagination.views import AjaxListView
 from django.contrib.staticfiles.templatetags.staticfiles import static
-from el_pagination.decorators import page_template
-from django.template import RequestContext
 
 
-@page_template('trenuj/index_page.html')
-def index(request, template='trenuj/index.html', extra_context=None):
-    context = {
-        'shortcuts': Shortcut.objects.select_related('author', 'category', 'author__userimage').filter(is_active=True),
-        'slider': Slider.objects.filter(is_active=True)[:3],
-    }
-    if extra_context is not None:
-        context.update(extra_context)
-    return render_to_response(template, context, context_instance=RequestContext(request))
+class ShortcutsView(AjaxListView):
+    template_name = 'trenuj/index.html'
+    page_template = 'trenuj/index_page.html'
+    queryset = Shortcut.objects.select_related('author', 'category', 'author__userimage').filter(is_active=True)
+    context_object_name = 'shortcuts'
+
+    def get_context_data(self, **kwargs):
+        context = super(ShortcutsView, self).get_context_data(**kwargs)
+        context.update(slider=Slider.objects.filter(is_active=True)[:3])
+        return context
 
 
-class LoginView(generic.View):
-    pass
+class LinksView(AjaxListView):
+    template_name = 'trenuj/links.html'
+    page_template = 'trenuj/links_page.html'
+    queryset = Shortcut.objects.filter(is_active=True, type='link')
+    context_object_name = 'links'
+
+
+class ImagesView(AjaxListView):
+    template_name = 'trenuj/images.html'
+    page_template = 'trenuj/images_page.html'
+    queryset = Shortcut.objects.filter(is_active=True, type='image')
+    context_object_name = 'images'
+
+
+class VideosView(AjaxListView):
+    template_name = 'trenuj/videos.html'
+    page_template = 'trenuj/videos_page.html'
+    queryset = Shortcut.objects.filter(is_active=True, type='video')
+    context_object_name = 'videos'
 
 
 class LogoutView(generic.View):
@@ -206,33 +221,6 @@ class StartView(generic.TemplateView):
     template_name = 'trenuj/start.html'
 
 
-class LinksView(AjaxListView):
-    template_name = 'trenuj/links.html'
-
-    @classonlymethod
-    def as_view(cls):
-        return super(AjaxListView, cls).as_view(queryset=Shortcut.objects.filter(is_active=True, type='link'),
-                                                context_object_name='links', page_template='trenuj/links_page.html')
-
-
-class ImagesView(AjaxListView):
-    template_name = 'trenuj/images.html'
-
-    @classonlymethod
-    def as_view(cls):
-        return super(AjaxListView, cls).as_view(queryset=Shortcut.objects.filter(is_active=True, type='image'),
-                                                context_object_name='images', page_template='trenuj/images_page.html')
-
-
-class VideosView(AjaxListView):
-    template_name = 'trenuj/videos.html'
-
-    @classonlymethod
-    def as_view(cls):
-        return super(AjaxListView, cls).as_view(queryset=Shortcut.objects.filter(is_active=True, type='video'),
-                                                context_object_name='videos', page_template='trenuj/videos_page.html')
-
-
 class ArticleUpdateView(LoginRequiredMixin, generic.UpdateView):
     login_url = '/login/'
     model = Article
@@ -304,10 +292,10 @@ class AddFollowerView(generic.View):
             if not Follow.objects.filter(user=user, follower=follower).count():
                 follow = Follow(user=user, follower=follower)
                 follow.save()
-                return JsonResponse({'success': 'Dodano do obserwowanych.'})
+                return JsonResponse({'success': 'Dodano do obserwowanych.'}, status=201)
             else:
-                return JsonResponse({'error': 'Już obserwujesz tego użytkownika.'})
-        return JsonResponse({'error': 'Brak autoryzacji.'})
+                return JsonResponse({'error': 'Już obserwujesz tego użytkownika.'}, status=400)
+        return JsonResponse({'error': 'Brak autoryzacji.'}, status=403)
 
 
 class AddToClipboardView(generic.View):
@@ -318,7 +306,7 @@ class AddToClipboardView(generic.View):
             try:
                 shortcut = Shortcut.objects.get(id=shortcut_id)
             except User.DoesNotExist:
-                return JsonResponse({'error': 'Nie ma takiego kafelka.'})
+                return JsonResponse({'error': 'Nie ma takiego kafelka.'}, status=404)
             if not Clipboard.objects.filter(user=request.user, shortcut=shortcut).count():
                 clipboard = Clipboard(user=request.user, shortcut=shortcut)
                 clipboard.save()
@@ -352,40 +340,13 @@ class ClipboardDeleteView(LoginRequiredMixin, generic.View):
         return HttpResponseRedirect('/account/')
 
 
-# class GetShortcutView(generic.View):
-#
-#     def get(self, request, *args, **kwargs):
-#         shortcut_id = kwargs['shortcut_id']
-#         img_url = None
-#         try:
-#             shortcut = Shortcut.objects.select_related('category', 'author').get(id=shortcut_id, type__in=['link', 'image'])
-#         except Shortcut.DoesNotExist:
-#             return JsonResponse({'error': 'Kafelek nie istnieje.'})
-#         try:
-#             img_url = shortcut.author.userimage.image.url
-#         except UserImage.DoesNotExist:
-#             img_url = static('images/default_profile.png')
-#         return JsonResponse({
-#             'success': {
-#                 'id': shortcut.id,
-#                 'image': shortcut.image.url or False,
-#                 'author_img': img_url,
-#                 'description': shortcut.description or False,
-#                 'author': shortcut.author.username,
-#                 'category': shortcut.category.name,
-#                 'link': shortcut.link or False,
-#                 'type': shortcut.type,
-#                 'video': shortcut.video or False,
-#                 'is_authenticated': request.user.is_authenticated(),
-#                 }
-#         })
-
 class GetShortcutView(generic.View):
 
     def get(self, request, *args, **kwargs):
         shortcut_id = kwargs['shortcut_id']
         try:
-            shortcut = Shortcut.objects.select_related('category', 'author').get(id=shortcut_id, type__in=['link', 'image'])
+            shortcut = Shortcut.objects.select_related('category', 'author').get(id=shortcut_id, type__in=['link',
+                                                                                                           'image'])
         except Shortcut.DoesNotExist:
             return render_to_response('trenuj/shortcut.html', {'error': 'Strona nie istnieje'})
         try:

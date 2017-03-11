@@ -7,7 +7,8 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    # url(r'^$', views.index, name='index'),
+    url(r'^$', views.ShortcutsView.as_view(), name='index'),
     url(r'^signup/$', views.SignupView.as_view(), name='signup'),
     url(r'^logout/$', views.LogoutView.as_view(), name='logout'),
     url(r'^login/$', auth_views.login, name='login'),
