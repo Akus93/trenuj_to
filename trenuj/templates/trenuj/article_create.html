@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'redactor/css/redactor.css' %}" />
+    <link rel="stylesheet" href="{% static 'redactor/redactor.css' %}" />
 
     <script type="text/javascript" src="{% static 'redactor/jquery.redactor.init.js' %}"></script>
     <script type="text/javascript" src="{% static 'redactor/redactor.js' %}"></script>
@@ -22,21 +22,9 @@
 <br> <br>
 
     <script type="text/javascript">
-        $(function()
-        {
-            $('.redactor-editor').css('height', '30em');
-        });
+        window.onload = function () {
+            document.getElementById("redactor-uuid-0").style.minHeight = "600px";
+        }
     </script>
-
-<!--    <script type="text/javascript">
-    $(function()
-    {
-        $('#id_short_text').redactor({
-            //imageUpload: '/ajax/redactor/core/uploadImage/',
-		   // fileUpload: '/ajax/redactor/core/uploadFile/'
-        });
-    });
-    </script>
--->
 
 {% endblock %}

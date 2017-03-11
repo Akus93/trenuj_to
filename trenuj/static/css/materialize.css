@@ -7433,7 +7433,7 @@ nav ul.left {
 }
 
 nav .input-field {
-  background-color: rgba(100,100,100,0.5);
+  /*background-color: rgba(100,100,100,0.5);*/
   margin: 0;
   line-height: 3;
   margin-top: 10px;

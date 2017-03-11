@@ -292,10 +292,10 @@ class AddFollowerView(generic.View):
             if not Follow.objects.filter(user=user, follower=follower).count():
                 follow = Follow(user=user, follower=follower)
                 follow.save()
-                return JsonResponse({'success': 'Dodano do obserwowanych.'}, status=201)
+                return JsonResponse({'success': 'Dodano do obserwowanych.'})
             else:
-                return JsonResponse({'error': 'Już obserwujesz tego użytkownika.'}, status=400)
-        return JsonResponse({'error': 'Brak autoryzacji.'}, status=403)
+                return JsonResponse({'error': 'Już obserwujesz tego użytkownika.'})
+        return JsonResponse({'error': 'Brak autoryzacji.'})
 
 
 class AddToClipboardView(generic.View):
@@ -306,7 +306,7 @@ class AddToClipboardView(generic.View):
             try:
                 shortcut = Shortcut.objects.get(id=shortcut_id)
             except User.DoesNotExist:
-                return JsonResponse({'error': 'Nie ma takiego kafelka.'}, status=404)
+                return JsonResponse({'error': 'Nie ma takiego kafelka.'})
             if not Clipboard.objects.filter(user=request.user, shortcut=shortcut).count():
                 clipboard = Clipboard(user=request.user, shortcut=shortcut)
                 clipboard.save()
